@@ -76,12 +76,25 @@
 # Student status message
 
 
-name = input("Enter your Name :")
-age  =int(input("Enter your age :"))
+# name = input("Enter your Name :")
+# age  =int(input("Enter your age :"))
 
-if age >= 18:
-    status = "Adult"
-else:
-    status = "Minor"
+# if age >= 18:
+#     status = "Adult"
+# else:
+#     status = "Minor"
 
-print(f"Your name is {name} and your age is {age} so your are {status}")
+# print(f"Your name is {name} and your age is {age} so your are {status}")
+
+
+
+
+
+name=input("Enter your name")
+
+age=input("Enter your age ")
+
+
+
+print(name)
+print(age)

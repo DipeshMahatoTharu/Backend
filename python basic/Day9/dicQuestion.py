@@ -90,17 +90,6 @@
 
 # Create:
 
-marks = {
-    "math": 80,
-    "science": 90,
-    "english": 70
-}
-
-for subject in marks:
-    print(subject)
-    print(marks[subject])
-   
-    
 # Print all subjects.
 
 # Q10
@@ -112,16 +101,41 @@ for subject in marks:
 
 # Print only marks greater than 80.
 
-# Q12
 
-# Calculate total marks.
 
-# Expected:
+# for subject in marks:
+#     # if marks[subject] > 80:
+#     #     print(subject)
+#     
 
-# 240
+# print(total_marks)
+
+# # Q12
+
+# # Calculate total marks.
+
+
+
 # Q13
 
 # Calculate average marks.
+marks = {
+    "math": 80,
+    "science": 90,
+    "english": 70
+}
+total_marks=0
+average=0
+
+
+for subject in marks:
+    total_marks =marks[subject] +total_marks
+    average=total_marks/3
+
+
+
+print(average)
+
 
 # Q14
 
