@@ -1,0 +1,370 @@
+BACKEND DEVELOPER + DJANGO ROADMAP
+Starting point: You are around Day 13/14. You already covered Python basics and started OOP.
+
+============================================================
+WHAT YOU ALREADY COVERED
+============================================================
+
+Python basics:
+- Variables
+- if/else conditions
+- Loops
+- Patterns practice
+- Functions
+- Advanced function practice
+- Lists
+- List conditions
+- Dictionaries
+- Tuples
+- Exception handling
+- File handling
+- Classes and objects
+- __init__ constructor
+- Object methods
+- Started inheritance
+
+This is a good start for backend development. Now focus on writing cleaner code, solving small problems, and building real mini projects.
+
+============================================================
+WHAT IS LEFT TO BECOME A BACKEND DEVELOPER
+============================================================
+
+1. Finish Python OOP
+- Inheritance
+- Method overriding
+- super()
+- Encapsulation
+- Class variables vs instance variables
+- Static methods and class methods
+- Magic methods: __str__, __repr__, __len__
+- Practice project: Student Management System using classes
+
+2. Python Intermediate Skills
+- Modules and imports
+- Packages
+- Virtual environments
+- pip and requirements.txt
+- Working with dates and time
+- JSON handling
+- CSV handling
+- pathlib / os module
+- Environment variables
+- Basic debugging
+
+3. Problem Solving Practice
+- Strings
+- Lists
+- Dictionaries
+- Loops
+- Functions
+- File handling problems
+- OOP problems
+
+Goal: solve 3 to 5 small Python problems daily.
+
+4. Git and GitHub
+- git init
+- git status
+- git add
+- git commit
+- git log
+- git branch
+- git merge
+- git push
+- git pull
+- Create GitHub repository
+- Push your Python and Django projects
+
+5. Database Basics
+- What is a database?
+- Tables, rows, columns
+- Primary key
+- Foreign key
+- One-to-one relationship
+- One-to-many relationship
+- Many-to-many relationship
+- SQL basics:
+  - SELECT
+  - INSERT
+  - UPDATE
+  - DELETE
+  - WHERE
+  - ORDER BY
+  - JOIN
+
+6. Web Basics
+- What is frontend?
+- What is backend?
+- What is a server?
+- What is a client?
+- HTTP request and response
+- GET, POST, PUT, PATCH, DELETE
+- Status codes: 200, 201, 400, 401, 403, 404, 500
+- JSON
+- API basics
+- Cookies and sessions
+
+7. Django Basics
+- Install Django
+- Create project
+- Create app
+- Understand settings.py, urls.py, views.py, models.py
+- URL routing
+- Views
+- Templates
+- Static files
+- Django ORM
+- Migrations
+- Admin panel
+- Forms
+- ModelForm
+
+8. Django Database / ORM
+- Create models
+- makemigrations and migrate
+- Query data
+- Filter data
+- Get single object
+- Create, update, delete records
+- Model relationships
+- ForeignKey
+- ManyToManyField
+- User model basics
+
+9. Django CRUD Projects
+Build these projects in order:
+- Todo app
+- Notes app
+- Student management app
+- Blog app
+- Simple ecommerce product app
+
+Each project should include:
+- Create data
+- Read/list data
+- Update data
+- Delete data
+- Search
+- Basic styling
+
+10. Authentication and Authorization
+- Register
+- Login
+- Logout
+- Password hashing
+- User permissions
+- Login required pages
+- User-specific data
+
+Practice project:
+- Blog app where each user can create, edit, and delete only their own posts.
+
+11. Django REST Framework
+- What is REST API?
+- Install DRF
+- Serializers
+- API views
+- Generic views
+- ViewSets
+- Routers
+- CRUD APIs
+- Pagination
+- Filtering
+- Searching
+- Permissions
+- Token authentication
+- JWT authentication
+
+Practice projects:
+- Todo REST API
+- Blog REST API
+- Student API
+- Ecommerce product API
+
+12. Testing
+- Why testing matters
+- Python unittest basics
+- Django TestCase
+- Test models
+- Test views
+- Test APIs
+- Test authentication
+
+13. Security Basics
+- Password hashing
+- CSRF
+- XSS
+- SQL injection
+- Environment variables
+- Secret key safety
+- Debug=False in production
+- Allowed hosts
+- Basic rate limiting idea
+
+14. Deployment
+- requirements.txt
+- .env file
+- Static files in production
+- PostgreSQL setup
+- Gunicorn
+- Render / Railway / VPS basics
+- Domain basics
+- Logs
+- Debugging production errors
+
+15. Professional Backend Skills
+- Clean code
+- Project structure
+- Reading documentation
+- Error handling
+- Logging
+- API documentation
+- Swagger / drf-spectacular
+- Basic Docker
+- Basic Linux commands
+- Background tasks idea: Celery
+- Caching idea: Redis
+
+============================================================
+SUGGESTED STUDY PLAN FROM YOUR CURRENT LEVEL
+============================================================
+
+Week 1: Finish Python OOP
+- Day 14: Inheritance
+- Day 15: super() and method overriding
+- Day 16: Encapsulation and class variables
+- Day 17: Magic methods
+- Day 18: OOP mini project
+- Day 19: Review and fix old code
+- Day 20: Git/GitHub basics
+
+Week 2: Python Intermediate + SQL
+- Modules and imports
+- Virtual environments
+- pip
+- JSON
+- CSV
+- SQL basics
+- SQLite practice
+
+Week 3: Web Basics + Django Start
+- HTTP basics
+- Request/response
+- Django install
+- Project/app structure
+- URLs and views
+- Templates
+- Static files
+
+Week 4: Django CRUD
+- Models
+- Migrations
+- ORM
+- Forms
+- Todo app
+- Notes app
+- Student management app
+
+Week 5: Authentication
+- Register
+- Login
+- Logout
+- User permissions
+- User-based CRUD project
+
+Week 6: Django REST Framework
+- Serializers
+- API views
+- ViewSets
+- Routers
+- CRUD APIs
+- JWT authentication
+
+Week 7: Testing + Security
+- Unit tests
+- Django tests
+- API tests
+- CSRF/XSS/SQL injection basics
+- Environment variables
+
+Week 8: Deployment + Portfolio
+- PostgreSQL
+- Static files
+- Deploy Django project
+- Deploy API project
+- Write README files
+- Push all projects to GitHub
+
+============================================================
+PROJECTS YOU SHOULD BUILD
+============================================================
+
+Beginner:
+- Calculator CLI
+- Student result system
+- File-based notes app
+- Contact book using file handling
+
+OOP:
+- Student management system
+- Bank account system
+- Library management system
+
+Django:
+- Todo app
+- Notes app
+- Blog app
+- Student management app
+- Product/ecommerce app
+
+API:
+- Todo API
+- Blog API
+- Student API
+- Product API with authentication
+
+Final portfolio projects:
+- Blog website with login and comments
+- Ecommerce API with products, cart, orders, and JWT auth
+- School management system with students, teachers, classes, and attendance
+
+============================================================
+DAILY ROUTINE
+============================================================
+
+Every day:
+- 30 minutes Python/Django concept
+- 60 minutes coding practice
+- 30 minutes project work
+- 15 minutes GitHub commit
+- 15 minutes revision notes
+
+Do not only watch tutorials. Build small things daily.
+
+============================================================
+IMPORTANT ADVICE
+============================================================
+
+You are on a good roadmap right now.
+
+The biggest missing things are:
+- Strong OOP practice
+- Git/GitHub
+- SQL/database basics
+- HTTP/API basics
+- Django CRUD
+- Authentication
+- Django REST Framework
+- Testing
+- Deployment
+
+Focus order:
+1. Python OOP
+2. Git/GitHub
+3. SQL
+4. Django basics
+5. Django projects
+6. Django REST Framework
+7. Testing and deployment
+
+After you finish Day14 inheritance, do not jump directly into advanced Django. First build 2 or 3 small OOP projects. That will make Django models and views much easier.
