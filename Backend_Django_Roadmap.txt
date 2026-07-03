@@ -368,3 +368,57 @@ Focus order:
 7. Testing and deployment
 
 After you finish Day14 inheritance, do not jump directly into advanced Django. First build 2 or 3 small OOP projects. That will make Django models and views much easier.
+
+
+✅ COMPLETED
+Python Fundamentals
+✅ Variables
+✅ Data Types
+✅ Input / Output
+✅ Operators
+✅ If / Else
+✅ For Loops
+✅ Functions
+✅ Function Practice
+✅ Exception Handling
+✅ File Handling
+OOP
+✅ Classes
+✅ Objects
+✅ Constructors (__init__)
+✅ Instance Methods
+✅ Basic Inheritance
+✅ Method Overriding
+✅ super()
+✅ Multilevel Inheritance
+
+
+
+
+⏳ TO COMPLETE (Before Django)
+1. Finish OOP
+🔄 Encapsulation
+⏳ Class Variables
+⏳ Instance Variables
+⏳ Static Methods
+⏳ Class Methods
+⏳ Magic Methods
+__str__
+__repr__
+__len__
+Mini Projects
+Student Management System
+Bank Account System
+Library Management System
+2. Python Core Topics (We skipped these)
+
+These are the topics we agreed to come back to:
+
+⏳ While Loops
+⏳ Break / Continue / Pass
+⏳ Lists (deep practice)
+⏳ Dictionaries
+⏳ Tuples
+⏳ Sets
+⏳ String Methods
+⏳ List Comprehensions
