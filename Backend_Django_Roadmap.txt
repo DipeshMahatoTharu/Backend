@@ -6,8 +6,8 @@ WHAT YOU ALREADY COVERED
 ============================================================
 
 Python basics:
-- Variables
-- if/else conditions
+- Variables completed 
+- if/else conditions completes
 - Loops
 - Patterns practice
 - Functions
