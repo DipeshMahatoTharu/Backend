@@ -36,9 +36,9 @@
 # Private Variables
 
 # Python lets us mark variables as private by adding two underscores.
- class Bank:
-#     def __init__(self):
-#         self.__balance = 1000
+class Bank:
+    def __init__(self):
+        self.__balance = 1000
 
 # Notice:
 
