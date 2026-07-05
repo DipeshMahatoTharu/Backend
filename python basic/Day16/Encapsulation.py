@@ -140,3 +140,149 @@ account.show_balance()
 # Once you make deposit() work, we'll add withdraw() with a safety check:
 
 # ```python id="knm3rj" if amount
+
+
+
+# Exercise 1 (Easy)
+
+# Write this yourself.
+
+class Student:
+    def __init__(self,name):
+        self.__name=name
+    
+    def show_name(self):
+        print(self.__name)
+
+student1=Student("Dipesn")
+student1.show_name()
+
+
+# Constructor:
+
+# __name
+
+# Method:
+
+# show_name()
+
+# Create:
+
+# student1 = Student("Dipesh")
+
+# Output:
+
+# Dipesh
+
+# Then try:
+
+# print(student1.__name)
+
+# What happens?
+
+# 🟢 Exercise 2 (Deposit)
+
+# Write:
+
+class Wallet:
+    def __init__(self):
+        self.__money=500
+
+    def add_money(self,amount):
+        self.__money+=amount
+
+    def show_money(self):
+        print(self.__money)
+
+    def withdraw(self,amount):
+        if self.__money>= amount:
+            self.__money -= amount
+        else:
+            print("no enough moeny ")
+            
+# Private variable:
+
+# __money = 500
+
+# Methods:
+
+# add_money(amount)
+# show_money()
+
+# Test:
+
+wallet = Wallet()
+
+wallet.add_money(300)
+
+wallet.show_money()
+wallet.withdraw(900)
+# Expected output:
+
+# 800
+# 🟢 Exercise 3 (Withdraw)
+
+# Extend the Wallet class.
+
+# Add:
+
+# withdraw(amount)
+
+# Rules:
+
+# If there is enough money:
+
+# Subtract it.
+
+# Otherwise print:
+
+# Not enough money
+
+# Test:
+
+# wallet = Wallet()
+
+# wallet.withdraw(200)
+
+# wallet.show_money()
+
+# Output:
+
+# 300
+
+# Then:
+
+# wallet.withdraw(1000)
+
+# Output:
+
+# Not enough money
+# 🟢 Exercise 4 (Mini Challenge)
+
+# Create:
+
+# class Game:
+
+# Private variable:
+
+# __health = 100
+
+# Methods:
+
+# damage(amount) → decrease health
+# heal(amount) → increase health
+# show_health()
+
+# Test:
+
+# player = Game()
+
+# player.damage(40)
+
+# player.heal(10)
+
+# player.show_health()
+
+# Expected:
+
+# 70
