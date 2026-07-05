@@ -93,3 +93,50 @@ class Bank:
 
 
 
+
+
+
+# class Bankbalance:
+#     def __init__(self):
+#         self._balance=1000
+    
+#     def show_balance(self):
+#         print(self._balance)
+
+
+
+# account=Bankbalance()
+# account.show_balance()
+
+
+# print(account.__balance)
+
+
+# Now let's complete encapsulation properly.
+
+# Add a deposit() method.
+class BankBalance:
+    def __init__(self):
+        self.__balance=1000
+    def deposit(self,amount):
+        self.__balance += amount
+    def show_balance(self):
+        print(self.__balance)
+
+
+# Expected output:
+account=BankBalance()
+account.deposit(500)
+
+account.show_balance()
+# 1500
+# Then try:
+# account.deposit(2000) account.show_balance()
+
+# Expected:
+
+# 3500
+
+# Once you make deposit() work, we'll add withdraw() with a safety check:
+
+# ```python id="knm3rj" if amount
