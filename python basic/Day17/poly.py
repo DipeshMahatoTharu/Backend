@@ -1,27 +1,186 @@
-# Your first exercise
+# # Your first exercise
 
-# Write this yourself.
+# # Write this yourself.
 
-# class Animal:
-#     def move(self):
-#         print("Animal moves")
+# # class Animal:
+# #     def move(self):
+# #         print("Animal moves")
 
-# Create two child classes:
+# # Create two child classes:
 
-# Dog
-# Bird
+# # Dog
+# # Bird
 
+# # Override move().
+
+# # Expected output:
+
+# # Dog runs
+# # Bird flies
+
+# # Then:
+
+# # dog = Dog()
+# # bird = Bird()
+
+# # dog.move()
+# # bird.move()
+
+
+# Exercise 1 (Easy)
+
+# Create:
+
+class Animal:
+    def move(self):
+        print("Animal Move")
+
+
+class Dog(Animal):
+    def move(self):
+        print("Dog Run")
+
+class Bird(Animal):
+    def move(self):
+        print("Bird flies")
+
+dog=Dog()
+dog.move()
+bird=Bird()
+bird.move()
 # Override move().
 
-# Expected output:
+# Output:
 
 # Dog runs
 # Bird flies
 
+
+
+
+
+# 🟢 Exercise 2
+
+# Parent:
+
+# class Shape:
+
+# Method:
+
+# draw()
+
+# Output:
+
+# Drawing Shape
+
+# Child classes:
+
+# Circle
+# Rectangle
+
+# Override draw().
+
+# Output:
+
+# Drawing Circle
+# Drawing Rectangle
+# 🟢 Exercise 3
+
+# Parent:
+
+# class Employee:
+
+# Method:
+
+# work()
+
+# Output:
+
+# Employee is working
+
+# Children:
+
+# Doctor
+# Teacher
+
+# Override work().
+
+# Output:
+
+# Doctor treats patients
+# Teacher teaches students
+# 🟢 Exercise 4
+
+# Parent:
+
+# class Vehicle:
+
+# Method:
+
+# start()
+
+# Children:
+
+# Car
+# Bike
+# Bus
+
+# Each should print something different.
+
+# 🟢 Exercise 5 (Real Polymorphism)
+
+# Create:
+
+# animals = [
+#     Dog(),
+#     Cat(),
+#     Bird()
+# ]
+
 # Then:
 
-# dog = Dog()
-# bird = Bird()
+# for animal in animals:
+#     animal.sound()
 
-# dog.move()
-# bird.move()
+# Output:
+
+# Woof
+# Meow
+# Tweet
+
+# This is where you'll really see polymorphism in action.
+
+# 🔥 Mini Challenge
+
+# Create:
+
+# class Character
+
+# Children:
+
+# Warrior
+# Mage
+# Archer
+
+# Each has:
+
+# attack()
+
+# Outputs:
+
+# Warrior swings sword
+# Mage casts spell
+# Archer shoots arrow
+
+# Then put them in a list:
+
+# characters = [
+#     Warrior(),
+#     Mage(),
+#     Archer()
+# ]
+
+# Loop through them:
+
+# for character in characters:
+#     character.attack()
