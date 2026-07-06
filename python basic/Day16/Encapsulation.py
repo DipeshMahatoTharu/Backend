@@ -261,7 +261,7 @@ wallet.withdraw(900)
 
 # Create:
 
-# class Game:
+class Game:
 
 # Private variable:
 
