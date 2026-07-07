@@ -63,22 +63,21 @@ bird.move()
 
 # Parent:
 
-# class Shape:
+class Shape:
+    def draw(self):
+        print("Drawing Shape")
+class Circle(Shape):
+    def draw(self):
+        print("Drawing Circle")
+class Rectangle(Shape):
+    def draw(self):
+        print("Drawing Rectangle ")
 
-# Method:
+circle=Circle()
+circle.draw()
 
-# draw()
-
-# Output:
-
-# Drawing Shape
-
-# Child classes:
-
-# Circle
-# Rectangle
-
-# Override draw().
+rectangle=Rectangle()
+rectangle.draw()
 
 # Output:
 
