@@ -87,13 +87,21 @@ rectangle.draw()
 
 # Parent:
 
-# class Employee:
+class Employee:
 
 # Method:
-
+    def work(self):
+        print("Employee is woking")
 # work()
-
+class Doctor(Employee):
+    def work(self):
+        print("Doctor trears patients")
+class Teacher(Employee):
+    def work(self):
+        print("Teacher teaches students")
 # Output:
+employee=Employee()
+employee.work()
 
 # Employee is working
 
@@ -105,6 +113,10 @@ rectangle.draw()
 # Override work().
 
 # Output:
+doctor =Doctor()
+doctor.work()
+teacher=Teacher()
+teacher.work()
 
 # Doctor treats patients
 # Teacher teaches students
