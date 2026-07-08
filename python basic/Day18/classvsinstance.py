@@ -265,3 +265,29 @@ car2.show()
 # Think about it before running:
 
 # What do you expect the output to be after changing Car.wheels to 6?
+
+
+
+
+# Exercise 1
+
+# Write this yourself.
+
+# Create:
+
+class Calculator:
+    @staticmethod
+# Static method:
+    def add(a,b):
+        return a+b
+# Return:
+
+# a + b
+
+# Call it like this:
+
+# print(Calculator.add(10, 20))
+print(Calculator.add(10,20))
+# Expected output:
+
+# 30
