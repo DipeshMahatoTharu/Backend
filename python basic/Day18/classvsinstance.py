@@ -203,16 +203,65 @@
 
 # Why did both employees change from "Google" to "OpenAI"?
 
-class Employee():
-    company="Google"
+# class Employee():
+#     company="Google"
 
-    def __init__(self,name):
-        self.name=name
+#     def __init__(self,name):
+#         self.name=name
 
-    def show(self):
-        print(self.company)
-        print(self.name)
+#     def show(self):
+#         print(self.company)
+#         print(self.name)
 
         
-employee1=Employee("OpenAI")
-employee1.show()
+# employee1=Employee("OpenAI")
+# employee1.show()
+
+
+# Exercise 3 (Important)
+
+# Now let's see the difference between a class variable and an instance variable.
+
+# Write this yourself.
+
+# Create:
+
+class Car:
+    wheels = 6
+
+# Constructor:
+    def __init__(self,brand):
+        self.brand=brand
+# brand
+    def show(self):
+        print(self.brand)
+        print(self.wheels)
+
+        
+car=Car("Toyota")
+car.show()
+# Method:
+
+# show()
+
+# Output example:
+
+# Brand: Toyota
+# Wheels: 4
+
+# Create:
+
+
+car2 = Car("BMW")
+car2.show()
+# Show both.
+
+# Then change:
+
+# Car.wheels = 6
+
+# Show both again.
+
+# Think about it before running:
+
+# What do you expect the output to be after changing Car.wheels to 6?
