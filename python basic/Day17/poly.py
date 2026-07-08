@@ -31,26 +31,26 @@
 
 # Create:
 
-class Animal:
-    def move(self):
-        print("Animal Move")
+# class Animal:
+#     def move(self):
+#         print("Animal Move")
 
 
-class Dog(Animal):
-    def move(self):
-        print("Dog Run")
+# class Dog(Animal):
+#     def move(self):
+#         print("Dog Run")
 
-class Bird(Animal):
-    def move(self):
-        print("Bird flies")
+# class Bird(Animal):
+#     def move(self):
+#         print("Bird flies")
 
-dog=Dog()
-dog.move()
-bird=Bird()
-bird.move()
-# Override move().
+# dog=Dog()
+# dog.move()
+# bird=Bird()
+# bird.move()
+# # Override move().
 
-# Output:
+# # Output:
 
 # Dog runs
 # Bird flies
@@ -124,12 +124,34 @@ teacher.work()
 
 # Parent:
 
-# class Vehicle:
+class Vehicle:
+    def start(self):
+        print("")
+    
+    
+class Car(Vehicle):
+    def start(self):
+        print("Car is boom boom ")
 
+class Bike(Vehicle):
+    def start(self):
+        print("Bike is suuuu suuu ")
+
+    
+class Bus: 
+    def start(self):
+        print("Buss is buuuuuuuu")
 # Method:
 
 # start()
+buss = Bus()
+buss.start()
 
+car=Car()
+car.start()
+
+bike=Bike()
+bike.start()
 # Children:
 
 # Car
@@ -139,9 +161,24 @@ teacher.work()
 # Each should print something different.
 
 # 🟢 Exercise 5 (Real Polymorphism)
-
+class Animals:
+    def sound(self):
+        print("Animal Sounds")
+class Dog(Animals):
+    def sound(self):
+        print("Woof")
+class Cat(Animals):
+    def sound(self):
+        print("Meow")
+class Bird(Animals):
+    def sound(self):
+        print("Tweet")
 # Create:
-
+animals=[
+    Dog(),
+    Cat(),
+    Bird(),
+]
 # animals = [
 #     Dog(),
 #     Cat(),
@@ -149,7 +186,8 @@ teacher.work()
 # ]
 
 # Then:
-
+for animal in animals:
+    animal.sound()
 # for animal in animals:
 #     animal.sound()
 
@@ -162,6 +200,41 @@ teacher.work()
 # This is where you'll really see polymorphism in action.
 
 # 🔥 Mini Challenge
+class Charater:
+    def attacks(self):
+        print("All Attacks")
+
+    
+class Warrior(Charater):
+    def attacks(self):
+        print("Warrior swings sword")
+
+class Mage(Charater):
+    def attacks(self):
+        print("Mage casts spell")
+
+class Archer(Charater):
+    def attacks(self):
+        print("Archer shoots arrow")
+
+Attacks=[
+    Warrior(),
+    Mage(),
+    Archer()
+]
+
+for attack in Attacks:
+    attack.attacks()
+# Warrior swings sword
+# Mage casts spell
+# Archer shoots arrow
+
+
+
+
+
+
+
 
 # Create:
 
