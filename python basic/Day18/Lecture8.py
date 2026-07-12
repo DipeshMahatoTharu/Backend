@@ -107,10 +107,11 @@
 
 class Name:
     def __init__(self,name):
-        self.name=name
-        print(self.name)
+        #object full new variable made and name is constructor 
+        self.full_name=name 
+
+
 
         
-name=Name("Kritika Pandey")
-# print(name)
-
+name1=Name("Kritika Pandey")
+print(name1.full_name)
