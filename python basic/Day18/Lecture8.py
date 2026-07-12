@@ -1,7 +1,7 @@
 # # youtube link =
 
 
-#Quesiton 
+#Quesiton
 # Level 1 — Basics
 # What is Object-Oriented Programming (OOP)?
 # What is a class?
@@ -102,3 +102,15 @@
 # Build a small Library Management System using all the concepts you've learned.
 
 # These questions cover both your lecture and the OOP concepts emphasized in the video, and they'll prepare you well for exams and interviews.
+
+
+
+class Name:
+    def __init__(self,name):
+        self.name=name
+        print(self.name)
+
+        
+name=Name("Kritika Pandey")
+# print(name)
+
