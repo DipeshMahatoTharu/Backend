@@ -118,4 +118,4 @@ class Name:
 
         
 name1=Name("Kritika Pandey")
-print(f"{name1.full_name} is studying in {name1.college}")
+print(f"{name1.full_name} is studying in {Name.college}")
