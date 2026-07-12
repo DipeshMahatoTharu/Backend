@@ -106,12 +106,16 @@
 
 
 class Name:
+    #clas variable 
+    college="Hearld College Kathmandu "
     def __init__(self,name):
         #object full new variable made and name is constructor 
+        # print(self.college)
+
         self.full_name=name 
 
 
 
         
 name1=Name("Kritika Pandey")
-print(name1.full_name)
+print(f"{name1.full_name} is studying in {name1.college}")
