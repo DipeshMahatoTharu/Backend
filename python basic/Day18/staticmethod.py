@@ -174,4 +174,4 @@ Game.update_version("2.0")
 
 # Expected output:
 
-# 2.0
+# 2.0   
