@@ -13,7 +13,7 @@ class Name:
         self.name=name 
         
     def welcome(self):
-        print("Hi ,", self.name)
+        print(f"Hi , {self.name}")
 
     def ger_marks(self):
         return self.marks
@@ -26,4 +26,16 @@ print(f"{name1.name} is studying in {Name.college}")
 
 print(name1.ger_marks())
 
-print(name1.welcome())
+
+
+
+name1.welcome()
+
+
+
+name1.name="Dipesh"
+print(name1.name)
+
+
+
+
