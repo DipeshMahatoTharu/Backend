@@ -22,6 +22,36 @@
 # Current Speed: 20
 # Braked by 5
 # Current Speed: 15
+
+class Car:
+    def __init__(self,brand,model,speed):
+        self.brand=brand
+        self.model=model
+        self.speed=speed
+        print("Current speed :",self.speed)
+
+        
+        
+    def accelerate(self,speed):
+        self.speed+=speed
+        print("accelerated by ",self.speed)
+
+    def brake(self,speed):
+        
+        print("Braked by  ",self.speed)
+
+    def show_speed(self):
+        return self.speed
+        
+        
+        
+
+
+
+car1 =Car("Toyota","1995",0)
+
+car1.accelerate(20)
+
 # 2. Employee Class
 
 # Attributes:
