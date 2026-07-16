@@ -126,34 +126,34 @@
 # Charge 30%
 # Battery: 100%
 
-class Phone:
-    def __init__(self,brand,battery):
-        self.brand=brand
-        self.battery=100
+# class Phone:
+#     def __init__(self,brand,battery):
+#         self.brand=brand
+#         self.battery=100
 
-    def use_phone(self,minutes):
-        self.battery-=minutes
+#     def use_phone(self,minutes):
+#         self.battery-=minutes
         
-        if self.battery<=0:
-            self.battery=0
-            print("Phone Switch off ")
-        else:
-            print("Battery percentage is :",self.battery)
+#         if self.battery<=0:
+#             self.battery=0
+#             print("Phone Switch off ")
+#         else:
+#             print("Battery percentage is :",self.battery)
 
 
-    def charge_phone(self,percent):
-        self.battery+=percent
+#     def charge_phone(self,percent):
+#         self.battery+=percent
         
-        if self.battery >= 100:
-            self.battery=100
-            print("battery full")
-        else:
-            print("Batter charging : " ,self.battery)
+#         if self.battery >= 100:
+#             self.battery=100
+#             print("battery full")
+#         else:
+#             print("Batter charging : " ,self.battery)
         
-phone1=Phone("Chinese phone ",40)
-phone1.use_phone(30)
+# phone1=Phone("Chinese phone ",40)
+# phone1.use_phone(30)
 
-phone1.charge_phone(10)
+# phone1.charge_phone(10)
         
 
 
@@ -178,6 +178,39 @@ phone1.charge_phone(10)
 # Output:
 # Insufficient Balance
 
+class Bank:
+    def __init__(self,name,salary,deposit):
+        self.name=name 
+        self.salary=salary
+        self.deposit=deposit
+      
+    def increase_salary(self,amount):
+        
+        print("Starting Salary :",self.salary)
+        self.salary +=amount
+        
+        print("Increase of salary :" , amount)
+        print("Salary after increasing   :",self.show_salary(), "\n")
+
+    def decrease_salary(self,amount):
+        self.salary-=amount
+        
+        print("Decreased salary : ",amount)
+        print("salary after decreasing ",self.show_salary())
+        
+    def show_salary(self):
+        return self.salary
+
+    def deposit(self,deposite):
+        self.amount+=deposite
+        
+    def withdraw(self,withdraw):
+        if self.amount <=self.withdraw:
+            print("Insuffeienct amout ")
+        else :
+            self.amount-=self.withdraw
+    
+    
 
 
 
