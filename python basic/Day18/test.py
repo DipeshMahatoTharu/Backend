@@ -27,28 +27,28 @@
 
 # Current Speed: 15
 
-# class Car:
-#     def __init__(self,brand,model,speed):
-#         self.brand=brand
-#         self.model=model
-#         self.speed=speed
-#         print("Current speed :",self.speed)
+class Car:
+    def __init__(self,brand,model,speed):
+        self.brand=brand
+        self.model=model
+        self.speed=speed
+        print("Current speed :",self.speed)
         
         
-#     def accelerate(self,speed):
-#         self.speed+=speed
-#         print("accelerated by ",self.speed)
+    def accelerate(self,speed):
+        self.speed+=speed
+        print("accelerated by ",self.speed)
 
-#     def brake(self,speed):
-#         print("Current speed  ",self.speed)
-#         print("Breaked by :",speed)
-#         self.speed-=speed
+    def brake(self,speed):
+        print("Current speed  ",self.speed)
+        print("Breaked by :",speed)
+        self.speed-=speed
         
-#     def show_speed(self):
-#         print("Current speed ",self.speed)
+    def show_speed(self):
+        print("Current speed ",self.speed)
         
-# #your part
-# Kritika_car =Car("Toyota","1995",0)
+#your part
+Kritika_car =Car("Toyota","1995",0)
 
 # Kritika_car.accelerate(20)
 # Kritika_car.brake(5)
