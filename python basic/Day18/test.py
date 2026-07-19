@@ -215,7 +215,7 @@ class Bank:
 
 
 
-
+#world cup
 
 
 
@@ -224,23 +224,23 @@ class Bank:
 
 # Attributes:
 
-name
-marks (list)
+# name
+# marks (list)
 
-Methods:
+# Methods:
 
-average()
-highest_mark()
-lowest_mark()
-result()
+# average()
+# highest_mark()
+# lowest_mark()
+# result()
 
-Output:
+# Output:
 
-Average : 88.3
-Highest : 95
-Lowest : 78
-Result : PASS
-6. Shopping Cart
+# Average : 88.3
+# Highest : 95
+# Lowest : 78
+# Result : PASS
+# 6. Shopping Cart
 
 # Attributes:
 
