@@ -178,37 +178,37 @@ Kritika_car =Car("Toyota","1995",0)
 # Output:
 # Insufficient Balance
 
-class Bank:
-    def __init__(self,name,salary,deposit):
-        self.name=name 
-        self.salary=salary
-        self.deposit=deposit
+# class Bank:
+#     def __init__(self,name,salary,deposit):
+#         self.name=name 
+#         self.salary=salary
+#         self.deposit=deposit
       
-    def increase_salary(self,amount):
+#     def increase_salary(self,amount):
         
-        print("Starting Salary :",self.salary)
-        self.salary +=amount
+#         print("Starting Salary :",self.salary)
+#         self.salary +=amount
         
-        print("Increase of salary :" , amount)
-        print("Salary after increasing   :",self.show_salary(), "\n")
+#         print("Increase of salary :" , amount)
+#         print("Salary after increasing   :",self.show_salary(), "\n")
 
-    def decrease_salary(self,amount):
-        self.salary-=amount
+#     def decrease_salary(self,amount):
+#         self.salary-=amount
         
-        print("Decreased salary : ",amount)
-        print("salary after decreasing ",self.show_salary())
+#         print("Decreased salary : ",amount)
+#         print("salary after decreasing ",self.show_salary())
         
-    def show_salary(self):
-        return self.salary
+#     def show_salary(self):
+#         return self.salary
 
-    def deposit(self,deposite):
-        self.amount+=deposite
+#     def deposit(self,deposite):
+#         self.amount+=deposite
         
-    def withdraw(self,withdraw):
-        if self.amount <=self.withdraw:
-            print("Insuffeienct amout ")
-        else :
-            self.amount-=self.withdraw
+#     def withdraw(self,withdraw):
+#         if self.amount <=self.withdraw:
+#             print("Insuffeienct amout ")
+#         else :
+#             self.amount-=self.withdraw
     
     
 
