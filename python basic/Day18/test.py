@@ -349,7 +349,3 @@ Kritika_car =Car("Toyota","1995",0)
 # cancel_subscription()
 # show_details()
 
-# Rules:
-
-# Can't watch if not subscribed.
-# Total watch time should increase.
