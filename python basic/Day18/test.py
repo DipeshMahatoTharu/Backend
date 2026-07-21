@@ -175,41 +175,29 @@ Kritika_car =Car("Toyota","1995",0)
 
 # Withdraw 700
 
-# Output:
-# Insufficient Balance
 
-# class Bank:
-#     def __init__(self,name,salary,deposit):
-#         self.name=name 
-#         self.salary=salary
-#         self.deposit=deposit
+
+class Account:
+    def __init__(self,balance,account):
+        self.balance=balance
+        self.account=account
+
+    def debit(self,amount):
+        self.balance -= amount
+        print("Rs",amount ,"was debited")
+        print("Your balance is Rs:",self.get_balance())
       
-#     def increase_salary(self,amount):
+    def credit(self,amount):
+        self.balance += amount
+        print("Rs",amount)
+        print("Your balance is Rs:",self.get_balance)
         
-#         print("Starting Salary :",self.salary)
-#         self.salary +=amount
-        
-#         print("Increase of salary :" , amount)
-#         print("Salary after increasing   :",self.show_salary(), "\n")
+    def get_balance(self):
+        return self.balance
 
-#     def decrease_salary(self,amount):
-#         self.salary-=amount
-        
-#         print("Decreased salary : ",amount)
-#         print("salary after decreasing ",self.show_salary())
-        
-#     def show_salary(self):
-#         return self.salary
+account1=Account(1000,31313131)
 
-#     def deposit(self,deposite):
-#         self.amount+=deposite
-        
-#     def withdraw(self,withdraw):
-#         if self.amount <=self.withdraw:
-#             print("Insuffeienct amout ")
-#         else :
-#             self.amount-=self.withdraw
-    
+account1.debit(30)
     
 
 
