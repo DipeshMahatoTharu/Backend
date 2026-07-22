@@ -195,7 +195,7 @@ class Account:
     def get_balance(self):
         return self.balance
 
-account1=Account(1000,31313131)
+account1=Account(500,31313131)
 
 account1.debit(30)
     
