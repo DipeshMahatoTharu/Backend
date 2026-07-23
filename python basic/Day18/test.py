@@ -224,11 +224,11 @@ account1.debit(30)
 
 # Output:
 
-# Average : 88.3
-# Highest : 95
-# Lowest : 78
-# Result : PASS
-# 6. Shopping Cart
+Average : 88.3
+Highest : 95
+Lowest : 78
+Result : PASS
+6. Shopping Cart
 
 # Attributes:
 
