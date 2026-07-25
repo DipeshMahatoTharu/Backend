@@ -259,10 +259,10 @@ account1.debit(30)
 
 # Menu
 
-# 1. Deposit
-# 2. Withdraw
-# 3. Balance
-# 4. Exit
+1. Deposit
+2. Withdraw
+3. Balance
+4. Exit
 
 # Keep asking until Exit.
 
