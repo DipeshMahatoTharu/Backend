@@ -289,9 +289,9 @@ account1.debit(30)
 
 # Methods:
 
-# score_run()
-# strike_rate()
-# show_stats()
+score_run()
+strike_rate()
+show_stats()
 # 11. Restaurant Bill
 
 # Attributes:
