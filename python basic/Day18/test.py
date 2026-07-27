@@ -27,28 +27,28 @@
 
 # Current Speed: 15
 
-class Car:
-    def __init__(self,brand,model,speed):
-        self.brand=brand
-        self.model=model
-        self.speed=speed
-        print("Current speed :",self.speed)
+# class Car:
+#     def __init__(self,brand,model,speed):
+#         self.brand=brand
+#         self.model=model
+#         self.speed=speed
+#         print("Current speed :",self.speed)
         
         
-    def accelerate(self,speed):
-        self.speed+=speed
-        print("accelerated by ",self.speed)
+#     def accelerate(self,speed):
+#         self.speed+=speed
+#         print("accelerated by ",self.speed)
 
-    def brake(self,speed):
-        print("Current speed  ",self.speed)
-        print("Breaked by :",speed)
-        self.speed-=speed
+#     def brake(self,speed):
+#         print("Current speed  ",self.speed)
+#         print("Breaked by :",speed)
+#         self.speed-=speed
         
-    def show_speed(self):
-        print("Current speed ",self.speed)
+#     def show_speed(self):
+#         print("Current speed ",self.speed)
         
-#your part
-Kritika_car =Car("Toyota","1995",0)
+# #your part
+# Kritika_car =Car("Toyota","1995",0)
 
 # Kritika_car.accelerate(20)
 # Kritika_car.brake(5)
@@ -177,33 +177,40 @@ Kritika_car =Car("Toyota","1995",0)
 
 
 
-class Account:
-    def __init__(self,balance,account):
-        self.balance=balance
-        self.account=account
+# class Account:
+#     def __init__(self,balance,account):
+#         self.balance=balance
+#         self.account=account
 
-    def debit(self,amount):
-        self.balance -= amount
-        print("Rs",amount ,"was debited")
-        print("Your balance is Rs:",self.get_balance())
+#     def withdraw(self,amount):
+#         if self.balance < amount:
+#             print("Insufficent amount ")
+#         else:
+#             self.balance -= amount
+#             print("Rs",amount ,"was withdraw")
+#             print("Your balance is Rs:",self.get_balance())
       
-    def credit(self,amount):
-        self.balance += amount
-        print("Rs",amount)
-        print("Your balance is Rs:",self.get_balance)
+#     def deposit(self,amount):
+#         self.balance += amount
+#         print("Rs",amount)
+#         print("Your balance is Rs:",self.get_balance())
+    
+   
+#     def get_balance(self):
+#         return self.balance
+
+#     def check_balance(self):
+#         print(self.get_balance())
         
-    def get_balance(self):
-        return self.balance
+# account1=Account(500,31313131)
 
-account1=Account(500,31313131)
-
-account1.debit(30)
+# account1.withdraw(500)
     
 
+# account1.check_balance()
 
 
 
-#world cup
 
 
 
@@ -259,10 +266,10 @@ account1.debit(30)
 
 # Menu
 
-1. Deposit
-2. Withdraw
-3. Balance
-4. Exit
+# 1. Deposit
+# 2. Withdraw
+# 3. Balance
+# 4. Exit
 
 # Keep asking until Exit.
 
@@ -289,9 +296,9 @@ account1.debit(30)
 
 # Methods:
 
-score_run()
-strike_rate()
-show_stats()
+# score_run()
+# strike_rate()
+# show_stats()
 # 11. Restaurant Bill
 
 # Attributes:
