@@ -414,6 +414,33 @@
 
 # borrow()
 # return_book()
+
+class Libarary:
+    def __init__(self,title,author,available=True):
+        self.title=title
+        self.author=author
+        self.available=available
+        
+    def borrow(self):
+      if self.available:
+          self.available=False
+          print("Book borrowed successful")
+          
+      else:
+          print("Sorry book is not available")
+
+
+    def return_book(self):
+        if not self.available:
+            self.available=True
+            print("Book return successfully")
+        else:
+            print("This book is already in the library.")
+
+            
+Person1=Libarary("Yourney of programming","Dipesh",True)
+Person1.borrow()
+Person1.return_book()
 # 10. Cricket Player
 
 # Attributes:
