@@ -326,7 +326,27 @@
 # book_ticket(number)
 # cancel_ticket(number)
 # show_available()
-
+# class Movie:
+#     def __init__(self,movie_name,available_seats):
+#         self.movie_name=movie_name
+#         self.available_seats=available_seats
+#     def book_tickek(self,number):
+#         if number > self.available_seats:
+#             print("sorry all seats are booked ")
+#         else:
+#             self.available_seats -=number
+#             self.last_booked =number
+#     def cancel_ticket(self,number):
+#         self.available_seats +=number
+#         self.last_cancel=number
+#     def show_available(self):
+#         print("remaning sheet is :",self.available_seats)
+#         print("You booked ",self.last_booked ,"seats")
+#         print("You cancel ",self.last_cancel ,"seats")
+# ticket=Movie("Spider man",9)
+# ticket.book_tickek(4)
+# ticket.cancel_ticket(2)
+# ticket.show_available()
 # Don't allow booking more seats than available.
 
 # 8. ATM Machine

@@ -395,7 +395,7 @@ OOP
 
 
 
-⏳ TO COMPLETE (Before Django)
+COMPLETEed
 1. Finish OOP
 🔄 Encapsulation
 ⏳ Class Variables
