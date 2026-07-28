@@ -221,7 +221,48 @@
 
 # name
 # marks (list)
+# class Student_Management:
+#     def __init__(self,name,marks):
+#         self.marks=marks
+#         self.name=name
 
+#     def average(self):
+#         return sum(self.marks)/len(self.marks)
+   
+    
+#     def hightest(self):
+#         hightest =self.marks[0]
+
+#         for marks in self.marks:
+#            if marks > hightest:
+#             hightest=marks
+            
+#         return hightest
+#     def lowest(self):
+#         lowest=self.marks[0]
+        
+#         for marks in self.marks:
+#             if marks<lowest:
+#                 lowest=marks
+                
+#         return lowest
+#     def passmarks(self):
+#         if self.average()>=40:
+#             print("pass")
+#         else:
+#             print("Fail")
+            
+
+
+# student1=Student_Management("Dipesh",[90,32,67])
+# print(student1.average())
+# print(student1.lowest())
+# print(student1.hightest())
+# student1.passmarks()
+
+            
+        
+    
 # Methods:
 
 # average()
@@ -235,6 +276,9 @@
 # Highest : 95
 # Lowest : 78
 # Result : PASS
+
+
+
 # 6. Shopping Cart
 
 # Attributes:
@@ -247,6 +291,29 @@
 # add_item(price)
 # remove_item(price)
 # show_total()
+
+# class Shopping:
+#     def __init__(self,owner,total_price):
+#          self.owner=owner
+#          self.total_price=total_price
+
+#     def add_item(self,price):
+#         self.total_price += price 
+#         print("Your total price is :",self.total_price)
+#     def remove_item(self,price):
+#         self.total_price -= price
+#         print("Your total after removing is :",self.total_price)
+
+#     def show_total(self):
+#         print("Total price is :",self.total_price)
+# shopping1=Shopping("Dipesh",7000)
+# shopping1.add_item(4000)
+# shopping1.remove_item(3111)
+# shopping1.show_total()
+
+        
+        
+
 # 7. Movie Ticket
 
 # Attributes:
@@ -343,4 +410,3 @@
 # watch(hours)
 # cancel_subscription()
 # show_details()
-
