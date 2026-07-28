@@ -350,6 +350,47 @@
 # Don't allow booking more seats than available.
 
 # 8. ATM Machine
+# class Atm:
+#     def __init__(self,balance):
+#         self.balance=balance
+    
+#     def deposit(self,amount):
+#         self.balance += amount 
+#         return self.balance
+    
+#     def withdraw(self,amount):
+#         self.balance -=amount
+#         return self.balance
+
+#     def show_balance(self):
+#         return self.balance
+        
+#     def menu(self):
+#         while True:
+#             print("1.Deposit")
+#             print("2.Withdraw")
+#             print("3.Balance")
+#             print("4.Exit")
+
+#             choice=input("choice : ")
+#             if choice == "1":
+#                 amount = int(input("Enter amount: "))
+#                 print(self.deposit(amount))
+#             elif choice == "2":
+#                 amount = int(input("Enter amount: "))
+#                 self.withdraw(amount)
+#             elif choice =="3":
+#                 print(self.show_balance())
+#             elif choice =="4":
+#                 print("Thank you visit Again")
+#                 break
+#             else :
+#                 print("please enter vaild choice")
+                
+        
+# atm=Atm(5000)
+# atm.menu()
+
 
 # Menu
 
