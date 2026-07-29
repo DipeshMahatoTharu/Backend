@@ -415,32 +415,32 @@
 # borrow()
 # return_book()
 
-class Libarary:
-    def __init__(self,title,author,available=True):
-        self.title=title
-        self.author=author
-        self.available=available
+# class Libarary:
+#     def __init__(self,title,author,available=True):
+#         self.title=title
+#         self.author=author
+#         self.available=available
         
-    def borrow(self):
-      if self.available:
-          self.available=False
-          print("Book borrowed successful")
+#     def borrow(self):
+#       if self.available:
+#           self.available=False
+#           print("Book borrowed successful")
           
-      else:
-          print("Sorry book is not available")
+#       else:
+#           print("Sorry book is not available")
 
 
-    def return_book(self):
-        if not self.available:
-            self.available=True
-            print("Book return successfully")
-        else:
-            print("This book is already in the library.")
+#     def return_book(self):
+#         if not self.available:
+#             self.available=True
+#             print("Book return successfully")
+#         else:
+#             print("This book is already in the library.")
 
             
-Person1=Libarary("Yourney of programming","Dipesh",True)
-Person1.borrow()
-Person1.return_book()
+# Person1=Libarary("Yourney of programming","Dipesh",True)
+# Person1.borrow()
+# Person1.return_book()
 # 10. Cricket Player
 
 # Attributes:
@@ -454,6 +454,29 @@ Person1.return_book()
 # score_run()
 # strike_rate()
 # show_stats()
+# class Cricket:
+#     def __init__(self,name,runs,balls):
+#         self.name=name
+#         self.run=runs
+#         self.ball=balls
+#     def score_counter(self):
+#         se
+#     def score_run(self):
+#         while True:
+#             print("1 run")
+#             print("2 run")
+#             print("3 run")
+#             print("Four")
+#             print("5 run")
+#             print("Sixer")
+#             print("Out")
+            
+#             choice =input("Choice :")
+#             if choice =="1":
+#                 print()
+                
+
+
 # 11. Restaurant Bill
 
 # Attributes:
