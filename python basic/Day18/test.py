@@ -499,9 +499,9 @@
 
 # Methods:
 
-# add_stock()
-# sell_stock()
-# show_stock()
+add_stock()
+sell_stock()
+show_stock()
 
 # Prevent negative stock.
 
