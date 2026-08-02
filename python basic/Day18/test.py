@@ -454,26 +454,26 @@
 # score_run()
 # strike_rate()
 # show_stats()
-# class Cricket:
-#     def __init__(self,name,runs,balls):
-#         self.name=name
-#         self.run=runs
-#         self.ball=balls
-#     def score_counter(self):
-#         se
-#     def score_run(self):
-#         while True:
-#             print("1 run")
-#             print("2 run")
-#             print("3 run")
-#             print("Four")
-#             print("5 run")
-#             print("Sixer")
-#             print("Out")
+class Cricket:
+    def __init__(self,name,runs,balls):
+        self.name=name
+        self.run=runs
+        self.ball=balls
+    def score_counter(self):
+        se
+    def score_run(self):
+        while True:
+            print("1 run")
+            print("2 run")
+            print("3 run")
+            print("Four")
+            print("5 run")
+            print("Sixer")
+            print("Out")
             
-#             choice =input("Choice :")
-#             if choice =="1":
-#                 print()
+            choice =input("Choice :")
+            if choice =="1":
+                print()
                 
 
 
