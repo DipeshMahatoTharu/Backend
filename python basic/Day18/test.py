@@ -486,10 +486,10 @@ class Cricket:
 
 # Methods:
 
-# add_food(price)
-# add_drink(price)
-# discount(percent)
-# final_bill()
+add_food(price)
+add_drink(price)
+discount(percent)
+final_bill()
 # 12. Inventory System
 
 # Attributes:
