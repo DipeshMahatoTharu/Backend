@@ -454,68 +454,68 @@
 # score_run()
 # strike_rate()
 # show_stats()
-class Cricket:
-    def __init__(self,name,runs=0,balls=0):
-        self.name=name
-        self.run=runs
-        self.ball=balls
+# class Cricket:
+#     def __init__(self,name,runs=0,balls=0):
+#         self.name=name
+#         self.run=runs
+#         self.ball=balls
 
-    def score_run(self):
-        while True:
-            print("1 :1 run")
-            print("2: 2 run")
-            print("3: 3 run")
-            print("4:Four")
-            print("5:5 run")
-            print("6:6 Sixer")
-            print("7: Out")
+#     def score_run(self):
+#         while True:
+#             print("1 :1 run")
+#             print("2: 2 run")
+#             print("3: 3 run")
+#             print("4:Four")
+#             print("5:5 run")
+#             print("6:6 Sixer")
+#             print("7: Out")
             
-            choice =input("Choice :")
-            if choice =="1":
-                self.run +=1
-                self.ball +=1
+#             choice =input("Choice :")
+#             if choice =="1":
+#                 self.run +=1
+#                 self.ball +=1
                 
             
-            elif choice == "2":
-                self.run +=2
-                self.ball+=1
-            elif choice =="3":
-                self.run +=3
-                self.ball +=1
-            elif choice =="4":
-                self.run +=4
-                self.ball +=1
+#             elif choice == "2":
+#                 self.run +=2
+#                 self.ball+=1
+#             elif choice =="3":
+#                 self.run +=3
+#                 self.ball +=1
+#             elif choice =="4":
+#                 self.run +=4
+#                 self.ball +=1
                 
-            elif choice =="5":
-                self.run +=5
-                self.ball +=1
+#             elif choice =="5":
+#                 self.run +=5
+#                 self.ball +=1
             
-            elif choice =="6":
-                self.run +=6
-                self.ball+=1
+#             elif choice =="6":
+#                 self.run +=6
+#                 self.ball+=1
                 
-            elif choice =="7":               
-                print("player is out")
-                break
-            else:
-                print("Invalid choice")
+#             elif choice =="7":               
+#                 print("player is out")
+#                 break
+#             else:
+#                 print("Invalid choice")
             
-    def strickrate(self):
-            if self.ball==0:
-                return 0
-            else :
-                return (self.run/self.ball)*100
+#     def strickrate(self):
+#             if self.ball==0:
+#                 return 0
+#             else :
+#                 return (self.run/self.ball)*100
         
-    def showstats(self):
-        print("Name:",self.name)
-        print("runs:",self.run)                      
-        print("ball:",self.ball)
-        print("Stickrate:",self.strickrate())
+#     def showstats(self):
+#         print("Name:",self.name)
+#         print("runs:",self.run)                      
+#         print("ball:",self.ball)
+#         print("Stickrate:",self.strickrate())
                 
 
-player1=Cricket("Dipesh")
-player1.score_run()
-player1.showstats()
+# player1=Cricket("Dipesh")
+# player1.score_run()
+# player1.showstats()
 
 # 11. Restaurant Bill
 
@@ -530,7 +530,32 @@ player1.showstats()
 # add_drink(price)
 # discount(percent)
 # final_bill()
-# 12. Inventory System
+# class Restaurant_Bill:
+#     def __init__(self,customer,bill=0):
+#         self.customer=customer
+#         self.bill=bill
+
+#     def add_food(self,price):   
+#         self.bill +=price
+
+#     def add_drink(self,price):
+#         self.bill+=price
+        
+#     def discount(self, discount_percentage):
+#         self.discount_amount = (discount_percentage * self.bill) / 100
+
+#     def final_bill(self):
+#         orginalprice=self.bill - self.discount_amount
+#         print("Final Bill :",orginalprice)
+# restaurant_Bill1=Restaurant_Bill("Dipesh")
+# restaurant_Bill1.add_food(800)
+# restaurant_Bill1.add_drink(900)
+# restaurant_Bill1.discount(10)
+# restaurant_Bill1.final_bill()
+
+
+
+# 12.Inventory System
 
 # Attributes:
 
@@ -544,6 +569,15 @@ player1.showstats()
 # show_stock()
 
 # Prevent negative stock.
+class Inventory:
+    def __init__(self,productname ,quantity=0):
+        self.productname=productname
+        self.quantity=quantity
+    def add_stock(self):
+         
+        
+
+
 
 #  Challenge (No Help)
 
