@@ -455,27 +455,67 @@
 # strike_rate()
 # show_stats()
 class Cricket:
-    def __init__(self,name,runs,balls):
+    def __init__(self,name,runs=0,balls=0):
         self.name=name
         self.run=runs
         self.ball=balls
-    def score_counter(self):
-        se
+
     def score_run(self):
         while True:
-            print("1 run")
-            print("2 run")
-            print("3 run")
-            print("Four")
-            print("5 run")
-            print("Sixer")
-            print("Out")
+            print("1 :1 run")
+            print("2: 2 run")
+            print("3: 3 run")
+            print("4:Four")
+            print("5:5 run")
+            print("6:6 Sixer")
+            print("7: Out")
             
             choice =input("Choice :")
             if choice =="1":
-                print()
+                self.run +=1
+                self.ball +=1
+                
+            
+            elif choice == "2":
+                self.run +=2
+                self.ball+=1
+            elif choice =="3":
+                self.run +=3
+                self.ball +=1
+            elif choice =="4":
+                self.run +=4
+                self.ball +=1
+                
+            elif choice =="5":
+                self.run +=5
+                self.ball +=1
+            
+            elif choice =="6":
+                self.run +=6
+                self.ball+=1
+                
+            elif choice =="7":               
+                print("player is out")
+                break
+            else:
+                print("Invalid choice")
+            
+    def strickrate(self):
+            if self.ball==0:
+                return 0
+            else :
+                return (self.run/self.ball)*100
+        
+    def showstats(self):
+        print("Name:",self.name)
+        print("runs:",self.run)                      
+        print("ball:",self.ball)
+        print("Stickrate:",self.strickrate())
                 
 
+player1=Cricket("Dipesh")
+player1.score_run()
+player1.showstats()
 
 # 11. Restaurant Bill
 
@@ -486,10 +526,10 @@ class Cricket:
 
 # Methods:
 
-add_food(price)
-add_drink(price)
-discount(percent)
-final_bill()
+# add_food(price)
+# add_drink(price)
+# discount(percent)
+# final_bill()
 # 12. Inventory System
 
 # Attributes:
