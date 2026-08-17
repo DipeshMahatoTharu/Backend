@@ -598,7 +598,24 @@ inventory1.show_stock()
 # Build a Netflix Account.
 
 # Attributes:
-
+class Netflix:
+    def __init__(self,username,subscription,watch_time=0):
+        self.username=username
+        self.subscription=subscription
+        self.watch_time=watch_time
+        
+    def subscribe(self):
+        self.subscription=True
+    def watch(self,hour):
+        self.watch_time +=hour
+    
+    def cancel_subscription(self):
+        self.subscription=False
+    def show_details(self):
+        print("User name ",self.username)
+        print("Watch hour",self.watch_time)
+        print("Cancel Subscription",self.subscription)
+        
 # username
 # subscription (True/False)
 # watch_time
@@ -609,3 +626,10 @@ inventory1.show_stock()
 # watch(hours)
 # cancel_subscription()
 # show_details()
+
+
+account1=Netflix("Dipesh",True,30)
+account1.cancel_subscription()
+account1.watch(40)
+account1.subscribe()
+account1.show_details()
