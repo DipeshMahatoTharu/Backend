@@ -569,26 +569,27 @@
 # show_stock()
 
 # Prevent negative stock.
-# class Inventory:
-#     def __init__(self,productname ,quantity=0):
-#         self.productname=productname
-#         self.quantity=quantity
-#     def add_stock(self,stocks):
-#          self.quantity +=stocks
-#     def sell_stock(self,stocks):
-#         if self.stocks < self.quantity:
-#             print("Yout stock is 0")
-#         else:
-#             self.quantity -=stocks
+class Inventory:
+    def __init__(self,productname ,quantity=0):
+        self.productname=productname
+        self.quantity=quantity
+    def add_stock(self,stocks):
+         self.quantity +=stocks
+    def sell_stock(self,stocks):
+        if stocks > self.quantity:
+            print("Yout stock is 0")
+        else:
+            self.quantity -=stocks
         
-#     def show_stock(self):
-#         print("Current :",self.quantity)
+    def show_stock(self):
+        print("Current :",self.quantity)
      
         
-# inventory1=Inventory("Shoes")
+inventory1=Inventory("Shoes")
 
-# inventory1.add_stock(3)
-# inventory1.show_stock()
+inventory1.add_stock(3)
+inventory1.sell_stock(2)
+inventory1.show_stock()
 
 # inventory1.show_stock()
 
