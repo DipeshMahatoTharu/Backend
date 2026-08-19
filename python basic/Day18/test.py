@@ -27,27 +27,27 @@
 
 # Current Speed: 15
 
-# class Car:
-#     def __init__(self,brand,model,speed):
-#         self.brand=brand
-#         self.model=model
-#         self.speed=speed
-#         print("Current speed :",self.speed)
+class Car:
+    def __init__(self,brand,model,speed):
+        self.brand=brand
+        self.model=model
+        self.speed=speed
+        print("Current speed :",self.speed)
         
         
-#     def accelerate(self,speed):
-#         self.speed+=speed
-#         print("accelerated by ",self.speed)
+    def accelerate(self,speed):
+        self.speed+=speed
+        print("accelerated by ",self.speed)
 
-#     def brake(self,speed):
-#         print("Current speed  ",self.speed)
-#         print("Breaked by :",speed)
-#         self.speed-=speed
+    def brake(self,speed):
+        print("Current speed  ",self.speed)
+        print("Breaked by :",speed)
+        self.speed-=speed
         
-#     def show_speed(self):
-#         print("Current speed ",self.speed)
+    def show_speed(self):
+        print("Current speed ",self.speed)
         
-# #your part
+
 # Kritika_car =Car("Toyota","1995",0)
 
 # Kritika_car.accelerate(20)
@@ -126,34 +126,34 @@
 # Charge 30%
 # Battery: 100%
 
-# class Phone:
-#     def __init__(self,brand,battery):
-#         self.brand=brand
-#         self.battery=100
+class Phone:
+    def __init__(self,brand,battery):
+        self.brand=brand
+        self.battery=100
 
-#     def use_phone(self,minutes):
-#         self.battery-=minutes
+    def use_phone(self,minutes):
+        self.battery-=minutes
         
-#         if self.battery<=0:
-#             self.battery=0
-#             print("Phone Switch off ")
-#         else:
-#             print("Battery percentage is :",self.battery)
+        if self.battery<=0:
+            self.battery=0
+            print("Phone Switch off ")
+        else:
+            print("Battery percentage is :",self.battery)
 
 
-#     def charge_phone(self,percent):
-#         self.battery+=percent
+    def charge_phone(self,percent):
+        self.battery+=percent
         
-#         if self.battery >= 100:
-#             self.battery=100
-#             print("battery full")
-#         else:
-#             print("Batter charging : " ,self.battery)
+        if self.battery >= 100:
+            self.battery=100
+            print("battery full")
+        else:
+            print("Batter charging : " ,self.battery)
         
-# phone1=Phone("Chinese phone ",40)
-# phone1.use_phone(30)
+phone1=Phone("Chinese phone ",40)
+phone1.use_phone(30)
 
-# phone1.charge_phone(10)
+phone1.charge_phone(10)
         
 
 
