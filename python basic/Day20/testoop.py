@@ -92,20 +92,23 @@
 
 # Which things belong to each object?
 
-
-
-
 class Food:
     def __init__(self,name,address,phone_number):
         self.name=name
         self.address=address
         self.phone_number=phone_number
-    
     def order(self,foodname,quantity,price):
        self.foodname=foodname
        self.quantity=quantity
        self.price=price
        
+    def total_price(self):
+        print(self.quantity * self.price) 
+        
+order1=Food("Dipesh","Sifal",9860793587)
+order1.order("Achha wala Pizza " ,2,120)
+order1.total_price()
+
 
 # 🟢 Q3 — Bank Account
 
