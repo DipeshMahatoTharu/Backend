@@ -7,5 +7,3 @@
 # pay()
 # Use ABC and @abstractmethod.
 
-class Payment:
-    

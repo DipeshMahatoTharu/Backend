@@ -27,6 +27,8 @@
 
 
 class Car:
+    def __init__(self, type):
+        self.type=type
     @staticmethod
     def start():
         print("Car Started")
@@ -34,15 +36,17 @@ class Car:
     def stop():
         print("car Stoped ..")
 class Toyota(Car):
-    def __init__(self,name):
+    def __init__(self,name,type):
         self.name=name
+        super().__init__(type)
+        
 
-class Fortuner(Toyota):
-    def __init__(self, type):
-        self.type=type
+
         
     
-car1=Fortuner("diseal")
+car1=Toyota("Dippp","Disel")
+print(car1.type)
+
 car1.start()
 car1.stop()
 
