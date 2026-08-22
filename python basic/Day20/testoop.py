@@ -92,22 +92,22 @@
 
 # Which things belong to each object?
 
-class Food:
-    def __init__(self,name,address,phone_number):
-        self.name=name
-        self.address=address
-        self.phone_number=phone_number
-    def order(self,foodname,quantity,price):
-       self.foodname=foodname
-       self.quantity=quantity
-       self.price=price
+# class Food:
+#     def __init__(self,name,address,phone_number):
+#         self.name=name
+#         self.address=address
+#         self.phone_number=phone_number
+#     def order(self,foodname,quantity,price):
+#        self.foodname=foodname
+#        self.quantity=quantity
+#        self.price=price
        
-    def total_price(self):
-        print(self.quantity * self.price) 
+#     def total_price(self):
+#         print(self.quantity * self.price) 
         
-order1=Food("Dipesh","Sifal",9860793587)
-order1.order("Achha wala Pizza " ,2,120)
-order1.total_price()
+# order1=Food("Dipesh","Sifal",9860793587)
+# order1.order("Achha wala Pizza " ,2,120)
+# order1.total_price()
 
 
 # 🟢 Q3 — Bank Account
@@ -138,6 +138,32 @@ order1.total_price()
 # account.withdraw(1000)
 
 # Think carefully about how the balance should be protected.
+
+
+class BankingSystem:
+    def __init__(self,Account_holder,Account_number,balance) :
+        self.Account_holder=Account_holder
+        self.Account_number=Account_number
+        self.__balance=balance
+
+
+    def deposit(self,amount):
+        self.__balance +=amount
+            
+    def withdraw(self,amount):
+        #if balance is greater then amount then accepted else 
+        if amount <= self.__balance:
+            self.__balance-=amount
+        else:
+            print("Insuffient Balance")
+    def check(self):
+        return self.__balance
+account1=BankingSystem("Dipesh Mahato",989423432432,500000)               
+account1.deposit(50000)
+account1.withdraw(10000)
+print(account1.check())        
+    
+
 
 # 🟢 Q4 — Netflix Account
 
