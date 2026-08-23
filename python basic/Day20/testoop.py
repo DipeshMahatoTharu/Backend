@@ -140,28 +140,28 @@
 # Think carefully about how the balance should be protected.
 
 
-class BankingSystem:
-    def __init__(self,Account_holder,Account_number,balance) :
-        self.Account_holder=Account_holder
-        self.Account_number=Account_number
-        self.__balance=balance
+# class BankingSystem:
+#     def __init__(self,Account_holder,Account_number,balance) :
+#         self.Account_holder=Account_holder
+#         self.Account_number=Account_number
+#         self.__balance=balance
 
 
-    def deposit(self,amount):
-        self.__balance +=amount
+#     def deposit(self,amount):
+#         self.__balance +=amount
             
-    def withdraw(self,amount):
-        #if balance is greater then amount then accepted else 
-        if amount <= self.__balance:
-            self.__balance-=amount
-        else:
-            print("Insuffient Balance")
-    def check(self):
-        return self.__balance
-account1=BankingSystem("Dipesh Mahato",989423432432,500000)               
-account1.deposit(50000)
-account1.withdraw(10000)
-print(account1.check())        
+#     def withdraw(self,amount):
+#         #if balance is greater then amount then accepted else 
+#         if amount <= self.__balance:
+#             self.__balance-=amount
+#         else:
+#             print("Insuffient Balance")
+#     def check(self):
+#         return self.__balance
+# account1=BankingSystem("Dipesh Mahato",989423432432,500000)               
+# account1.deposit(50000)
+# account1.withdraw(10000)
+# print(account1.check())        
     
 
 
