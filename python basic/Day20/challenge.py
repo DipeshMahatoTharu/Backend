@@ -97,6 +97,16 @@ ____________________________________________________
 """
 # Create a class `Book` with attributes: `title`, `author`, and `is_borrowed` (default: False).
 # Include a `__str__` method that returns: "'Title' by Author (Available/Borrowed)".
+# ------------------------------------------------------------
+# VERSION 2: The Library Class (Empty)
+# ------------------------------------------------------------
+# Create a class `Library` that initializes with a list of `books` (start with an empty list).
+
+
+# VERSION 3: Add Books
+# ------------------------------------------------------------
+# Implement an `add_book(book)` method in the `Library` class that appends a `Book` object to the library's catalog.
+
 
 class Book:
     def __init__(self,title:str,author:str,is_borrowd:bool=False):
@@ -113,23 +123,17 @@ class Book:
         
 book1=Book("Harry pottery","harry",False)
 print(book1)
-# ------------------------------------------------------------
-# VERSION 2: The Library Class (Empty)
-# ------------------------------------------------------------
-# Create a class `Library` that initializes with a list of `books` (start with an empty list).
-
-
-# VERSION 3: Add Books
-# ------------------------------------------------------------
-# Implement an `add_book(book)` method in the `Library` class that appends a `Book` object to the library's catalog.
 
 class Library:
-    def __init__(self,books):
+    def __init__(self):
         self.books=[]
-    def add_book(self,books):
-        self.books.append(books)
-        
-        
-mylibaray=Library(["Harry Pottery"])
+    def add_book(self,books_name):
+        self.books.append(books_name)
+            
+mylibaray=Library()
 print(mylibaray.books)
+mylibaray.add_book(book1)
+
+print(mylibaray.books[0])
+
 
