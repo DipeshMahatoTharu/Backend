@@ -13,6 +13,13 @@ VERSION 1: The Book Class
 Create a class `Book` with attributes: `title`, `author`, and `is_borrowed` (default: False).
 Include a `__str__` method that returns: "'Title' by Author (Available/Borrowed)".
 
+
+
+
+
+
+
+
 ------------------------------------------------------------
 VERSION 2: The Library Class (Empty)
 ------------------------------------------------------------
@@ -88,3 +95,41 @@ ____________________________________________________
 ____________________________________________________
 ____________________________________________________
 """
+# Create a class `Book` with attributes: `title`, `author`, and `is_borrowed` (default: False).
+# Include a `__str__` method that returns: "'Title' by Author (Available/Borrowed)".
+
+class Book:
+    def __init__(self,title:str,author:str,is_borrowd:bool=False):
+        self.title=title
+        self.author=author
+        self.is_borrowd=is_borrowd
+    def __str__(self):
+        if self.is_borrowd == False:
+            status="Avaiable"
+            return f"'{self.title}' by {self.author} ({status})"
+        else:
+            status ="Borrowed"
+            return f"'{self.title}' by {self.author} ({status})"
+        
+book1=Book("Harry pottery","harry",False)
+print(book1)
+# ------------------------------------------------------------
+# VERSION 2: The Library Class (Empty)
+# ------------------------------------------------------------
+# Create a class `Library` that initializes with a list of `books` (start with an empty list).
+
+
+# VERSION 3: Add Books
+# ------------------------------------------------------------
+# Implement an `add_book(book)` method in the `Library` class that appends a `Book` object to the library's catalog.
+
+class Library:
+    def __init__(self,books):
+        self.books=[]
+    def add_book(self,books):
+        self.books.append(books)
+        
+        
+mylibaray=Library(["Harry Pottery"])
+print(mylibaray.books)
+
