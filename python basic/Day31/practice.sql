@@ -1,0 +1,2 @@
+-- Day 31 SQL Practice — SQL Intermediate
+-- Write your statements below:

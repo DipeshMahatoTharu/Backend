@@ -1,0 +1,2 @@
+-- Day 30 SQL Practice — SQL JOINs
+-- Write your statements below:

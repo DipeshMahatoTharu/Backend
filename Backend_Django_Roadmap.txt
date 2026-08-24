@@ -1,367 +1,129 @@
-✅ COMPLETED
-Python Fundamentals
-✅ Variables
-✅ Data Types
-✅ Input / Output
-✅ Operators
-✅ If / Else
-✅ While Loops
-✅ For Loops
-✅ Break / Continue / Pass
-✅ Functions
-✅ Function Practice
-✅ String Methods
-✅ Lists
-✅ Tuples
-✅ Dictionaries
-✅ Sets
-✅ Exception Handling
-✅ File Handling
-Python OOP
-✅ Classes
-✅ Objects
-✅ Constructors (__init__)
-✅ Instance Variables
-✅ Class Variables
-✅ Instance Methods
-✅ Static Methods
-✅ Class Methods
-✅ Encapsulation
-✅ Inheritance
-✅ Method Overriding
-✅ super()
-✅ Multilevel Inheritance
-✅ Polymorphism
-OOP Projects
-✅ Car System
-✅ Employee System
-✅ Phone System
-✅ Bank Account
-✅ Student Management
-✅ Shopping Cart
-✅ Movie Ticket
-
-Remaining practice:
-
-⏳ ATM Machine
-⏳ Library System
-⏳ Cricket Player
-⏳ Restaurant Bill
-⏳ Inventory System
-⏳ Netflix Account Challenge
-
-These are practice projects—not new concepts.
-
-🚀 UPDATED ROADMAP
-Phase 1 — Finish OOP Practice (1–2 days)
-
-Complete:
-
-ATM Machine
-Library System
-Cricket Player
-Restaurant Bill
-Inventory
-Netflix Challenge
-
-After that:
-
-OOP = Finished
-
-Phase 2 — Git & GitHub
-
-You already know basics.
-
-Master:
-
-branching
-merge
-pull request
-.gitignore
-README
-project structure
-
-Mini Project:
-
-Push every Python project.
-
-Phase 3 — SQL + Database
-
-This is where backend actually starts.
-
-MySQL
-
-Learn:
-
-Database
-
-Table
-
-Row
-
-Column
-
-Primary Key
-
-Foreign Key
-
-Relationships
-
-Normalization (basic)
-
-SQL
-
-SELECT
-
-INSERT
-
-UPDATE
-
-DELETE
-
-WHERE
-
-LIKE
-
-ORDER BY
-
-GROUP BY
-
-LIMIT
-
-JOINS
-
-Practice:
-
-Student DB
-Employee DB
-Product DB
-Phase 4 — HTTP + APIs
-
-Understand
-
-Client
-
-Server
-
-Request
-
-Response
-
-HTTP
-
-HTTPS
-
-JSON
-
-REST
-
-Methods
-
-GET
-
-POST
-
-PUT
-
-PATCH
-
-DELETE
-
-Status Codes
-
-200
-
-201
-
-400
-
-401
-
-403
-
-404
-
-500
-Phase 5 — Django
-
-Start Django.
-
-You'll learn
-
-Project
-
-App
-
-settings.py
-
-urls.py
-
-views.py
-
-models.py
-
-templates
-
-static
-
-admin
-Phase 6 — Django ORM
-
-Models
-
-Relationships
-
-Queries
-
-create()
-
-filter()
-
-get()
-
-update()
-
-delete()
-Phase 7 — Django CRUD
-
-Projects
-
-Todo
-
-Notes
-
-Student Management
-
-Blog
-
-Products
-Phase 8 — Authentication
-Register
-
-Login
-
-Logout
-
-Password Hashing
-
-Permissions
-
-User Profiles
-
-Sessions
-
-JWT
-Phase 9 — Django REST Framework
-
-This is where backend becomes APIs.
-
-Learn
-
-Serializers
-
-APIView
-
-GenericAPIView
-
-ViewSets
-
-Routers
-
-Permissions
-
-JWT
-
-Pagination
-
-Filtering
-
-Projects
-
-Todo API
-
-Blog API
-
-Student API
-
-Ecommerce API
-Phase 10 — Testing
-unittest
-
-Django TestCase
-
-API testing
-Phase 11 — Deployment
-PostgreSQL
-
-Gunicorn
-
-Render
-
-Railway
-
-Nginx (basic)
-
-Environment Variables
-
-Production Settings
-Phase 12 — Professional Backend
-Docker
-
-Redis
-
-Celery
-
-Caching
-
-Logging
-
-Swagger
-
-Linux
-
-Clean Architecture
-Projects you'll build
-Python
-Calculator
-Bank
-Library
-Inventory
-Netflix
-Django
-Todo
-Notes
-Blog
-Student Management
-Ecommerce
-APIs
-Todo API
-Blog API
-Ecommerce API
-JWT Authentication
-Final Portfolio
-Blog Website
-Ecommerce Backend
-Student Management
-REST API
-Authentication
-PostgreSQL
-Deployment
-Current Progress
-Python Fundamentals      ██████████ 100%
-
-Python OOP               ██████████ 100%
-
-Git                      ███░░░░░░░ 30%
-
-SQL                      ░░░░░░░░░░ 0%
-
-HTTP/API                 ░░░░░░░░░░ 0%
-
-Django                   ░░░░░░░░░░ 0%
-
-Django REST              ░░░░░░░░░░ 0%
-
-Testing                  ░░░░░░░░░░ 0%
-
-Deployment               ░░░░░░░░░░ 0%
+===================================================
+PYTHON BACKEND DEVELOPER ROADMAP (TEXT VERSION)
+===================================================
+
+For a fully interactive, clickable version of this roadmap with hyperlinks and detailed guides, please see:
+--> ROADMAP.md (in the root folder)
+
+---------------------------------------------------
+CURRENT PROGRESS STATUS
+---------------------------------------------------
+[x] Python Fundamentals      (100% Completed)
+[x] Python OOP Basics        (100% Completed)
+[ ] Phase 1: OOP Practice    (0% Completed - 6 Projects Pending)
+[x] Phase 2: Git & GitHub    (30% Completed)
+[ ] Phase 3: SQL & Databases (0% Completed)
+[ ] Phase 4: HTTP & APIs     (0% Completed)
+[ ] Phase 5: Django Basics   (0% Completed)
+[ ] Phase 6: Django ORM      (0% Completed)
+[ ] Phase 7: Django CRUD     (0% Completed)
+[ ] Phase 8: Authentication  (0% Completed)
+[ ] Phase 9: Django REST/DRF (0% Completed)
+[ ] Phase 10: Testing        (0% Completed)
+[ ] Phase 11: Deployment     (0% Completed)
+[ ] Phase 12: Adv. Backend   (0% Completed)
+
+---------------------------------------------------
+PHASE 1 - FINISH OOP PRACTICE
+---------------------------------------------------
+You have 6 practice templates waiting for your code in the directory:
+"python basic/OOP_Practice/"
+
+[ ] ATM Machine
+    --> file: python basic/OOP_Practice/atm_machine.py
+    --> Practice: Private variables, PIN verification, withdraw/deposit logic.
+
+[ ] Library System
+    --> file: python basic/OOP_Practice/library_system.py
+    --> Practice: Class-to-class interactions (Book + Library).
+
+[ ] Cricket Player Management
+    --> file: python basic/OOP_Practice/cricket_player.py
+    --> Practice: Player averaging, team collection logic.
+
+[ ] Restaurant Bill Calculator
+    --> file: python basic/OOP_Practice/restaurant_bill.py
+    --> Practice: Class variables (MENU), math computations, subtotal, tax.
+
+[ ] Inventory Management System
+    --> file: python basic/OOP_Practice/inventory_system.py
+    --> Practice: Properties (@property), validation control.
+
+[ ] Netflix Account Challenge
+    --> file: python basic/OOP_Practice/netflix_challenge.py
+    --> Practice: Complete application design combining all OOP features.
+
+---------------------------------------------------
+PHASE 2 - GIT & GITHUB
+---------------------------------------------------
+[ ] Create branch 'oop-practice-solutions' to solve Phase 1.
+[ ] Merge branch into 'main' when complete.
+[ ] Keep committing your daily work to GitHub.
+
+---------------------------------------------------
+PHASE 3 - SQL + DATABASE (MySQL / PostgreSQL)
+---------------------------------------------------
+[ ] Tables, Rows, Columns, Primary/Foreign Keys.
+[ ] SELECT, INSERT, UPDATE, DELETE, WHERE.
+[ ] JOINS (INNER, LEFT, RIGHT).
+[ ] Practice: Student DB, Employee DB, Product DB.
+
+---------------------------------------------------
+PHASE 4 - HTTP + APIS
+---------------------------------------------------
+[ ] Client-Server cycle, HTTP Requests/Responses.
+[ ] Methods: GET, POST, PUT, PATCH, DELETE.
+[ ] Status Codes: 200, 201, 400, 401, 403, 404, 500.
+[ ] JSON data structures.
+
+---------------------------------------------------
+PHASE 5 - DJANGO BASICS
+---------------------------------------------------
+[ ] Project vs App structure.
+[ ] settings.py, urls.py, views.py.
+[ ] Function-Based vs Class-Based Views.
+
+---------------------------------------------------
+PHASE 6 - DIANGO ORM
+---------------------------------------------------
+[ ] Models & migrations (makemigrations, migrate).
+[ ] Fields (Char, Integer, DateTime, ForeignKey).
+[ ] Querysets (filter, get, create, update, delete).
+
+---------------------------------------------------
+PHASE 7 - DIANGO CRUD APP
+---------------------------------------------------
+[ ] Building a Notes, Todo, or Blog application with user interface templates.
+
+---------------------------------------------------
+PHASE 8 - AUTHENTICATION
+---------------------------------------------------
+[ ] User Registration, Login, Logout.
+[ ] Sessions & Cookies.
+[ ] Password hashing.
+
+---------------------------------------------------
+PHASE 9 - DJANGO REST FRAMEWORK (DRF)
+---------------------------------------------------
+[ ] Serializers, APIView, ViewSets, Routers.
+[ ] Token Authentication & JWT.
+[ ] Permissions (IsAuthenticated).
+[ ] Building a REST API.
+
+---------------------------------------------------
+PHASE 10 - TESTING
+---------------------------------------------------
+[ ] Unit testing with unittest & Django TestCase.
+[ ] Testing API endpoints.
+
+---------------------------------------------------
+PHASE 11 - DEPLOYMENT
+---------------------------------------------------
+[ ] PostgreSQL in production.
+[ ] Environment variables (.env).
+[ ] Deploy to Render/Railway.
+
+---------------------------------------------------
+PHASE 12 - ADVANCED BACKEND
+---------------------------------------------------
+[ ] Docker, Redis (Caching), Celery (Background Tasks).
