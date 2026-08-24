@@ -97,22 +97,34 @@
 # Goal: Developer should inherit from Employee, initialize name, and add programming language.
 # The code below fails to compile/run. Explain and fix it.
 
-class Employee:
-    def __init__(self, name):
-        self.name = name
+# class Employee:
+#     def __init__(self, name):
+#         self.name = name
 
-class Developer(Employee):
-    def __init__(self, name, lang):
-        # Why is this super call incorrect?
-        super(name)
-        self.lang = lang
+# class Developer(Employee):
+#     def __init__(self, name, lang):
+#         # Why is this super call incorrect?
+#         super(name)
+#         self.lang = lang
 
 # ---------------------------------------------------------------------
 # QUESTION: What is wrong with the super() usage?
 #
 # MY ANSWER:
-# ________________________________________________________________-----
+# To properly initialize the parent class so it sets up self.name, you must call its __init__ 
+# method and pass the name argument to it like this: super().__init__(name)
 #
 # CORRECTED CODE:
-# TODO: Rewrite the Developer class below to fix the bug.
-# ---------------------------------------------------------------------
+
+class Employee:
+    def __init__(self,name):
+        self.name = name
+
+class Developer(Employee):
+    def __init__(self,name,lang):
+        super().__init__(name)
+        self.lang=lang
+
+name1=Developer("Dipesh","Python")
+print(name1.name)
+print(name1.lang)
