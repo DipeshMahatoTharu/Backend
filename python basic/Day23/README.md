@@ -1,48 +1,51 @@
 # Day 23 — Exceptions + Defensive Programming
 
+Welcome to Day 23! Today we study exception management and defensive programming. You will learn the difference between standard Exception types, how to handle multiple exceptions using separate except blocks, how to raise exceptions with the `raise` keyword, and how to create custom Exception classes to build clean input validation logic.
+
+---
+
 ## 🎯 Learning Objectives
-- Write robust code using try/except/else/finally blocks.
-- Define and raise custom exceptions.
+By the end of today, you will be comfortable with:
+- Catching specific exceptions and structuring `try/except/else/finally` blocks.
+- Using `raise` to stop program execution immediately upon invalid state (fail-fast thinking).
+- Declaring and utilizing custom exception classes for backend business validations.
+- Validating inputs (emails, passwords, numbers) to avoid silent failures in backend database pipelines.
 
 ---
 
-## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day23/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day23/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day23/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day23/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day23/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day23/challenge.py)**.
+## 📅 Today's 3-Hour Rebuilt Structure
+
+- **HOUR 1 — EXCEPTION HIERARCHY & ELSE/FINALLY THEORY (45 min Learn + 15 min Qs)**:
+  - Explore built-in exception types, error raising, and defensive validations in **[`questions.md`](file:///d:/Backend/python%20basic/Day23/questions.md)**.
+- **HOUR 2 — MULTIPLE CATCHES & DEFENSIVE VALIDATIONS (60 min)**:
+  - Complete the exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day23/practice.py)**.
+  - Solve error handling and silent failure bugs in **[`debugging.py`](file:///d:/Backend/python%20basic/Day23/debugging.py)**.
+- **HOUR 3 — MOCK INTERVIEWS & SYSTEM CHALLENGES (60 min)**:
+  - Write mock responses to junior engineer interview scenarios in **[`interview.md`](file:///d:/Backend/python%20basic/Day23/interview.md)**.
+  - Complete the **[whiteboard.py](file:///d:/Backend/python%20basic/Day23/whiteboard.py)** blank-page challenge.
+  - Open **[`challenge.py`](file:///d:/Backend/python%20basic/Day23/challenge.py)** and build the Bank Transaction Validator & User Registration validation system.
 
 ---
 
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
+## 🏁 Day 23 Completion Checklist
+- [ ] Answered all theory checks in `questions.md`.
+- [ ] Solved coding practice in `practice.py`.
+- [ ] Fixed all bugs in `debugging.py`.
+- [ ] Answered mock questions in `interview.md`.
+- [ ] Attempted the whiteboard challenge in `whiteboard.py`.
+- [ ] Built the Bank Transaction Validator & User Registration system in `challenge.py`.
 
 ## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
+- **Learning**: [ ] Completed
+- **Practice**: [ ] Completed
+- **Debugging**: [ ] Completed
+- **Interview**: [ ] Completed
+- **Challenge**: [ ] Completed
 
 ### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
+- Python understanding: __ / 10
+- Problem solving: __ / 10
+- Interview confidence: __ / 10
 
 **What I struggled with**:
 ____________________________________________________

@@ -1,50 +1,51 @@
-# Day 21 — Python Review + Problem Solving
+# Day 21 — Python Review + Data Structures
+
+Welcome to Day 21! Today we shift focus toward how Python data structures are structured, queried, and sorted in backend data handling. You will learn to manipulate nested structures (lists of dicts, dicts of lists) and use native filters to search and sort data efficiently.
+
+---
 
 ## 🎯 Learning Objectives
-- Review Python built-in collections: lists, tuples, sets, dictionaries.
-- Practice string formatting, slice notation, and dictionary lookups.
-- Write list/dict comprehensions.
-- Solve 10 problem-solving coding challenges.
+By the end of today, you will be comfortable with:
+- Selecting the correct collection type (List, Tuple, Set, Dictionary) for backend operations.
+- Interacting with nested API response formats (e.g. lists of dict records).
+- Sorting data collections utilizing `sorted()` and the `key=` custom lambda sorter.
+- Using `enumerate()`, `zip()`, `any()`, and `all()` to streamline list queries.
 
 ---
 
-## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day21/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day21/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day21/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day21/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day21/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day21/challenge.py)**.
+## 📅 Today's 3-Hour Rebuilt Structure
+
+- **HOUR 1 — CORE DATA STRUCTURES & CHECKS (45 min Learn + 15 min Qs)**:
+  - Study collections selection, sorting mechanisms, and search speeds in **[`questions.md`](file:///d:/Backend/python%20basic/Day21/questions.md)**.
+- **HOUR 2 — DATA FILTERING & SORTING CODE (60 min)**:
+  - Solve structured problems in **[`practice.py`](file:///d:/Backend/python%20basic/Day21/practice.py)** focusing on data aggregations.
+  - Diagnose data-access bugs in **[`debugging.py`](file:///d:/Backend/python%20basic/Day21/debugging.py)**.
+- **HOUR 3 — MOCK INTERVIEWS & PRACTICAL CHALLENGE (60 min)**:
+  - Write mock responses to junior engineer interview scenarios in **[`interview.md`](file:///d:/Backend/python%20basic/Day21/interview.md)**.
+  - Complete the **[whiteboard.py](file:///d:/Backend/python%20basic/Day21/whiteboard.py)** blank-page challenge.
+  - Open **[`challenge.py`](file:///d:/Backend/python%20basic/Day21/challenge.py)** and build the Student Record Manager mini-project.
 
 ---
 
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
+## 🏁 Day 21 Completion Checklist
+- [ ] Answered all theory checks in `questions.md`.
+- [ ] Solved coding practice in `practice.py`.
+- [ ] Fixed all bugs in `debugging.py`.
+- [ ] Answered mock questions in `interview.md`.
+- [ ] Attempted the whiteboard challenge in `whiteboard.py`.
+- [ ] Built the Student Record Manager in `challenge.py`.
 
 ## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
+- **Learning**: [ ] Completed
+- **Practice**: [ ] Completed
+- **Debugging**: [ ] Completed
+- **Interview**: [ ] Completed
+- **Challenge**: [ ] Completed
 
 ### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
+- Python understanding: __ / 10
+- Problem solving: __ / 10
+- Interview confidence: __ / 10
 
 **What I struggled with**:
 ____________________________________________________

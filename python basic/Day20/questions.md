@@ -4,50 +4,61 @@ Please write your answers in the spaces provided below each question.
 
 ---
 
-### Question 1: Instance vs Class Variables
-What is the difference between an instance variable and a class variable? Give an example of when you would use each.
+### 20.1 Instance vs Class Variables
+**QUESTION:**
+Explain the difference in storage and behavior between an instance variable and a class variable. What happens if you try to mutate a class variable through an instance (e.g. `self.class_var = new_val`) vs mutating it via the class name (e.g. `ClassName.class_var = new_val`)?
 
-**My Answer:**
-____________________________________________________
-____________________________________________________
-____________________________________________________
-
----
-
-### Question 2: The Role of `self`
-What does the `self` parameter represent in Python class methods, and what happens if you omit it when defining an instance method?
-
-**My Answer:**
-____________________________________________________
+**MY ANSWER:**
 ____________________________________________________
 ____________________________________________________
 
 ---
 
-### Question 3: Encapsulation & Privacy
-Python does not have strict private access modifiers (like Java's `private`). How does Python achieve encapsulation and "private" variables internally when you prefix a variable name with double underscores `__`?
+### 20.2 Mutable Class Variable Trap
+**QUESTION:**
+What is the "Mutable Class Variable Problem" in Python? What happens if a class variable is initialized to a mutable object (like a list `[]` or dictionary `{}`), and multiple objects append elements to it?
 
-**My Answer:**
-____________________________________________________
-____________________________________________________
-____________________________________________________
-
----
-
-### Question 4: Properties vs Getters/Setters
-Why is using the `@property` decorator preferred in Python over writing traditional getter and setter methods (e.g., `get_age()` and `set_age(value)`)?
-
-**My Answer:**
-____________________________________________________
+**MY ANSWER:**
 ____________________________________________________
 ____________________________________________________
 
 ---
 
-### Question 5: Composition vs Inheritance
-Explain the difference between Inheritance ("is-a" relationship) and Composition ("has-a" relationship). Why is it often said in software architecture that you should "prefer composition over inheritance"?
+### 20.3 Encapsulation & The Underline Prefix
+**QUESTION:**
+Why does Python use a single leading underscore prefix (e.g. `self._age`)? Does it strictly prevent external code from accessing or modifying the variable? What is the difference between `_age` and `__age` (double underscore)?
 
-**My Answer:**
+**MY ANSWER:**
+____________________________________________________
+____________________________________________________
+
+---
+
+### 20.4 Property Getters and Setters
+**QUESTION:**
+When using the `@property` decorator, why must the actual internal variable name be different from the property method name (e.g. naming the property method `age` but storing the value in `_age`)? What error is triggered if they are named exactly the same?
+
+**MY ANSWER:**
+____________________________________________________
+____________________________________________________
+
+---
+
+### 20.5 Inheritance & super()
+**QUESTION:**
+What does `super().__init__()` do inside a child class's constructor, and what happens if you forget to write it?
+
+**MY ANSWER:**
+____________________________________________________
+____________________________________________________
+
+---
+
+### 20.6 Composition vs Inheritance
+**QUESTION:**
+Explain the difference between a "has-a" relationship (Composition) and an "is-a" relationship (Inheritance). Give an example of a system where using composition is cleaner than inheritance.
+
+**MY ANSWER:**
 ____________________________________________________
 ____________________________________________________
 ____________________________________________________

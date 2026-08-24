@@ -6,15 +6,14 @@ Please answer these questions in the space provided to test your conceptual clar
 
 ### Interview Question 1: Encapsulation Trade-offs
 **Question:**
-Why should a class hide its internal attributes (like balance or password) using private prefixes? What could go wrong if a frontend developer directly mutates `account.balance = -100` instead of calling `account.withdraw(100)`?
+Why should a class hide its internal attributes (like balance or password) using private prefixes? What could go wrong if a developer directly mutates `account.balance = -100` instead of calling `account.withdraw(100)`?
 
 **My Answer:**
 ____________________________________________________
 ____________________________________________________
-____________________________________________________
 
 **Follow-up:**
-If Python's "privacy" is only name mangling and can still be bypassed, does encapsulation actually prevent bad modifications, or is it just a guideline? How does it help team collaboration?
+How do getter and setter properties help prevent this issue?
 
 **My Answer:**
 ____________________________________________________
@@ -29,16 +28,14 @@ Suppose you are designing an E-commerce system. You have a `User` class and a `S
 **My Answer:**
 ____________________________________________________
 ____________________________________________________
-____________________________________________________
 
 ---
 
-### Interview Question 3: Multiple Inheritance Pitfalls
+### Interview Question 3: Multiple Inheritance
 **Question:**
-What is the "Diamond Problem" in multiple inheritance, and how does Python resolve it? (Hint: Mention Method Resolution Order or `MRO`).
+What are the potential drawbacks of using multiple inheritance in a production codebase? When would you prefer composition instead?
 
 **My Answer:**
-____________________________________________________
 ____________________________________________________
 ____________________________________________________
 
@@ -51,13 +48,12 @@ Explain when you would use `@staticmethod` versus `@classmethod`. What is the pr
 **My Answer:**
 ____________________________________________________
 ____________________________________________________
-____________________________________________________
 
 ---
 
-### Interview Question 5: Object Collections Design
+### Interview Question 5: Custom Exceptions
 **Question:**
-You need to write a system that manages thousands of student objects. If you need to look up a student record instantly using their `student_id`, would you store these students in a Python list (e.g. `[student1, student2]`) or a Python dictionary (e.g. `{"S001": student1}`)? Why? Compare their performance (Time Complexity) for lookups.
+Why should a backend application define custom exception classes (e.g. `class InsufficientFundsError(Exception)`) rather than raising a generic `ValueError` or `Exception`?
 
 **My Answer:**
 ____________________________________________________

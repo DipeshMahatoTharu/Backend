@@ -1,0 +1,90 @@
+"""
+============================================================
+DAY 20 PROJECT — INCREMENTAL LIBRARY MANAGEMENT SYSTEM
+============================================================
+
+Your goal is to build a Library Management System from scratch. 
+To ensure we follow "one new idea at a time," you must write the code 
+incrementally, testing each version before proceeding to the next.
+
+------------------------------------------------------------
+VERSION 1: The Book Class
+------------------------------------------------------------
+Create a class `Book` with attributes: `title`, `author`, and `is_borrowed` (default: False).
+Include a `__str__` method that returns: "'Title' by Author (Available/Borrowed)".
+
+------------------------------------------------------------
+VERSION 2: The Library Class (Empty)
+------------------------------------------------------------
+Create a class `Library` that initializes with a list of `books` (start with an empty list).
+
+------------------------------------------------------------
+VERSION 3: Add Books
+------------------------------------------------------------
+Implement an `add_book(book)` method in the `Library` class that appends a `Book` object to the library's catalog.
+
+------------------------------------------------------------
+VERSION 4: Borrow a Book
+------------------------------------------------------------
+Implement a `borrow_book(title)` method in `Library` that searches for a book by title. 
+If found and available, set `is_borrowed` to True and print a success message. 
+If already borrowed or not found, print a corresponding warning.
+
+------------------------------------------------------------
+VERSION 5: Return a Book
+------------------------------------------------------------
+Implement a `return_book(title)` method in `Library` that sets `is_borrowed` to False when returned.
+
+------------------------------------------------------------
+VERSION 6: Manage Multiple Copies
+------------------------------------------------------------
+What happens if there are two copies of the same book? Refactor your logic 
+so that you search for books using a unique identifier (like `isbn`), rather than just matching title text.
+
+------------------------------------------------------------
+VERSION 7: Library Members
+------------------------------------------------------------
+Create a `Member` class with attributes: `name`, `member_id`, and `borrowed_books` (a list of Book objects). 
+Update `Library.borrow_book(isbn, member)` so it registers the book in the member's list.
+
+------------------------------------------------------------
+VERSION 8: Validation and @property
+------------------------------------------------------------
+Add validation:
+1. Member names must not be empty.
+2. Members cannot borrow more than 3 books at a time.
+Use `@property` setters to enforce these conditions.
+
+------------------------------------------------------------
+VERSION 9: Custom Exceptions
+------------------------------------------------------------
+Instead of using prints to indicate failures, define and raise custom exceptions:
+- `BookUnavailableError`
+- `BorrowLimitExceededError`
+Catch these exceptions during execution.
+
+============================================================
+MY APPROACH & VERSION LOG:
+============================================================
+Describe your design details here:
+
+____________________________________________________
+____________________________________________________
+
+
+============================================================
+MY CODE:
+============================================================
+Write your incremental classes here:
+
+____________________________________________________
+____________________________________________________
+____________________________________________________
+____________________________________________________
+____________________________________________________
+____________________________________________________
+____________________________________________________
+____________________________________________________
+____________________________________________________
+____________________________________________________
+"""
