@@ -3,22 +3,8 @@
 DAY 20 PROJECT — INCREMENTAL LIBRARY MANAGEMENT SYSTEM
 ============================================================
 
-Your goal is to build a Library Management System from scratch. 
-To ensure we follow "one new idea at a time," you must write the code 
-incrementally, testing each version before proceeding to the next.
 
 
-------------------------------------------------------------
-VERSION 4: Borrow a Book
-------------------------------------------------------------
-Implement a `borrow_book(title)` method in `Library` that searches for a book by title. 
-If found and available, set `is_borrowed` to True and print a success message. 
-If already borrowed or not found, print a corresponding warning.
-
-------------------------------------------------------------
-VERSION 5: Return a Book
-------------------------------------------------------------
-Implement a `return_book(title)` method in `Library` that sets `is_borrowed` to False when returned.
 
 ------------------------------------------------------------
 VERSION 6: Manage Multiple Copies
@@ -91,6 +77,11 @@ ____________________________________________________
 # If found and available, set `is_borrowed` to True and print a success message. 
 # If already borrowed or not found, print a corresponding warning.
 
+# ------------------------------------------------------------
+# VERSION 5: Return a Book
+# ------------------------------------------------------------
+# Implement a `return_book(title)` method in `Library` that sets `is_borrowed` to False when returned.
+
 class Book:
     def __init__(self,title:str,author:str,is_borrowd:bool=False):
         self.title=title
@@ -101,7 +92,7 @@ class Book:
             status="Avaiable"
             return f"'{self.title}' by {self.author} ({status})"
         else:
-            status ="Borrowed"
+            status ="Borrowed"  
             return f"'{self.title}' by {self.author} ({status})" 
 
 
@@ -126,12 +117,23 @@ class Library:
                return
 
         print(f"{title} is not found sorry ")
-        
+    def return_book(self,title):
+        for book in self.books:
+            if book.title == title:
+             if book.is_borrowd==True:
+                book.is_borrowd=False
+                print(f"{title} is successfully return ")
+            return
+    
 mylibaray=Library()
 print(mylibaray.books)
 mylibaray.add_book(book1)
 print(mylibaray.books[0])
 
 
-mylibaray.borrow_book("Harry potter")
+mylibaray.borrow_book("Harry pottery")
 print(book1)
+
+mylibaray.return_book("Harry pottery")
+print(book1)
+
