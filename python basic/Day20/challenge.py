@@ -7,28 +7,6 @@ Your goal is to build a Library Management System from scratch.
 To ensure we follow "one new idea at a time," you must write the code 
 incrementally, testing each version before proceeding to the next.
 
-------------------------------------------------------------
-VERSION 1: The Book Class
-------------------------------------------------------------
-Create a class `Book` with attributes: `title`, `author`, and `is_borrowed` (default: False).
-Include a `__str__` method that returns: "'Title' by Author (Available/Borrowed)".
-
-
-
-
-
-
-
-
-------------------------------------------------------------
-VERSION 2: The Library Class (Empty)
-------------------------------------------------------------
-Create a class `Library` that initializes with a list of `books` (start with an empty list).
-
-------------------------------------------------------------
-VERSION 3: Add Books
-------------------------------------------------------------
-Implement an `add_book(book)` method in the `Library` class that appends a `Book` object to the library's catalog.
 
 ------------------------------------------------------------
 VERSION 4: Borrow a Book
@@ -106,7 +84,12 @@ ____________________________________________________
 # VERSION 3: Add Books
 # ------------------------------------------------------------
 # Implement an `add_book(book)` method in the `Library` class that appends a `Book` object to the library's catalog.
-
+# ------------------------------------------------------------
+# VERSION 4: Borrow a Book
+# ------------------------------------------------------------
+# Implement a `borrow_book(title)` method in `Library` that searches for a book by title. 
+# If found and available, set `is_borrowed` to True and print a success message. 
+# If already borrowed or not found, print a corresponding warning.
 
 class Book:
     def __init__(self,title:str,author:str,is_borrowd:bool=False):
@@ -119,8 +102,10 @@ class Book:
             return f"'{self.title}' by {self.author} ({status})"
         else:
             status ="Borrowed"
-            return f"'{self.title}' by {self.author} ({status})"
-        
+            return f"'{self.title}' by {self.author} ({status})" 
+
+
+
 book1=Book("Harry pottery","harry",False)
 print(book1)
 
@@ -129,11 +114,24 @@ class Library:
         self.books=[]
     def add_book(self,books_name):
         self.books.append(books_name)
-            
+    def borrow_book(self,title):
+        self.title=title
+        for book in self.books:
+           if book.title == title:
+               if book.is_borrowd == True:
+                   print(f"sorry {title} is already borrowed  ")
+               else:
+                   book.is_borrowd = True
+                   print(f"Book is avaiable {title} borrowd  successfully ")
+               return
+
+        print(f"{title} is not found sorry ")
+        
 mylibaray=Library()
 print(mylibaray.books)
 mylibaray.add_book(book1)
-
 print(mylibaray.books[0])
 
 
+mylibaray.borrow_book("Harry potter")
+print(book1)
