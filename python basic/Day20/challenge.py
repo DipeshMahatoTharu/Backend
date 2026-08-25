@@ -6,17 +6,8 @@ DAY 20 PROJECT — INCREMENTAL LIBRARY MANAGEMENT SYSTEM
 
 
 
-------------------------------------------------------------
-VERSION 6: Manage Multiple Copies
-------------------------------------------------------------
-What happens if there are two copies of the same book? Refactor your logic 
-so that you search for books using a unique identifier (like `isbn`), rather than just matching title text.
 
-------------------------------------------------------------
-VERSION 7: Library Members
-------------------------------------------------------------
-Create a `Member` class with attributes: `name`, `member_id`, and `borrowed_books` (a list of Book objects). 
-Update `Library.borrow_book(isbn, member)` so it registers the book in the member's list.
+
 
 ------------------------------------------------------------
 VERSION 8: Validation and @property
@@ -82,58 +73,96 @@ ____________________________________________________
 # ------------------------------------------------------------
 # Implement a `return_book(title)` method in `Library` that sets `is_borrowed` to False when returned.
 
+
+    # ------------------------------------------------------------
+    # VERSION 6: Manage Multiple Copies
+    # ------------------------------------------------------------
+    # What happens if there are two copies of the same book? Refactor your logic 
+    # so that you search for books using a unique identifier (like `isbn`), rather than just matching title text.
+
+
+# ------------------------------------------------------------
+# VERSION 7: Library Members
+# ------------------------------------------------------------
+# Create a `Member` class with attributes: `name`, `member_id`, and `borrowed_books` (a list of Book objects). 
+# Update `Library.borrow_book(isbn, member)` so it registers the book in the member's list.
+
 class Book:
-    def __init__(self,title:str,author:str,is_borrowd:bool=False):
-        self.title=title
-        self.author=author
-        self.is_borrowd=is_borrowd
+    def __init__(self, title: str, author: str, isbn: str, is_borrowd: bool = False):
+        self.title = title
+        self.author = author
+        self.is_borrowd = is_borrowd
+        self.isbn = isbn
+
     def __str__(self):
         if self.is_borrowd == False:
-            status="Avaiable"
+            status = "Avaiable"
             return f"'{self.title}' by {self.author} ({status})"
         else:
-            status ="Borrowed"  
+            status = "Borrowed"  
             return f"'{self.title}' by {self.author} ({status})" 
 
 
+class Member:
+    def __init__(self, name, member_id):
+        self.name = name
+        self.member_id = member_id
+        self.borrowed_books = []
+        
+    def __str__(self):
+        return f"Member : {self.name} (id : {self.member_id}) Books borrowed : {len(self.borrowed_books)}"
 
-book1=Book("Harry pottery","harry",False)
-print(book1)
 
 class Library:
     def __init__(self):
-        self.books=[]
-    def add_book(self,books_name):
+        self.books = []
+
+    def add_book(self, books_name):
         self.books.append(books_name)
-    def borrow_book(self,title):
-        self.title=title
-        for book in self.books:
-           if book.title == title:
-               if book.is_borrowd == True:
-                   print(f"sorry {title} is already borrowed  ")
-               else:
-                   book.is_borrowd = True
-                   print(f"Book is avaiable {title} borrowd  successfully ")
-               return
-
-        print(f"{title} is not found sorry ")
-    def return_book(self,title):
-        for book in self.books:
-            if book.title == title:
-             if book.is_borrowd==True:
-                book.is_borrowd=False
-                print(f"{title} is successfully return ")
-            return
     
-mylibaray=Library()
-print(mylibaray.books)
-mylibaray.add_book(book1)
-print(mylibaray.books[0])
+    def borrow_book(self, isbn, member):
+        for book in self.books:
+            if book.isbn == isbn:
+                if book.is_borrowd == True:
+                    print(f"Book '{book.title}' (ISBN: {isbn}) is already borrowed!")
+                else:
+                    book.is_borrowd = True
+                    member.borrowed_books.append(book)
+                    print(f"Book '{book.title}' (ISBN: {isbn}) borrowed successfully by {member.name}!")
+                return
+
+        print(f"Book with ISBN {isbn} is not found, sorry.")
+        
+    def return_book(self, isbn, member):
+        for book in self.books:
+            if book.isbn == isbn:
+                if book.is_borrowd == True:
+                    book.is_borrowd = False
+                    member.borrowed_books.remove(book)
+                    print(f"Book '{book.title}' is successfully returned by {member.name}!")
+                else:
+                    print(f"Book was not currently borrowed.")
+                return
+        print(f"Book with ISBN {isbn} is not found, sorry.")
 
 
-mylibaray.borrow_book("Harry pottery")
+# 1. CREATE YOUR OBJECTS FIRST (Top of execution)
+book1 = Book("Harry pottery", "harry", "DFW1", False)
+member1 = Member("Dipesh", "M001")
+mylibaray = Library()
+
+# 2. NOW USE THEM DOWN HERE
+mylibaray.add_book(book1) 
+print("Library inventory count:", len(mylibaray.books))
+print("First book in library:", mylibaray.books[0])
+
+print("\n--- Testing Borrow ---")
+mylibaray.borrow_book("DFW1", member1)
 print(book1)
+print(member1)
 
-mylibaray.return_book("Harry pottery")
+print("\n--- Testing Return ---")
+mylibaray.return_book("DFW1", member1)
 print(book1)
+print(member1)
 

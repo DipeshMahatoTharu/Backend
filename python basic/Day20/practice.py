@@ -12,17 +12,18 @@
 # 3. Confirm that every time you create a new Car, the count increases.
 
 class Car:
-    # TODO: Define class variable here
+    instance_count=0
+
     
     def __init__(self, brand):
         self.brand = brand
-        # TODO: Increment the class variable here
-        pass
+        Car.instance_count +=1
+        
 
 # Test your implementation:
-# c1 = Car("Tesla")
-# c2 = Car("BMW")
-# print(Car.instance_count) # Should print 2
+c1 = Car("Tesla")
+c2 = Car("BMW")
+print(Car.instance_count) # Should print 2
 
 
 # =====================================================================
@@ -39,13 +40,22 @@ class Car:
 class Product:
     def __init__(self, name, price):
         self.name = name
-        # TODO: Initialize protected _price
-        pass
-
-    # TODO: Implement getter property 'price'
+        self._price=price
+    @property
+    def price(self):
+        return self._price
+    @price.setter
+    def price(self,new_price):
+        if 0 < new_price:
+            self._price=new_price
+        else:
+           raise ValueError("price must be positive")
+        
     
     # TODO: Implement setter property 'price' with validation
-
+product =Product("rice",211)
+product.price=50
+print(product.price)
 
 # =====================================================================
 # TASK 3: Inheritance & super()
