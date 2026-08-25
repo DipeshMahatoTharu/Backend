@@ -78,11 +78,17 @@ class Vehicle:
         return f"Vehicle: {self.brand}, Price: {self.price}"
 
 class ElectricCar(Vehicle):
-    # TODO: Implement __init__ using super()
-    
-    # TODO: Override get_info() calling super().get_info()
-    pass
+    def __init__(self,brand,price,battery_capacity):
+        super().__init__(brand,price)
+        self.battery_capacity=battery_capacity
+        
 
+    def getinfo(self):
+        parent_info= super().get_info()
+        return f"{parent_info}, Battery Capacity: {self.battery_capacity}kWh"
+    
+car1=ElectricCar("toyota",2000,90)
+print(car1.getinfo())
 
 # =====================================================================
 # TASK 4: Composition (HAS-A Relationship)
@@ -102,9 +108,9 @@ class CPU:
 
 class Computer:
     def __init__(self, brand, cpu_object):
-        # TODO: Initialize brand and CPU object
-        pass
+        self.brand=brand
+        self.cpu_object=cpu_object
 
     def display_specs(self):
-        # TODO: Return specifications string accessing CPU attributes
+        super().__init__(self.model,self.cores)
         return ""
