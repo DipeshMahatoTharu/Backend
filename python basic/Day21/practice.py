@@ -17,11 +17,14 @@ users = [
 ]
 
 def get_active_users(user_list):
-    # TODO: Implement this filter
-    return []
+    active_username=[]
+    for user in user_list:
+        if user["is_active"] == True:
+            active_username.append(user["username"])
+    return [active_username]
 
 # Test:
-# print(get_active_users(users)) # Should print ['dipesh', 'ram']
+print(get_active_users(users)) # Should print ['dipesh', 'ram']
 
 
 # =====================================================================
