@@ -45,10 +45,14 @@ products = [
 
 def sort_products_by_price(product_list):
     # TODO: Implement sorting descending
-    return []
+    sorted=[]
+    for sort in product_list:
+        reverese =True
+        sort["name"] =reverese
+    return [sorted]
 
 # Test:
-# print(sort_products_by_price(products))
+print(sort_products_by_price(products))
 
 
 # =====================================================================
@@ -62,9 +66,9 @@ def sort_products_by_price(product_list):
 
 players = ["Dipesh", "Anjali", "Ramesh", "Sita"]
 
-def get_leaderboard(names_list):
-    # TODO: Implement using enumerate() starting at index 1
-    return []
+# def get_leaderboard(names_list):
+#     # TODO: Implement using enumerate() starting at index 1
+#     return []
 
 # Test:
 # print(get_leaderboard(players))
