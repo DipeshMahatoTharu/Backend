@@ -33,23 +33,23 @@
 
 #in my view college name should be shared and other should be in object so it can change for all other student but schoool name never change 
 
-# class Student:
-#     collegename="Herald College Kathmandu"
-#     def __init__(self,name,age,student_ID,marks):
-#         self.name=name
-#         self.age=age
-#         self.student_ID=student_ID
-#         self.marks=marks
+class Student:
+    collegename="Herald College Kathmandu"
+    def __init__(self,name,age,student_ID,marks):
+        self.name=name
+        self.age=age
+        self.student_ID=student_ID
+        self.marks=marks
 
-#     def display(self):
-#         print(Student.collegename)
-#         print(self.name)
-#         print(self.age)
-#         print(self.student_ID)
-#         print(self.marks)
+    def display(self):
+        print(Student.collegename)
+        print(self.name)
+        print(self.age)
+        print(self.student_ID)
+        print(self.marks)
     
-#     def update(self,new_marks):
-#         self.marks=new_marks
+    def update(self,new_marks):
+        self.marks=new_marks
 
 # stu1=Student("Dipesh",23,2508059,98)
 # stu2=Student("sty",24,208059,88)
