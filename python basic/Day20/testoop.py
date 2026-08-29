@@ -51,9 +51,9 @@ class Student:
     def update(self,new_marks):
         self.marks=new_marks
 
-# stu1=Student("Dipesh",23,2508059,98)
-# stu2=Student("sty",24,208059,88)
-# stu3=Student("ssad",54,278059,85)
+stu1=Student("Dipesh",23,2508059,98)
+stu2=Student("sty",24,208059,88)
+stu3=Student("ssad",54,278059,85)
 
 # stu3.display()
 # stu3.update(90)        
