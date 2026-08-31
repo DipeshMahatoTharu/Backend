@@ -28,17 +28,7 @@ The blank-page difficulty scales up as you progress:
 
 ## 📅 Roadmap Overview
 
-```mermaid
-graph TD
-    A["Day 20: OOP Master Checkpoint (20% Blank-Page)"] --> B["Day 21-26: Python + Git (20% Blank-Page)"]
-    B --> C["Day 27-32: SQL + PostgreSQL (20%-30% Blank-Page)"]
-    C --> D["Day 33-35: HTTP + REST (30% Blank-Page)"]
-    D --> E["Day 36-45: Django Web Framework (30%-40% Blank-Page)"]
-    E --> F["Day 46-50: Django REST Framework (DRF) (40% Blank-Page)"]
-    F --> G["Day 51-55: Testing + Debugging + Architecture (50%+ Blank-Page)"]
-    G --> H["Day 56-58: Deployment + Docker (50%+ Blank-Page)"]
-    H --> I["Day 59: Interview Bootcamp (Mostly Blank-Page)"]
-    I --> J["Day 60: Final Capstone Project (100% Blank-Page)"]
+
 ```
 
 ---
