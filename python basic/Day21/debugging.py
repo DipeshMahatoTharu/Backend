@@ -20,7 +20,7 @@ def clean_banned_users(users):
     return users
 
 # Run print:
-# print(clean_banned_users(users_list))
+print(clean_banned_users(users_list))
 
 # ---------------------------------------------------------------------
 # QUESTION: Why did user3 get skipped during iteration?

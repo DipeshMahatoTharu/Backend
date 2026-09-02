@@ -68,12 +68,17 @@ print(sort_products_by_price(products))
 
 players = ["Dipesh", "Anjali", "Ramesh", "Sita"]
 
-# def get_leaderboard(names_list):
-#     # TODO: Implement using enumerate() starting at index 1
-#     return []
+playersnum=[]
+def get_leaderboard(names_list):
+    # TODO: Implement using enumerate() starting at index 1
+    for rank,name in enumerate(names_list,start=1):
+        formated_string=f"{rank},{name}"
+        playersnum.append(formated_string)
+        
+    return playersnum
 
 # Test:
-# print(get_leaderboard(players))
+print(get_leaderboard(players))
 
 
 # =====================================================================
@@ -85,12 +90,13 @@ players = ["Dipesh", "Anjali", "Ramesh", "Sita"]
 # 1. Complete the `combine_to_inventory` function.
 # 2. Return a dictionary mapping keys to quantities using `zip()`.
 
-keys = ["P101", "P102", "P103"]
+keys = ["P101", "P102", "P103","P1002"]
 quantities = [50, 12, 90]
 
+
 def combine_to_inventory(item_ids, stock_counts):
-    # TODO: Implement using zip()
-    return {}
+    
+    return dict(zip(item_ids,stock_counts))
 
 # Test:
-# print(combine_to_inventory(keys, quantities)) # Should print {'P101': 50, 'P102': 12, 'P103': 90}
+print(combine_to_inventory(keys, quantities)) 
