@@ -45,11 +45,13 @@ products = [
 
 def sort_products_by_price(product_list):
     # TODO: Implement sorting descending
-    sorted=[]
-    for sort in product_list:
-        reverese =True
-        sort["name"] =reverese
-    return [sorted]
+    # sorted=[]
+    # for sort in product_list:
+    #     reverese =True
+    #     sort["name"] =reverese
+    return sorted(product_list , key=lambda x: x["name"],reverse=True) #one liner
+        
+    
 
 # Test:
 print(sort_products_by_price(products))
