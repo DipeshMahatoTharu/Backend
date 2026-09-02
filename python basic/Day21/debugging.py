@@ -14,7 +14,7 @@ users_list = [
 ]
 
 def clean_banned_users(users):
-    for u in users:
+    for u in users[:]:
         if u["status"] == "banned":
             users.remove(u)
     return users
@@ -26,7 +26,7 @@ print(clean_banned_users(users_list))
 # QUESTION: Why did user3 get skipped during iteration?
 #
 # MY ANSWER:
-# _____________________________________________________________________
+# When an item is removed from a list during a for loop, the remaining items immediately shift to the left to fill the gap. When user2 (Index 1) was deleted, user3 shifted left into Index 1. However, the loop's internal counter automatically moved forward to check Index 2. Because user3 shifted into a position the loop had already checked, it was skipped entirely.
 #
 # CORRECTED CODE:
 # TODO: Rewrite the function to fix the mutation bug safely.
@@ -44,10 +44,12 @@ configs = {
     "host": "localhost",
     "port": 8000
 }
-
+default_val=[]
 def get_config_value(config_dict, key):
     # This crashes if key is not found (e.g. key="ssl")
-    return config_dict[key]
+    return config_dict.get(key, "default_val")
+print(get_config_value(configs, "host"))   
+print(get_config_value(configs, "ss1"))   
 
 # ---------------------------------------------------------------------
 # QUESTION: How do you safely lookup keys that might be missing in a dict?
