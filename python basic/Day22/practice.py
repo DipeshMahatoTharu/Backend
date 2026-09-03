@@ -12,11 +12,14 @@
 
 def calculate_sum(*args):
     # TODO: Implement this using args tuple loop
-    return 0.0
-
+    total =0.0 
+    for num in args:
+        total =total + num
+    return total
+    
 # Test:
-# print(calculate_sum(1, 2, 3, 4)) # Should print 10.0
-# print(calculate_sum()) # Should print 0.0
+print(calculate_sum(1, 2, 3, 4)) # Should print 10.0
+print(calculate_sum()) # Should print 0.0
 
 
 # =====================================================================
@@ -32,18 +35,21 @@ def calculate_sum(*args):
 # 4. Return the inner `increment` function object.
 
 def make_counter():
-    # TODO: Initialize count variable here
+   
+    count=0
     
     def increment():
         # TODO: Declare nonlocal count and update it
-        return 0
+        nonlocal count
+        count +=1
+        return count
         
     return increment
 
 # Test:
-# counter = make_counter()
-# print(counter()) # Should print 1
-# print(counter()) # Should print 2
+counter = make_counter()
+print(counter()) # Should print 1
+print(counter()) # Should print 2
 
 
 # =====================================================================
@@ -62,9 +68,8 @@ def tax_strategy(price):
     return price * 1.13 # 13% tax
 
 def apply_pricing_strategy(price, strategy_func):
-    # TODO: Apply strategy_func to price
-    return 0.0
+    return strategy_func(price)
 
 # Test:
-# print(apply_pricing_strategy(100.0, discount_strategy)) # Should print 90.0
-# print(apply_pricing_strategy(100.0, tax_strategy)) # Should print 113.0
+print(apply_pricing_strategy(100.0, discount_strategy)) # Should print 90.0
+print(apply_pricing_strategy(100.0, tax_strategy)) # Should print 113.0
