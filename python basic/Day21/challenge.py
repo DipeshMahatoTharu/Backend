@@ -61,47 +61,47 @@ class Student:
         self.students={}
 
     def add_student(self,student_id ,name ,marks):
-        
             if student_id  in self.students:
                 print("student already exit")
                 return
-        
-            new_student={"id":student_id ,"name":name ,"marks":marks}
-        
-            self.students.append(new_student)
+
+            self.students[student_id]={"name":name ,"marks":marks}
             print(f"{name} is added")
+            
 # Searches the list. Returns the student dictionary or None.
     def find_student(self,student_id):
-            if find["id"] == student_id:
+            if student_id in self.students:
+                return self.students[student_id]
+            return None
+    
                 
 # update_marks(student_id, new_marks)`: Searches, updates, returns True. Returns False if not found.           
     def update_marks(self,student_id,new_marks):
-        for update in self.students:
-            if update["id"]==student_id:
-               update["marks"]= new_marks
-               return True
+        if student_id in self.students:
+            self.students[student_id]["marks"]= new_marks
+            return True
         return False
 # - `delete_student(student_id)`: Removes the student from the list.
     def delete_student(self,student_id):
-        for delete in self.students:
-            if delete["id"]==student_id:
-                self.students.remove(delete)
-                return True
-        return None
+         if student_id in self.students:
+            del self.students[student_id]
+            return True
+         return None
 # - `get_average_marks()`: Calculates the average marks of all students.
     def get_average_marks(self):
-        total_marks=0
         if len(self.students)==0:
             return 0
-        for marks in self.students:
-           total_marks += marks["marks"]
-           
+        total_marks = 0
+        
+        for student in self.students.values():
+            total_marks += student["marks"]
         return total_marks/len(self.students)
+
 # - `get_top_student()`: Returns the student record with the highest marks.       
     def get_top_student(self):
         hightestmark=0
         top_student=None
-        for student in self.students:
+        for student in self.students.values():
             if student["marks"] > hightestmark:
                  hightestmark = student["marks"]
                  top_student=student
@@ -114,9 +114,9 @@ class Student:
                 
 stduent1=Student()
 stduent1.add_student("31131331","dipesh",90)
-print(stduent1.find_student("12"))
+print(stduent1.find_student("31131331"))
 print(stduent1.update_marks("31131331",50))
-# print(stduent1.delete_student("31131331"))
+print(stduent1.delete_student("31131331"))
 print(stduent1.get_average_marks())
 print(stduent1.get_top_student())  
             
