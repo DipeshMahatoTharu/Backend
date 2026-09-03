@@ -7,10 +7,12 @@
 # a fresh list of tags if no list is passed.
 # Explain why the code below shares tags across calls, and fix it.
 
-def add_tag(tag, tag_list=[]):
+def add_tag(tag, tag_list=None):
+    if tag_list is None:
+        tag_list=[]
     tag_list.append(tag)
     return tag_list
-
+    
 # Running code:
 first = add_tag("Django")
 second = add_tag("REST")
@@ -39,6 +41,7 @@ connection_status = "DISCONNECTED"
 
 def connect_to_database():
     # Attempting to change status
+    global connection_status
     connection_status = "CONNECTED"
     print("Inside function status:", connection_status)
 
