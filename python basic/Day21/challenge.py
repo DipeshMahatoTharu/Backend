@@ -58,24 +58,22 @@ ____________________________________________________
 
 class Student:
     def __init__(self):
-        self.students=[]
+        self.students={}
 
     def add_student(self,student_id ,name ,marks):
-        for record in self.students:
-            if record["id"] ==student_id:
+        
+            if student_id  in self.students:
                 print("student already exit")
                 return
         
-        new_student={"id":student_id ,"name":name ,"marks":marks}
+            new_student={"id":student_id ,"name":name ,"marks":marks}
         
-        self.students.append(new_student)
-        print(f"{name} is added")
+            self.students.append(new_student)
+            print(f"{name} is added")
 # Searches the list. Returns the student dictionary or None.
     def find_student(self,student_id):
-        for find in self.students:
             if find["id"] == student_id:
-                return find
-            return None
+                
 # update_marks(student_id, new_marks)`: Searches, updates, returns True. Returns False if not found.           
     def update_marks(self,student_id,new_marks):
         for update in self.students:
