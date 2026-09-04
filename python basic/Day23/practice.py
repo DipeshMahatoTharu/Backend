@@ -14,13 +14,22 @@
 #    If ZeroDivisionError, return "Cannot divide by zero".
 
 def parse_and_divide(str_a, str_b):
-    # TODO: Implement try-except blocks
+    try:
+        converta=float(str_a)
+        convertb=float(str_b)
+        return converta/convertb
+
+    except ValueError:
+        return "Invaild Error "
+    
+    except ZeroDivisionError:
+        return "cannot be divided by 0"
     return None
 
 # Test:
-# print(parse_and_divide("10", "2")) # Should print 5.0
-# print(parse_and_divide("abc", "2")) # Should print "Invalid Number"
-# print(parse_and_divide("10", "0")) # Should print "Cannot divide by zero"
+print(parse_and_divide("10", "2")) # Should print 5.0
+print(parse_and_divide("abc", "2")) # Should print "Invalid Number"
+print(parse_and_divide("10", "0")) # Should print "Cannot divide by zero"
 
 
 # =====================================================================
@@ -35,8 +44,19 @@ def parse_and_divide(str_a, str_b):
 # 3. If age is valid, print "Age verified".
 
 def verify_age(age):
-    # TODO: Implement validation and raise error
-    pass
+    try:
+        if age < 0 or age > 120:
+            return "Age is Valid"
+
+
+    except ValueError:
+        return "Age must be between 0 and 120 "
+
+print(verify_age(133))
+
+
+    
+         
 
 
 # =====================================================================
@@ -50,13 +70,19 @@ def verify_age(age):
 #    raise your `NegativeBalanceError` with message "Insufficient balance!".
 
 # TODO: Define NegativeBalanceError here
-
+class NegativeBalanceError(Exception):
+        pass
 def withdraw_funds(balance, amount):
     # TODO: Check condition and raise custom error
-    return balance - amount
+        if  balance - amount < 0:
+            raise NegativeBalanceError("number must be greater then 0")
+
+        return balance - amount
+         
+
 
 # Test:
-# try:
-#     withdraw_funds(100, 150)
-# except NegativeBalanceError as e:
-#     print("Caught error:", e) # Should print "Caught error: Insufficient balance!"
+try:
+    withdraw_funds(100, 150)
+except NegativeBalanceError as e:
+    print("Caught error:", e) # Should print "Caught error: Insufficient balance!"
