@@ -43,25 +43,35 @@ Requirements:
 - Use a try-except block to catch these exceptions, print the specific error, and return False.
 - If all validations pass, add `username: email` to the database and return True.
 
-============================================================
-MY APPROACH:
-============================================================
-Describe your design details here:
 
-____________________________________________________
-____________________________________________________
-
-============================================================
-MY CODE:
-============================================================
-Write your classes, custom exceptions, and functions below:
-
-____________________________________________________
-____________________________________________________
-____________________________________________________
-____________________________________________________
-____________________________________________________
-____________________________________________________
-____________________________________________________
-____________________________________________________
 """
+
+# 1. Define custom exceptions:
+#    - `InvalidAmountError` (if amount <= 0 or not a number)
+#    - `InsufficientFundsError` (if withdraw amount > balance)
+#    - `InvalidAccountError` (if account dict is missing required keys)
+
+account = {"holder": "Dipesh", "balance": 1000.0}
+class InvalidAmountError(Exception):
+   pass
+class InsufficientFundsError(Exception):
+   pass
+class InvalidAccountError(Exception):
+   pass
+def deposit(acc, amount):
+   try:
+      amount=float(amount)
+   except:
+      raise InsufficientFundsError("please enter number only :")
+
+   if amount <0:
+      raise InsufficientFundsError("Fund must be greater then 0 ")
+   
+   acc["Balance"]=amount
+   return acc["balance"]
+   
+   
+# 2. Implement functions:
+#    - `validate_account(acc)`: Raises InvalidAccountError if keys "holder" or "balance" are missing.
+#    - `deposit(acc, amount)`: Increases balance. Raises InvalidAmountError if input is invalid.
+#    - `withdraw(acc, amount)`: Decreases balance. Raises InsufficientFundsError or InvalidAmountError on validation failure.

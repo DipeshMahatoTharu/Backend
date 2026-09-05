@@ -54,11 +54,6 @@ def verify_age(age):
 
 print(verify_age(133))
 
-
-    
-         
-
-
 # =====================================================================
 # TASK 3: Defining and Using Custom Exceptions
 # =====================================================================
@@ -78,8 +73,6 @@ def withdraw_funds(balance, amount):
             raise NegativeBalanceError("number must be greater then 0")
 
         return balance - amount
-         
-
 
 # Test:
 try:
