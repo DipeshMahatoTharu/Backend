@@ -1,2 +1,0 @@
--- Day 27 SQL Practice — SQL Fundamentals
--- Write your statements below:
