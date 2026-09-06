@@ -23,15 +23,28 @@ from datetime import datetime
 def write_log_entries(file_path: Path, entries: list[str]) -> None:
     # Ensure file_path is a Path object
     path = Path(file_path)
-    # TODO: Create parent directory if missing
+    path.parent.mkdir(parents=True,exist_ok=True)
+
     # TODO: Open and write entries line by line using UTF-8
+    with open(path,"w",encoding="utf-8") as file:
+        for entry in entries:
+            file.write(entry + "\n")
+    
     pass
 
-
+#  - Open the file using a context manager and return a list of lines that contain "[ERROR]" (stripped of trailing whitespace).
 def read_error_logs(file_path: Path) -> list[str]:
+   
     path = Path(file_path)
-    # TODO: Check if path exists. If not, return []
-    # TODO: Read lines and filter only those containing "[ERROR]"
+    if  not path.exists():
+        return []
+    error_list=[]
+    with open(path,"r",encoding="utf-8") as file:
+        for line in file:
+            if "[ERROR]" in line:
+                error_list.append(line.strip())
+    return error_list
+            
     pass
 
 
@@ -51,6 +64,10 @@ def read_error_logs(file_path: Path) -> list[str]:
 def save_config(file_path: Path, config_data: dict) -> None:
     path = Path(file_path)
     # TODO: Create parent dir and write json with indent=4
+    path.parent.mkdir(parents=True,exist_ok=True)
+    with open(path,"w",encoding="utf-8")as file:
+        json.dump(config_data,file,indent=4)
+
     pass
 
 
