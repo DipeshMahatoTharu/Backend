@@ -74,8 +74,17 @@ def save_config(file_path: Path, config_data: dict) -> None:
 def load_config(file_path: Path, default_config: dict) -> dict:
     path = Path(file_path)
     # TODO: Handle missing file -> return default_config
-    # TODO: Handle json.JSONDecodeError -> raise ValueError
-    # TODO: Return parsed json
+    if not path.exists():
+        return default_config
+    try:
+        with open(path,"r",encoding="utf-8")as file:
+            return json.load(file)
+    except json.JSONDecodeError:
+        raise ValueError("Invalid JSON configuration")
+
+
+    
+
     pass
 
 
