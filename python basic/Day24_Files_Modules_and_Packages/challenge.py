@@ -56,8 +56,28 @@ class AccessLogAnalyzer:
         Parses log entries into structured dictionaries.
         Handle FileNotFoundError by returning an empty list.
         """
-        # TODO: Implement line-by-line parsing
-        pass
+        log=[]
+        try:
+          with open(self.log_file,"r",encoding="utf-8")as file:
+            for reader in file:
+              parts=reader.split()
+              if not parts:
+                continue
+            #`ip`, `timestamp`, `method`, `path`, `status_code` (int), and `response_time_ms` (int).
+            #192.168.1.15 - [2026-09-06T10:00:00] "GET /api/v1/products HTTP/1.1" 200 45
+              entry={
+                "ip":parts[0],
+                "timestamp":parts[2].strip("[]"),
+                "method":parts[3].strip('""'),
+                "path":parts[4],
+                "status_code":int(parts[5]),
+                "response_time_ms":int(parts[6])
+                 }
+              log.append(entry)        
+        except FileNotFoundError:
+            return []
+        return log  
+
 
     def generate_metrics(self) -> dict:
         """
