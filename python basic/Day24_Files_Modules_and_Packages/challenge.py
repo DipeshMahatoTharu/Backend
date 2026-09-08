@@ -91,6 +91,7 @@ class AccessLogAnalyzer:
         sum_responsetime=0
         error=0
         status_counts={}
+        status_counts={"2xx":0,"3xx":0,"4xx":0,"5xx":0}
         for record in store:
           print(record["status_code"])
           if 200 <= record["status_code"]<300:
@@ -99,17 +100,20 @@ class AccessLogAnalyzer:
             status_counts["3xx"] +=1
           elif 400 <=record["status_code"] <500:
             status_counts["4xx"] +=1
-            
+          elif 500 <=record["status_code"] <600:
+            status_counts["5xx"] +=1
           sum_responsetime= sum_responsetime + record["response_time_ms"]  
           if record["status_code"] >=400:
             error +=1
-        
+        return status_counts
+      
         average=sum_responsetime/len(store)
         print("Average :",average)
         error_rate=error/len(store)*100
         print("Error rate :",error_rate)
         # TODO: Implement metrics computation
         pass
+      
 
     def export_summary_json(self, output_file: Path) -> None:
         """
