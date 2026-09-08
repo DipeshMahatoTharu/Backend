@@ -55,6 +55,7 @@ class AccessLogAnalyzer:
         """
         Parses log entries into structured dictionaries.
         Handle FileNotFoundError by returning an empty list.
+        
         """
         log=[]
         try:
@@ -70,8 +71,8 @@ class AccessLogAnalyzer:
                 "timestamp":parts[2].strip("[]"),
                 "method":parts[3].strip('""'),
                 "path":parts[4],
-                "status_code":int(parts[5]),
-                "response_time_ms":int(parts[6])
+                "status_code":int(parts[6]),
+                "response_time_ms":int(parts[7])
                  }
               log.append(entry)        
         except FileNotFoundError:
@@ -83,7 +84,30 @@ class AccessLogAnalyzer:
         """
         Calculates aggregate statistics: total requests, status code distribution,
         error rates, and average response times.
+        
         """
+        store=self.parse_logs()
+        print(f"total request {len(store)}")
+        sum_responsetime=0
+        error=0
+        status_counts={}
+        for record in store:
+          print(record["status_code"])
+          if 200 <= record["status_code"]<300:
+            status_counts["2xx"] +=1
+          elif 300<=record["status_code"] <400:
+            status_counts["3xx"] +=1
+          elif 400 <=record["status_code"] <500:
+            status_counts["4xx"] +=1
+            
+          sum_responsetime= sum_responsetime + record["response_time_ms"]  
+          if record["status_code"] >=400:
+            error +=1
+        
+        average=sum_responsetime/len(store)
+        print("Average :",average)
+        error_rate=error/len(store)*100
+        print("Error rate :",error_rate)
         # TODO: Implement metrics computation
         pass
 
