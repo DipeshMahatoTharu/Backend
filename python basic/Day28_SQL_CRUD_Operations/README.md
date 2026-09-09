@@ -1,51 +1,88 @@
-# Day 28 — SQL CRUD
+# Day 28 — SQL CRUD Operations, Filtering & Safe State Transitions
 
 ## 🎯 Learning Objectives
-- Select specific columns, filter with WHERE, and sort with ORDER BY.
-- Update and delete table rows.
+- Master Data Manipulation Language (DML) commands: `INSERT`, `SELECT`, `UPDATE`, and `DELETE`.
+- Write high-performance filtering queries using `WHERE`, logical operators (`AND`, `OR`, `NOT`), range checks (`BETWEEN`), sets (`IN`), and pattern matching (`LIKE`, `ILIKE`).
+- Implement safe updates and understand why naked `UPDATE` or `DELETE` queries without `WHERE` cause company outages.
+- Architect **Soft Delete** patterns (`is_deleted`, `deleted_at`) to preserve audit trails and prevent catastrophic data loss.
+- Master result set sorting (`ORDER BY`) and pagination (`LIMIT`, `OFFSET`).
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. The CRUD Query Lifecycle
+- **Create (`INSERT`)**:
+  ```sql
+  -- Single row insert
+  INSERT INTO products (name, price, stock) VALUES ('Mechanical Keyboard', 89.99, 15);
+
+  -- High-performance batch insert (single round-trip to database)
+  INSERT INTO products (name, price, stock) VALUES 
+      ('Mouse Pad', 15.00, 50),
+      ('USB-C Hub', 35.50, 30);
+  ```
+- **Read (`SELECT`)**:
+  ```sql
+  SELECT id, name, price FROM products 
+  WHERE price BETWEEN 20.00 AND 100.00 
+    AND stock > 0 
+    AND is_deleted = FALSE
+  ORDER BY price DESC, name ASC 
+  LIMIT 10 OFFSET 0;
+  ```
+- **Update (`UPDATE`)**:
+  ```sql
+  -- ALWAYS specify a WHERE clause!
+  UPDATE products 
+  SET price = price * 0.90, updated_at = CURRENT_TIMESTAMP 
+  WHERE category_id = 5 AND is_available = TRUE;
+  ```
+- **Delete (`DELETE`) vs Soft Delete**:
+  ```sql
+  -- DANGEROUS: Permanent loss of record and FK cascade risks
+  DELETE FROM users WHERE id = 42;
+
+  -- PRODUCTION BEST PRACTICE: Soft Delete
+  UPDATE users 
+  SET is_deleted = TRUE, deleted_at = CURRENT_TIMESTAMP 
+  WHERE id = 42;
+  ```
+
+### 2. The Three-Valued Logic of SQL (NULL Handling)
+In SQL, `NULL` does not mean "zero" or "empty string"—it means **UNKNOWN**.
+Because of this, `NULL = NULL` evaluates to `UNKNOWN` (falsy), **NOT TRUE**!
+- Never use `WHERE column = NULL` or `WHERE column != NULL`.
+- Always use `WHERE column IS NULL` or `WHERE column IS NOT NULL`.
+
+### 3. Pagination: `LIMIT` & `OFFSET`
+REST APIs return paginated responses to protect backend memory:
+$$\text{OFFSET} = (\text{page} - 1) \times \text{page\_size}$$
+For example, for page 3 with 20 items per page: `LIMIT 20 OFFSET 40`.
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day28/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day28/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day28/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day28/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day28/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day28/challenge.py)**.
+
+- **HOUR 1 — LEARN + CONCEPT DRILLS (60 min)**:
+  - 40 min: Review CRUD syntax, pattern matching, NULL logic, and pagination.
+  - 20 min: Complete conceptual analysis in **[`questions.md`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/questions.md)**.
+
+- **HOUR 2 — SQL PRACTICE & DEBUGGING (60 min)**:
+  - 35 min: Write the CRUD queries in **[`practice.sql`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/practice.sql)**.
+  - 25 min: Diagnose real-world SQL injection and update bugs in **[`debugging.py`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/debugging.py)**.
+
+- **HOUR 3 — INTERVIEW & PORTFOLIO CHALLENGE (60 min)**:
+  - 20 min: Study offset vs cursor pagination in **[`interview.md`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/interview.md)**.
+  - 20 min: Write the multi-criteria search query on **[`whiteboard.sql`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/whiteboard.sql)**.
+  - 20 min: Build the E-Commerce Product Search & Pagination Engine in **[`challenge.py`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/challenge.py)**.
 
 ---
 
 ## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- [ ] Read concepts and answered **[`questions.md`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/questions.md)**
+- [ ] Completed all CRUD tasks in **[`practice.sql`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/practice.sql)**
+- [ ] Fixed all bugs in **[`debugging.py`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/debugging.py)**
+- [ ] Solved whiteboard challenge in **[`whiteboard.sql`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/whiteboard.sql)**
+- [ ] Built and verified search engine in **[`challenge.py`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/challenge.py)**
+- [ ] Studied backend interview answers in **[`interview.md`](file:///d:/Backend/python%20basic/Day28_SQL_CRUD_Operations/interview.md)**

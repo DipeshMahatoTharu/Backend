@@ -3,53 +3,51 @@
 DAY 29 — WHITEBOARD / BLANK-PAGE CODING CHALLENGE
 ============================================================
 
-Topic: Department Salary Aggregations
+TOPIC: Department Payroll Analytics & Threshold Reporting
+
+In backend data engineering and system design interviews, you will
+often be asked to write complex aggregation queries on a whiteboard
+to summarize metrics across organizational hierarchies.
 
 ------------------------------------------------------------
 1. PROBLEM STATEMENT:
 ------------------------------------------------------------
-Write a SQL query to find the department_id and the average salary of employees in each department from a table `employees`. Only include departments where the average salary is greater than 50,000.
+Given a company payroll table `employees` with columns:
+  (id, name, department, role, salary, hire_date, is_active)
+
+Write an optimal SQL query that:
+1. Filters only active employees (`is_active = TRUE`).
+2. Groups the dataset by `department`.
+3. Computes:
+   - `department`: Name of the department
+   - `headcount`: Number of active employees
+   - `avg_salary`: Average salary rounded to 2 decimal places
+   - `max_salary`: Highest salary in that department
+   - `total_payroll`: Total sum of all salaries in that department
+4. Filters the aggregated groups (HAVING) to ONLY include departments that:
+   - Have at least 3 active employees (`headcount >= 3`)
+   - Have an average salary greater than $65,000.00 (`avg_salary > 65000.00`)
+5. Sorts the output by `total_payroll DESC`.
 
 ------------------------------------------------------------
-2. REQUIREMENTS:
+2. CONSTRAINTS & EXECUTION ORDER:
 ------------------------------------------------------------
-- Group by department.
-- Apply average salary aggregation.
-- Filter group results using HAVING.
-
-------------------------------------------------------------
-3. EXAMPLE INPUT/OUTPUT:
-------------------------------------------------------------
-Columns: employee_id, salary, department_id.
-
-------------------------------------------------------------
-4. CONSTRAINTS:
-------------------------------------------------------------
-Do not filter aggregated values using WHERE.
-
-------------------------------------------------------------
-5. TEST CASES:
-------------------------------------------------------------
-1. Group by inclusion.
-2. HAVING vs WHERE placement.
-
-============================================================
-MY APPROACH:
-============================================================
-Write your plan and complexity explanation here:
-
-____________________________________________________
-____________________________________________________
-____________________________________________________
+- Pure SQL (compatible with PostgreSQL and SQLite).
+- Remember the SQL clause execution order:
+  FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY
 
 ============================================================
-MY CODE:
+MY APPROACH & QUERY BREAKDOWN:
 ============================================================
-Write your complete raw code/statements below (No autocomplete help!):
+Explain which filter belongs in WHERE vs HAVING:
+- WHERE filters: ___________________________________________
+- HAVING filters: __________________________________________
+- Performance considerations (Indexes): ____________________
 
-____________________________________________________
-____________________________________________________
-____________________________________________________
-____________________________________________________
-____________________________________________________
+============================================================
+MY RAW SQL QUERY (Write on blank paper first!):
+============================================================
+
+-- TODO: Write your pure SQL aggregation query below:
+
 */

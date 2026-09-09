@@ -3,52 +3,49 @@
 DAY 28 — WHITEBOARD / BLANK-PAGE CODING CHALLENGE
 ============================================================
 
-Topic: Product CRUD Filtering
+TOPIC: Multi-Criteria Product Search, Filter & Pagination Query
+
+In backend interviews, interviewers frequently ask you to write a clean,
+production-ready SQL query on a whiteboard given a complex set of
+business filter requirements from a frontend team.
 
 ------------------------------------------------------------
 1. PROBLEM STATEMENT:
 ------------------------------------------------------------
-Write a SQL query to select all products from a table `inventory` where the price is greater than 100 and stock is less than 5, sorted by price in descending order, limiting output to 10 rows.
+Given a table `products` with columns:
+  (id, name, category, price, stock, is_featured, is_deleted, created_at)
+
+Write an optimal SQL SELECT query for an API endpoint that:
+1. Retrieves products where category is either 'Electronics' OR 'Accessories'.
+2. Price is between $20.00 and $250.00 (inclusive).
+3. Product is currently in stock (`stock > 0`).
+4. Ignores soft-deleted records (`is_deleted = FALSE`).
+5. Orders results such that:
+   - Featured products appear first (`is_featured DESC`)
+   - Then ordered by price lowest to highest (`price ASC`)
+   - Ties broken alphabetically by name (`name ASC`)
+6. Returns Page 4 of results assuming 15 items per page.
 
 ------------------------------------------------------------
-2. REQUIREMENTS:
+2. CONSTRAINTS:
 ------------------------------------------------------------
-- Filter using price and stock constraints.
-- Sort and limit rows.
-
-------------------------------------------------------------
-3. EXAMPLE INPUT/OUTPUT:
-------------------------------------------------------------
-Columns: product_id, name, price, stock.
-
-------------------------------------------------------------
-4. CONSTRAINTS:
-------------------------------------------------------------
-Ensure conditions are combined correctly with logical operators.
-
-------------------------------------------------------------
-5. TEST CASES:
-------------------------------------------------------------
-1. Correct operator priority.
-2. DESC order.
+- Must write pure SQL (no ORM abstraction).
+- Must calculate the exact OFFSET mathematically for Page 4 with limit 15.
 
 ============================================================
-MY APPROACH:
+MY CALCULATION FOR OFFSET & APPROACH:
 ============================================================
-Write your plan and complexity explanation here:
+Page formula: OFFSET = (page - 1) * page_size
+Calculation: _______________________________________________
 
-____________________________________________________
-____________________________________________________
-____________________________________________________
+Indexes needed for optimal query execution:
+____________________________________________________________
+____________________________________________________________
 
 ============================================================
-MY CODE:
+MY RAW SQL QUERY (Write on blank paper first!):
 ============================================================
-Write your complete raw code/statements below (No autocomplete help!):
 
-____________________________________________________
-____________________________________________________
-____________________________________________________
-____________________________________________________
-____________________________________________________
+-- TODO: Write your pure SQL SELECT statement below:
+
 */
