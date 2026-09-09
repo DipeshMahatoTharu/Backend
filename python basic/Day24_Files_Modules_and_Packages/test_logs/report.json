@@ -1,0 +1,13 @@
+{
+    "total_request": 5,
+    "status_counts": {
+        "2xx": 3,
+        "3xx": 0,
+        "4xx": 1,
+        "5xx": 1,
+        "other": 0
+    },
+    "error_rate": 40.0,
+    "average_respnosetime": 216.0,
+    "slowest_endpint": "/api/v1/checkout"
+}

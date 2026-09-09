@@ -138,7 +138,7 @@ class AccessLogAnalyzer:
         # print("Error rate :",error_rate)
         return{
           "total_request":total_request,
-              "status_counts":{"2xx":status_counts["2xx"],"3xx":status_counts["3xx"],"4xx":status_counts["4xx"],"5xx":status_counts["5xx"],"other":status_counts["other"]},
+              "status_counts":status_counts,
               "error_rate":error_rate,
               "average_respnosetime":average_respnosetime,
               "slowest_endpint":slowest_endpoint  
@@ -150,15 +150,35 @@ class AccessLogAnalyzer:
         """
         Exports the metrics dictionary to a JSON file.
         """
-        # TODO: Save metrics using json.dump with indent=4
-        pass
+        matric=self.generate_metrics()
+        with open (output_file,"w",encoding="utf-8")as file:
+          json.dump(matric,file,indent=4)
+        
 
     def rotate_if_exceeds(self, max_bytes: int, archive_dir: Path) -> bool:
         """
         Rotates the current log file to archive_dir if size > max_bytes.
         """
-        # TODO: Check file size, rename/move if needed, create fresh empty file
-        pass
+        file_size=self.log_file.stat().st_size
+        
+        # # TODO: Check file size, rename/move if needed, create fresh empty file
+        if file_size > max_bytes:   #1000bytes= 1mb 
+          archive_dir.mkdir(parents=True,exist_ok=True)
+          timestamp=datetime.now().strftime("%Y%m%d_%H%M%S")
+          new_path=archive_dir/f"access_archive _ {timestamp}.log "
+          self.log_file.rename(new_path)
+          self.log_file.touch()
+          return True
+        else:
+          return False
+        
+        
+        
+          
+          
+          
+          
+        
 
 
 # ============================================================
@@ -197,6 +217,6 @@ if __name__ == "__main__":
     print(f"File rotated (threshold 100 bytes): {rotated}")
     
     # Clean up test artifacts
-    import shutil
-    shutil.rmtree(work_dir)
-    print("Test cleanup complete.")
+    # import shutil
+    # shutil.rmtree(work_dir)
+    # print("Test cleanup complete.")
