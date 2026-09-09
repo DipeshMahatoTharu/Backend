@@ -87,13 +87,28 @@ class AccessLogAnalyzer:
         
         """
         store=self.parse_logs()
+        total_request=len(store)
+        if total_request == 0:
+          return{
+            "total_request":0,
+            "status_counts":{"2xx":0,"3xx":0,"4xx":0,"5xx":0,"other":0},
+            "error_rate":0,
+            "average_respnosetime":0,
+            "slowest_endpint":None
+            
+          }
+        
         print(f"total request {len(store)}")
         sum_responsetime=0
         error=0
-        status_counts={}
-        status_counts={"2xx":0,"3xx":0,"4xx":0,"5xx":0}
+        
+        status_counts={"2xx":0,"3xx":0,"4xx":0,"5xx":0,"other":0}
+        slowest_endpoint=""
+        max_resposne_time=-1
         for record in store:
           print(record["status_code"])
+          resp_time=record["response_time_ms"]
+          
           if 200 <= record["status_code"]<300:
             status_counts["2xx"] +=1
           elif 300<=record["status_code"] <400:
@@ -102,17 +117,33 @@ class AccessLogAnalyzer:
             status_counts["4xx"] +=1
           elif 500 <=record["status_code"] <600:
             status_counts["5xx"] +=1
-          sum_responsetime= sum_responsetime + record["response_time_ms"]  
+          else:
+            status_counts["other"] +=1
+            
+          
           if record["status_code"] >=400:
             error +=1
-        return status_counts
+            
+          sum_responsetime= sum_responsetime + record["response_time_ms"]  
+
+          if  resp_time>max_resposne_time:
+            max_resposne_time=resp_time
+            slowest_endpoint =record["path"]
+        print("slow : ",slowest_endpoint)
       
-        average=sum_responsetime/len(store)
-        print("Average :",average)
+      
+        average_respnosetime=sum_responsetime/len(store)
+        # print("Average :",average)
         error_rate=error/len(store)*100
-        print("Error rate :",error_rate)
-        # TODO: Implement metrics computation
-        pass
+        # print("Error rate :",error_rate)
+        return{
+          "total_request":total_request,
+              "status_counts":{"2xx":status_counts["2xx"],"3xx":status_counts["3xx"],"4xx":status_counts["4xx"],"5xx":status_counts["5xx"],"other":status_counts["other"]},
+              "error_rate":error_rate,
+              "average_respnosetime":average_respnosetime,
+              "slowest_endpint":slowest_endpoint  
+        }
+       
       
 
     def export_summary_json(self, output_file: Path) -> None:

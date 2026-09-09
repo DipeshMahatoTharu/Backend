@@ -46,12 +46,6 @@ def buggy_get_database_path():
     base_folder = "C:\\projects\\my_backend_app"
     config_path = base_folder + "\\config\\database.json"
     return config_path
-
-# ---------------------------------------------------------------------
-# QUESTION: How does pathlib.Path eliminate cross-platform slash bugs?
-#
-# MY ANSWER:
-# _____________________________________________________________________
 #
 # CORRECTED CODE:
 # TODO: Rewrite to return a cross-platform Path object resolved relative to __file__.
