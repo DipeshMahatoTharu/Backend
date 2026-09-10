@@ -1,50 +1,39 @@
-# Day 59 — BACKEND INTERVIEW BOOTCAMP
+# Day 59 — Senior Backend Engineering Technical Interview Bootcamp
 
 ## 🎯 Learning Objectives
-- Complete a major 30-question mock exam covering all concepts.
+- Complete the 30-Question Senior Technical Interview Simulation covering all 4 core pillars:
+  1. Python Internals & Architecture (GIL, memory management, generators, metaclasses, decorators).
+  2. SQL & Relational Databases (Indexes, ACID transactions, isolation levels, query execution plans).
+  3. Django & DRF Architecture (MVT, ORM, serializers, JWT, object permissions, query optimization).
+  4. System Design & Concurrency (Caching, message queues, rate limiting, horizontal scaling, Docker).
+- Conduct mock algorithmic and system design whiteboard challenges under timed pressure.
+- Review model senior mentor answers to technical behavioral and architecture trade-off questions.
+
+---
+
+## 📚 Core Backend Concepts
+
+### The 4 Pillars of Senior Backend Engineering Interviews
+```text
+┌───────────────────────────┐      ┌───────────────────────────┐
+│     1. PYTHON INTERNALS   │      │    2. SQL & DATABASES     │
+│ - GIL & Multi-threading   │      │ - B-Tree & GIN Indexes    │
+│ - Memory Allocation / GC  │      │ - ACID Isolation Levels   │
+│ - Generators & Iterators  │      │ - N+1 Query Elimination   │
+└─────────────┬─────────────┘      └─────────────┬─────────────┘
+              │                                  │
+              ▼                                  ▼
+┌───────────────────────────┐      ┌───────────────────────────┐
+│    3. DJANGO & DRF CORE   │      │  4. DISTRIBUTED SYSTEMS   │
+│ - QuerySet Internals / F  │      │ - Redis Caching & Locks   │
+│ - Serializer Validation   │      │ - Celery Async Workers    │
+│ - Stateless JWT Auth      │      │ - Docker & Zero-Downtime  │
+└───────────────────────────┘      └───────────────────────────┘
+```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day59/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day59/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day59/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day59/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day59/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day59/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Theory & Deep Review)**: Work through all 30 interview questions in [`questions.md`](questions.md) and [`interview.md`](interview.md).
+- **HOUR 2 (Practice & Debugging)**: Solve rapid-fire algorithmic puzzles in [`practice.py`](practice.py) and fix high-stakes concurrency bugs in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Whiteboard)**: Implement the Token Bucket Rate Limiter in [`challenge.py`](challenge.py) and complete [`whiteboard.py`](whiteboard.py).

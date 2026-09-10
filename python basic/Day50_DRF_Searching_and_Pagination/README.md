@@ -1,50 +1,56 @@
-# Day 50 — DRF Filtering + Pagination
+# Day 50 — DRF Filtering, Search, Ordering & Pagination
 
 ## 🎯 Learning Objectives
-- Configure pagination limits and search filters.
+- Master filtering backends in DRF: `django-filter` (`DjangoFilterBackend`), `filters.SearchFilter`, and `filters.OrderingFilter`.
+- Configure search prefixes: `^` (starts with), `=` (exact match), `@` (full-text search), `$` (regex search).
+- Compare DRF pagination strategies:
+  - `PageNumberPagination` (`?page=2&page_size=20`)
+  - `LimitOffsetPagination` (`?limit=10&offset=40`)
+  - `CursorPagination` (Keyset / Opaque cursor for massive scale)
+- Configure global API pagination and throttling policies in `settings.py`.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. The 3 Built-in Filter Backends
+```python
+from rest_framework import viewsets, filters
+from django_filters.rest_framework import DjangoFilterBackend
+from .models import Product
+from .serializers import ProductSerializer
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+
+    # Exact field filters: ?category=electronics&is_available=true
+    filterset_fields = ['category', 'is_available']
+
+    # Full text / substring search: ?search=macbook
+    # '^title' matches starts-with, '=sku' matches exact
+    search_fields = ['^title', '=sku', 'description']
+
+    # Ordering: ?ordering=-price,created_at
+    ordering_fields = ['price', 'created_at']
+    ordering = ['-created_at']  # Default ordering
+```
+
+### 2. CursorPagination for Billion-Row Tables
+```python
+from rest_framework.pagination import CursorPagination
+
+class HighVolumeFeedPagination(CursorPagination):
+    page_size = 25
+    ordering = '-created_at'  # Must be indexed!
+```
+- Completely eliminates SQL `OFFSET` page drift and high query latency.
+- Returns opaque cursors in `next` and `previous` links (`?cursor=cD0yMDI2LTA5...`).
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day50/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day50/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day50/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day50/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day50/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day50/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review filter backends, search lookups, pagination strategies, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build search matchers and cursor builders in [`practice.py`](practice.py), and fix pagination traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Search & Keyset Cursor Pagination Engine in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

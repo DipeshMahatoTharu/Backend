@@ -1,50 +1,62 @@
-# Day 46 — Django REST Framework Introduction
+# Day 46 — Django REST Framework (DRF) Serializers & `APIView`
 
 ## 🎯 Learning Objectives
-- Set up DRF and serialize data models.
+- Understand the core purpose of Serializers: converting complex Django Model instances into native Python datatypes (which easily render into JSON) and deserializing JSON payloads back into validated Python dictionaries.
+- Compare `serializers.Serializer` (explicit field definitions) vs `serializers.ModelSerializer` (auto-generated from models).
+- Master the validation lifecycle: field-level `validate_<fieldname>()` and object-level `validate()`.
+- Master `.is_valid(raise_exception=True)`, `.save()`, `.create()`, and `.update()`.
+- Build clean, stateless API endpoints by subclassing `rest_framework.views.APIView`.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. The Serialization & Deserialization Two-Way Street
+- **Serialization (Read)**: `Model Instance -> Serializer(instance) -> serializer.data -> JSON Response`.
+- **Deserialization (Write)**: `JSON Request -> Serializer(data=request.data) -> is_valid() -> serializer.save() -> Database Record`.
+
+### 2. Validation Flow in DRF
+```python
+from rest_framework import serializers
+
+class ProductSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    title = serializers.CharField(max_length=200)
+    price = serializers.DecimalField(max_digits=10, decimal_places=2)
+
+    def validate_price(self, value):
+        if value <= 0:
+            raise serializers.ValidationError("Price must be greater than zero.")
+        return value
+
+    def validate(self, attrs):
+        if "free" in attrs.get("title", "").lower() and attrs.get("price") > 0:
+            raise serializers.ValidationError("Products with 'free' in title must have price 0.")
+        return attrs
+```
+
+### 3. Subclassing `APIView`
+```python
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
+class ProductListCreateAPIView(APIView):
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        serializer = ProductSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day46/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day46/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day46/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day46/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day46/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day46/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Deconstruct Serializers, validation lifecycles, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build serializers and APIView dispatchers in [`practice.py`](practice.py), and fix serialization bugs in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the DRF Serializer & APIView Controller in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

@@ -1,50 +1,51 @@
-# Day 49 — DRF Permissions
+# Day 49 — DRF Custom & Object-Level Permissions
 
 ## 🎯 Learning Objectives
-- Create custom object permissions.
+- Master DRF's built-in permission classes: `AllowAny`, `IsAuthenticated`, `IsAdminUser`, `IsAuthenticatedOrReadOnly`.
+- Understand the permission evaluation lifecycle: View-level (`has_permission`) vs Object-level (`has_object_permission`).
+- Implement custom permissions by subclassing `rest_framework.permissions.BasePermission`.
+- Build the industry-standard `IsOwnerOrReadOnly` permission class.
+- Combine permissions using bitwise operators (`&` AND, `|` OR, `~` NOT).
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. View-Level vs Object-Level Permissions
+- **`has_permission(self, request, view)`**:
+  - Evaluated first, before the view handler or model lookup executes.
+  - Controls access to the entire endpoint (e.g. "Is user logged in?").
+- **`has_object_permission(self, request, view, obj)`**:
+  - Evaluated **only** when `self.get_object()` is called on detail endpoints (`retrieve`, `update`, `destroy`).
+  - Controls access to the specific model instance (e.g. "Does `request.user == obj.owner`?").
+
+### 2. The Canonical `IsOwnerOrReadOnly` Permission
+```python
+from rest_framework import permissions
+
+class IsOwnerOrReadOnly(permissions.BasePermission):
+    """
+    Custom permission to only allow owners of an object to edit it.
+    Read permissions are allowed to any request (SAFE_METHODS).
+    """
+    def has_object_permission(self, request, view, obj):
+        # Read permissions allowed for GET, HEAD, OPTIONS
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        # Write permissions require ownership
+        return obj.owner == request.user
+```
+
+### 3. Bitwise Permission Combinations
+In DRF 3.9+, permissions can be composed:
+```python
+permission_classes = [IsAuthenticated & (IsOwnerOrReadOnly | IsAdminUser)]
+```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day49/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day49/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day49/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day49/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day49/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day49/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review permission lifecycles, SAFE_METHODS, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build custom permission classes in [`practice.py`](practice.py), and fix permission traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Object-Level Permission Evaluation Engine in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

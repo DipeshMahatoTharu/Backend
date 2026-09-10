@@ -1,50 +1,51 @@
-# Day 51 — API Testing
+# Day 51 — API Testing via Postman, Environments & cURL
 
 ## 🎯 Learning Objectives
-- Manually verify API routes and status codes.
+- Master the `curl` CLI for manual API debugging, header inspection, and payload testing.
+- Understand core curl flags: `-X`, `-H`, `-d`, `-i` (print headers), `-s` (silent), `--fail-with-body`.
+- Build and structure Postman collections: folders, environment variables (`{{base_url}}`, `{{token}}`).
+- Write automated Postman test scripts (`pm.test()`, `pm.response.to.have.status(200)`).
+- Automate token management using Postman Pre-request scripts to auto-refresh expired JWTs.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. Essential cURL Commands for Backend Engineers
+```bash
+# 1. GET with Bearer Auth and Response Headers
+curl -i -X GET https://api.example.com/api/v1/users/ \
+     -H "Authorization: Bearer <token>"
+
+# 2. POST with JSON Payload
+curl -X POST https://api.example.com/api/v1/orders/ \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer <token>" \
+     -d '{"product_id": 42, "quantity": 2}'
+
+# 3. File Upload via Multipart Form Data
+curl -X POST https://api.example.com/api/v1/avatar/ \
+     -H "Authorization: Bearer <token>" \
+     -F "image=@/path/to/profile.png"
+```
+
+### 2. Postman Pre-Request & Test Script Life Cycle
+1. **Pre-request Script**: Executes before HTTP request (e.g. check if JWT token is expired; if so, fetch fresh token and update `pm.environment.set('token', new_token)`).
+2. **HTTP Execution**: Request transmitted with headers and body.
+3. **Tests Script**: Executes on response:
+   ```javascript
+   pm.test("Status code is 201 Created", function () {
+       pm.response.to.have.status(201);
+   });
+   pm.test("Response contains order id", function () {
+       var jsonData = pm.response.json();
+       pm.expect(jsonData.id).to.be.a('number');
+   });
+   ```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day51/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day51/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day51/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day51/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day51/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day51/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review curl syntax, Postman environments, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build curl generators and test script runners in [`practice.py`](practice.py), and fix API testing traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Automated Collection Test Runner in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

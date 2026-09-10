@@ -1,50 +1,43 @@
-# Day 48 — DRF Authentication
+# Day 48 — DRF Token Authentication & JSON Web Tokens (JWT)
 
 ## 🎯 Learning Objectives
-- Implement token and JWT validations.
+- Compare Database Token Authentication (`rest_framework.authtoken`) vs Stateless JSON Web Tokens (`djangorestframework-simplejwt`).
+- Master the 3 parts of a JWT: Header, Payload (Claims: `exp`, `iat`, `user_id`), and Signature.
+- Understand Access Tokens (short-lived: 5-15 mins) vs Refresh Tokens (long-lived: 7-30 days).
+- Implement Token Rotation & Blacklisting to revoke compromised JWT sessions.
+- Enforce `Authorization: Bearer <token>` HTTP header parsing.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. The Physical Anatomy of a JWT
+A JWT consists of 3 Base64URL-encoded segments separated by dots (`.`):
+```text
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMDEsImV4cCI6MTc4OTA5MjgwMH0.db53F8q...
+[-------- HEADER --------] . [--------- PAYLOAD ---------] . [--- SIGNATURE ---]
+```
+1. **Header**: Specifies cryptographic signing algorithm (e.g. `{"alg": "HS256", "typ": "JWT"}`).
+2. **Payload**: Claims metadata (e.g. `{"user_id": 101, "exp": 1789092800}`).
+3. **Signature**: `HMACSHA256(Base64URL(header) + "." + Base64URL(payload), SECRET_KEY)`.
+
+### 2. Stateless Verification Lifecycle
+- Unlike sessions or database tokens, the backend does **not** query the database to verify a JWT!
+- It recalculates the signature using `SECRET_KEY`. If the signature matches and `exp` is in the future, the identity is cryptographically proven in sub-millisecond time.
+
+### 3. Refresh Token Rotation
+```text
+Client                       Server
+  |                            |
+  |--- POST /token/refresh --->| (Sends old refresh token)
+  |                            |
+  |<-- Access + NEW Refresh ---| (Server returns fresh access token + brand new refresh token)
+  |                            | (Old refresh token is blacklisted!)
+```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day48/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day48/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day48/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day48/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day48/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day48/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Deconstruct JWT signatures, claims, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build JWT encoders and validators in [`practice.py`](practice.py), and fix token traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Stateless JWT Issuer & Blacklist Engine in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

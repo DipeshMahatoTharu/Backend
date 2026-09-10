@@ -1,50 +1,61 @@
-# Day 40 — Django ORM
+# Day 40 — Django ORM Queries, `Q` Objects & `F` Expressions
 
 ## 🎯 Learning Objectives
-- Write queries using Django ORM API.
+- Master QuerySet internals: Lazy Evaluation, QuerySet caching, and evaluation trigger points.
+- Master filtering and lookups: `exact`, `iexact`, `contains`, `icontains`, `in`, `gt`, `gte`, `lt`, `lte`, `range`.
+- Master complex boolean logic using `Q` objects (`&` AND, `|` OR, `~` NOT).
+- Master atomic in-database calculations with `F` expressions (preventing race conditions).
+- Learn database aggregations and annotations: `Count`, `Sum`, `Avg`, `Min`, `Max`, and `annotate()`.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. Lazy Evaluation & The QuerySet Lifecycle
+A QuerySet does NOT touch the database when constructed:
+```python
+# No database query is executed yet!
+qs = Product.objects.filter(is_active=True).order_by('-price')
+
+# Query executes ONLY when evaluated:
+for p in qs: pass       # Iteration triggers SQL
+len(qs)                 # Evaluation triggers SQL
+list(qs)                # Casting triggers SQL
+bool(qs)                # Boolean check triggers SQL
+```
+**Mentor Rule**: Use `qs.exists()` instead of `bool(qs)` to check presence (runs `SELECT 1 ... LIMIT 1`), and use `qs.count()` instead of `len(qs)` to count records (runs `SELECT COUNT(*)`).
+
+### 2. Complex Boolean Queries with `Q` Objects
+```python
+from django.db.models import Q
+
+# Find active products that are either tech items OR priced under $20
+Product.objects.filter(
+    Q(is_active=True) & (Q(category='tech') | Q(price__lt=20.0))
+)
+
+# Negation (NOT category == 'archived')
+Product.objects.filter(~Q(category='archived'))
+```
+
+### 3. Preventing Race Conditions with `F` Expressions
+When two concurrent requests try to decrement an item's inventory:
+- **Buggy (In-Memory)**:
+  ```python
+  product = Product.objects.get(id=1)
+  product.stock -= 1   # Thread 1 and Thread 2 both read 10, both save 9! (Lost update)
+  product.save()
+  ```
+- **Atomic (In-Database `F` Expression)**:
+  ```python
+  from django.db.models import F
+  # Generates: UPDATE products SET stock = stock - 1 WHERE id = 1;
+  Product.objects.filter(id=1).update(stock=F('stock') - 1)
+  ```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day40/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day40/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day40/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day40/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day40/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day40/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review QuerySet lifecycle, `Q`, `F`, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build filter chains and atomic operators in [`practice.py`](practice.py), and fix race conditions in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Memory QuerySet & Expression Engine in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

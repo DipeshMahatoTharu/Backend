@@ -1,50 +1,53 @@
-# Day 43 — Django Forms + Validation
+# Day 43 — Django Forms, `ModelForm` & Validation Lifecycle
 
 ## 🎯 Learning Objectives
-- Validate HTML inputs using Django Forms and ModelForms.
+- Master `forms.Form` (independent forms) vs `forms.ModelForm` (automatically generated from models).
+- Master the Form validation lifecycle: `is_valid()`, `full_clean()`, field cleaning, and cross-field cleaning.
+- Implement field-level validation using `clean_<fieldname>()` methods.
+- Implement cross-field validation using `clean()` and raise `forms.ValidationError`.
+- Understand Cross-Site Request Forgery (CSRF) protection tokens (`{% csrf_token %}`).
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. Form Validation Lifecycle
+When `form.is_valid()` is invoked:
+1. Field types validate raw input (e.g. `EmailField` verifies regex structure).
+2. Field-level clean methods execute: `clean_username()`, `clean_email()`.
+3. Cross-field clean method executes: `clean()` (e.g. `password` must match `password_confirmation`).
+4. Valid data is stored in `form.cleaned_data`.
+5. Invalid data populates `form.errors`.
+
+### 2. Validation Example
+```python
+from django import forms
+from django.core.exceptions import ValidationError
+
+class RegistrationForm(forms.Form):
+    username = forms.CharField(max_length=50)
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+
+    def clean_username(self):
+        username = self.cleaned_data['username'].lower()
+        if 'admin' in username:
+            raise ValidationError("Usernames containing 'admin' are reserved.")
+        return username
+
+    def clean(self):
+        cleaned_data = super().clean()
+        p1 = cleaned_data.get('password')
+        p2 = cleaned_data.get('confirm_password')
+        if p1 and p2 and p1 != p2:
+            self.add_error('confirm_password', "Passwords do not match.")
+        return cleaned_data
+```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day43/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day43/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day43/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day43/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day43/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day43/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review Form vs ModelForm, clean lifecycle, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build clean methods in [`practice.py`](practice.py), and fix validation traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Form Validation Engine in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

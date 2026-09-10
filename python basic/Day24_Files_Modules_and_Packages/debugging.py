@@ -13,12 +13,19 @@ import json
 # or reading it. On Linux servers, it exhausts OS file descriptors.
 
 def buggy_write_transactions(file_path: str, transactions: list[dict]):
-    f = open(file_path, "w")
-    for tx in transactions:
-        # If tx is missing "amount", a KeyError is raised here
-        # and f.close() is NEVER called!
-        f.write(f"TX {tx['id']}: ${tx['amount']}\n")
-    f.close()
+    # f = open(file_path, "w")
+    with open(file_path,"w",encoding="utf-8")as f:
+        
+        for tx in transactions:
+            try:
+                if tx["amount"] == True
+                    return tx["amount"]
+            except KeyError:
+                raise  "Please enter the key"
+            # If tx is missing "amount", a KeyError is raised here
+            # and f.close() is NEVER called!
+            f.write(f"TX {tx['id']}: ${tx['amount']}\n")
+       
 
 # ---------------------------------------------------------------------
 # QUESTION: Why is opening files with raw open() and manual close() dangerous?

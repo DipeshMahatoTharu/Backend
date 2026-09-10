@@ -1,51 +1,55 @@
-# Day 39 — Django Models
+# Day 39 — Django Database Models, Migrations & Field Types
 
 ## 🎯 Learning Objectives
-- Define schemas as Python classes using Django Models.
-- Create database tables using migrations.
+- Master Django's Model layer: subclassing `models.Model` and mapping Python classes to SQL database tables.
+- Master core field types: `CharField`, `TextField`, `IntegerField`, `DecimalField`, `BooleanField`, and `DateTimeField`.
+- Understand critical field options: `null=True` vs `blank=True`, `default`, `unique=True`, `db_index=True`, `choices`.
+- Master model metadata (`class Meta`): `db_table`, `ordering`, `indexes`, and `constraints` (`UniqueConstraint`, `CheckConstraint`).
+- Deep dive into Django migrations: `makemigrations`, `migrate`, `sqlmigrate`, `showmigrations`, and dependency management.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. `null=True` vs `blank=True` (The Classic Trap)
+- **`null=True`**: Database-level constraint (`NULL` vs `NOT NULL`). Determines whether the column allows SQL `NULL` values.
+- **`blank=True`**: Application/Form validation level. Determines whether the field is required in forms/admin.
+- **The String Field Rule**: Never use `null=True` on `CharField` or `TextField` unless `unique=True` is also specified. Having both empty string `""` and `NULL` creates two distinct "no data" states, complicating queries!
+
+### 2. Model Definition Best Practices
+```python
+from django.db import models
+from django.utils.text import slugify
+
+class Product(models.Model):
+    class Status(models.TextChoices):
+        DRAFT = 'draft', 'Draft'
+        PUBLISHED = 'published', 'Published'
+        ARCHIVED = 'archived', 'Archived'
+
+    title = models.CharField(max_length=200, db_index=True)
+    slug = models.SlugField(max_length=220, unique=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.DRAFT)
+    created_at = models.DateTimeField(auto_now_add=True)  # Set once on creation
+    updated_at = models.DateTimeField(auto_now=True)      # Updated on every save
+
+    class Meta:
+        db_table = 'ecommerce_products'
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['status', '-created_at'], name='status_created_idx')
+        ]
+```
+
+### 3. Migration Commands
+- `python manage.py makemigrations`: Inspects models and writes migration operations.
+- `python manage.py migrate`: Applies pending migrations to the active database.
+- `python manage.py sqlmigrate products 0001`: Inspects the exact raw SQL queries generated for migration 0001.
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day39/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day39/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day39/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day39/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day39/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day39/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review field options, migrations, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build model field validators in [`practice.py`](practice.py), and fix migration traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Mini-ORM Schema & Migration Generator in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

@@ -1,15 +1,36 @@
-# Day 52 Theory Questions
+# Day 52 — Automated API Unit Testing Conceptual Questions
 
-### Question 1: Core Concepts
-Explain the primary learning objectives of Automated Testing.
+Write your answers in the designated spaces below each question.
 
-**My Answer:**
+---
+
+### 52.1 `setUpTestData` vs `setUp` Internals
+**QUESTION:**
+Why does Django run test methods inside database transaction savepoints? Why will mutating an object modified in `setUpTestData` contaminate subsequent test cases?
+
+**MY ANSWER:**
 ____________________________________________________
 ____________________________________________________
+____________________________________________________
 
-### Question 2: Edge Cases & Scenarios
-What are the main problems developers encounter when dealing with this topic?
+---
 
-**My Answer:**
+### 52.2 Where to Patch (Mocking Import Trap)
+**QUESTION:**
+Explain the classic Python mocking trap: *"Mock where the object is used, not where it is defined"*. Why does `@patch('stripe.Charge.create')` fail if your view wrote `from stripe import Charge`?
+
+**MY ANSWER:**
+____________________________________________________
+____________________________________________________
+____________________________________________________
+
+---
+
+### 52.3 Unit Tests vs End-to-End Integration Tests
+**QUESTION:**
+What is the difference between testing with `rest_framework.test.APIClient` versus testing against a running live server with `LiveServerTestCase` and Selenium? What are the execution speed trade-offs?
+
+**MY ANSWER:**
+____________________________________________________
 ____________________________________________________
 ____________________________________________________

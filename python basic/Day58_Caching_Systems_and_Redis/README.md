@@ -1,50 +1,58 @@
-# Day 58 — Redis + Background Tasks Introduction
+# Day 58 — In-Memory Caching, Redis & Celery Background Tasks
 
 ## 🎯 Learning Objectives
-- Implement Redis caching checks.
+- Master caching topologies: In-Memory Cache (RAM) vs Distributed Cache (Redis) vs CDN Edge Cache.
+- Understand caching patterns: Cache-Aside (Lazy Loading), Write-Through, and Write-Back.
+- Implement Django caching with `django-redis`: Low-Level Cache API (`cache.get`, `cache.set`), View Caching (`@cache_page`), and Template Fragment Caching.
+- Diagnose and eliminate the **Cache Stampede (Thundering Herd)** problem using distributed mutex locks.
+- Understand Asynchronous Task Queuing with Celery + Redis broker: background emails, video transcoding, and scheduled jobs (`celery-beat`).
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. The Cache-Aside Pattern
+```python
+from django.core.cache import cache
+
+def get_product_details(product_id: int):
+    cache_key = f"product:details:{product_id}"
+    # 1. Check Redis
+    cached_data = cache.get(cache_key)
+    if cached_data is not None:
+        return cached_data
+
+    # 2. Cache Miss: Query PostgreSQL
+    product = Product.objects.select_related('category').get(id=product_id)
+    serialized_data = ProductSerializer(product).data
+
+    # 3. Store in Redis with 15-minute TTL
+    cache.set(cache_key, serialized_data, timeout=900)
+    return serialized_data
+```
+
+### 2. Cache Stampede (Thundering Herd) Mitigation
+When a cached home page visited by 10,000 users/sec expires, all 10,000 requests hit PostgreSQL simultaneously, crashing the database!
+**Solution (Distributed Locking)**:
+```python
+def get_popular_data():
+    data = cache.get("popular_data")
+    if data is not None:
+        return data
+
+    # Acquire distributed lock so ONLY ONE thread recomputes the cache
+    with cache.lock("lock:popular_data", timeout=5):
+        # Double check cache inside lock
+        data = cache.get("popular_data")
+        if data is None:
+            data = heavy_database_query()
+            cache.set("popular_data", data, timeout=3600)
+    return data
+```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day58/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day58/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day58/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day58/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day58/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day58/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review Cache-Aside, Redis data types, Celery architecture, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build cache-aside decorators and mutex locks in [`practice.py`](practice.py), and fix caching traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Distributed Cache & Stampede Mitigation Engine in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

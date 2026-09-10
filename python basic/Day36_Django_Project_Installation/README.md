@@ -1,50 +1,50 @@
-# Day 36 — Django Introduction
+# Day 36 — Django Architecture, Project Setup & Configuration
 
 ## 🎯 Learning Objectives
-- Install Django, understand project vs app structures.
+- Master Django's architectural philosophy: Model-View-Template (MVT) and "Batteries Included".
+- Understand project structure vs app structure (`django-admin startproject` vs `python manage.py startapp`).
+- Deconstruct `settings.py`: `INSTALLED_APPS`, `DATABASES`, `MIDDLEWARE`, `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`.
+- Understand the role of entrypoint files: `manage.py`, `wsgi.py` (synchronous web server gateway), and `asgi.py` (asynchronous server gateway).
+- Implement 12-factor application configuration principles using environment variables (`python-dotenv` / `python-decouple`).
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. Django MVT Architecture vs Classic MVC
+| Django MVT | Classic MVC | Responsibility |
+| :--- | :--- | :--- |
+| **Model** | **Model** | Database schema, business rules, ORM queries |
+| **View** | **Controller** | Request processing, business logic, interacting with Model, returning response |
+| **Template** | **View** | Presentation layer (HTML, DTL, JSON formatting) |
+
+### 2. Project vs App Directory Structure
+```text
+my_ecommerce/               <- Project Root
+├── manage.py               <- CLI utility for administrative tasks
+├── my_ecommerce/           <- Configuration Package
+│   ├── __init__.py
+│   ├── settings.py         <- Global application settings & database connections
+│   ├── urls.py             <- Top-level URL routing table
+│   ├── wsgi.py             <- WSGI server entrypoint for production (Gunicorn)
+│   └── asgi.py             <- ASGI server entrypoint for async/websockets (Daphne/Uvicorn)
+└── products/               <- Modular Django App
+    ├── migrations/         <- Database migration tracking files
+    ├── models.py           <- Database models
+    ├── views.py            <- Request handlers
+    ├── urls.py             <- App-specific route mapping
+    └── apps.py             <- App configuration metadata
+```
+
+### 3. Critical Production Settings Checklist
+- `DEBUG = False`: Never run in production (exposes raw code, SQL queries, and environment variables).
+- `SECRET_KEY`: Must be loaded from environment variables and kept secret.
+- `ALLOWED_HOSTS = ['api.yourdomain.com']`: Prevents HTTP Host header poisoning attacks.
+- `SECURE_SSL_REDIRECT = True`: Forces HTTPS across all connections.
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day36/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day36/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day36/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day36/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day36/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day36/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Deconstruct MVT, `settings.py`, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build configuration validators in [`practice.py`](practice.py), and fix settings traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Django Configuration & App Registry Engine in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

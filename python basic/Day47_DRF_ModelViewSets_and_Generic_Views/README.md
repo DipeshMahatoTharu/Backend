@@ -1,50 +1,68 @@
-# Day 47 — DRF CRUD
+# Day 47 — DRF Generic Views, `ModelViewSet` & Routers
 
 ## 🎯 Learning Objectives
-- Map routes using DefaultRouter and ViewSets.
+- Master the view hierarchy in DRF: `APIView` -> `GenericAPIView` -> Concrete Generic Views (`ListCreateAPIView`, `RetrieveUpdateDestroyAPIView`) -> `ModelViewSet`.
+- Master the standard CRUD actions of `ModelViewSet`: `list`, `create`, `retrieve`, `update`, `partial_update`, `destroy`.
+- Add custom non-CRUD endpoints using the `@action` decorator (`detail=True` vs `detail=False`).
+- Master DRF Routers (`DefaultRouter` and `SimpleRouter`) to eliminate manual URL pattern declarations.
+- Understand when to use `ModelViewSet` (standard resources) vs when to avoid it (complex domain actions).
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. The Power of `ModelViewSet`
+A single class handles all standard REST operations:
+```python
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from .models import Article
+from .serializers import ArticleSerializer
+
+class ArticleViewSet(viewsets.ModelViewSet):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+
+    # Custom action: POST /api/v1/articles/{id}/publish/
+    @action(detail=True, methods=['post'])
+    def publish(self, request, pk=None):
+        article = self.get_object()
+        article.is_published = True
+        article.save()
+        return Response({"status": "Article published"})
+
+    # Custom action: GET /api/v1/articles/recent/
+    @action(detail=False, methods=['get'])
+    def recent(self, request):
+        recent_articles = self.get_queryset().filter(is_published=True)[:5]
+        serializer = self.get_serializer(recent_articles, many=True)
+        return Response(serializer.data)
+```
+
+### 2. Automatic Routing with `DefaultRouter`
+```python
+from rest_framework.routers import DefaultRouter
+from django.urls import path, include
+
+router = DefaultRouter()
+router.register(r'articles', ArticleViewSet, basename='article')
+
+urlpatterns = [
+    path('api/v1/', include(router.urls)),
+]
+```
+`DefaultRouter` automatically generates 6 standard endpoints:
+- `GET /api/v1/articles/` (`list`)
+- `POST /api/v1/articles/` (`create`)
+- `GET /api/v1/articles/{pk}/` (`retrieve`)
+- `PUT /api/v1/articles/{pk}/` (`update`)
+- `PATCH /api/v1/articles/{pk}/` (`partial_update`)
+- `DELETE /api/v1/articles/{pk}/` (`destroy`)
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day47/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day47/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day47/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day47/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day47/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day47/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Deconstruct ViewSets, Routers, `@action`, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build ViewSet dispatchers in [`practice.py`](practice.py), and fix router traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Mini-DRF ModelViewSet & Router Engine in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

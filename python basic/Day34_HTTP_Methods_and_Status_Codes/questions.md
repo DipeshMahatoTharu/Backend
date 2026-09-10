@@ -1,15 +1,36 @@
-# Day 34 Theory Questions
+# Day 34 — HTTP Methods & Status Codes Conceptual Questions
 
-### Question 1: Core Concepts
-Explain the primary learning objectives of HTTP Methods + Status Codes.
+Write your answers in the designated spaces below each question.
 
-**My Answer:**
+---
+
+### 34.1 Idempotency in Payment Gateways
+**QUESTION:**
+Why is `POST` inherently non-idempotent, and how do payment APIs (like Stripe) use `Idempotency-Key` HTTP headers to guarantee that network retries never double-charge a customer?
+
+**MY ANSWER:**
 ____________________________________________________
 ____________________________________________________
+____________________________________________________
 
-### Question 2: Edge Cases & Scenarios
-What are the main problems developers encounter when dealing with this topic?
+---
 
-**My Answer:**
+### 34.2 401 Unauthorized vs 403 Forbidden
+**QUESTION:**
+Explain the exact technical distinction between HTTP `401` and `403`. When should a backend engineer return `404 Not Found` instead of `403 Forbidden` for security reasons?
+
+**MY ANSWER:**
+____________________________________________________
+____________________________________________________
+____________________________________________________
+
+---
+
+### 34.3 The "200 OK with Error Body" Anti-Pattern
+**QUESTION:**
+Why is returning `200 OK` with `{"success": false, "message": "Item not found"}` considered dangerous in modern backend engineering? What breaks at the proxy, CDN, and monitoring levels?
+
+**MY ANSWER:**
+____________________________________________________
 ____________________________________________________
 ____________________________________________________

@@ -1,50 +1,60 @@
-# Day 55 — Backend Project Architecture
+# Day 55 — Service Layers, Repository Pattern & Project Architecture
 
 ## 🎯 Learning Objectives
-- Structure directories separating services and models.
+- Master the **Service Layer Pattern**: Decoupling HTTP transport handlers (Views/Serializers) from core business logic.
+- Master the **Repository Pattern**: Abstracting database queries away from business services.
+- Use **Data Transfer Objects (DTOs)** / Python Dataclasses to pass strongly typed data across application boundaries.
+- Manage atomic database transactions using `django.db.transaction.atomic`.
+- Understand `transaction.on_commit()`: Why async tasks (Celery) and emails must NEVER be triggered inside an active uncommitted transaction.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. The 3-Tier Layered Architecture
+```text
+[ HTTP Transport Layer ] -> Views, Serializers, HTTP Status Codes, Cookie handling
+         │ (Passes DTO)
+         ▼
+[ Service Layer ]        -> Pure Business Logic, Atomic Transactions, Third-Party Coordination
+         │ (Queries Repository)
+         ▼
+[ Data Access Layer ]    -> Repositories, Django ORM, PostgreSQL Database
+```
+
+### 2. The `transaction.on_commit` Rule
+```python
+from django.db import transaction
+
+def register_user_service(user_dto: UserCreateDTO):
+    with transaction.atomic():
+        user = User.objects.create(username=user_dto.username, email=user_dto.email)
+        Profile.objects.create(user=user)
+
+        # WRONG: If transaction rolls back after this line, email was already sent!
+        # send_welcome_email.delay(user.id)
+
+        # RIGHT: Executes ONLY after the database transaction successfully commits!
+        transaction.on_commit(lambda: send_welcome_email.delay(user.id))
+```
+
+### 3. Data Transfer Objects (DTOs)
+```python
+from dataclasses import dataclass
+from decimal import Decimal
+
+@dataclass(frozen=True)
+class TransferFundsDTO:
+    from_account_id: int
+    to_account_id: int
+    amount: Decimal
+    reference: str
+```
+DTOs guarantee type safety and prevent leaking raw ORM model instances across architecture layers.
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day55/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day55/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day55/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day55/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day55/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day55/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review 3-tier architecture, DTOs, `on_commit`, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build DTOs and transaction hooks in [`practice.py`](practice.py), and fix transaction traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Banking Transfer Service Layer in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

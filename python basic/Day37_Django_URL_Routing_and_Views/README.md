@@ -1,51 +1,48 @@
-# Day 37 — Django Views + URLs
+# Day 37 — Django URL Routing, Path Converters & Views
 
 ## 🎯 Learning Objectives
-- Route incoming requests to views.
-- Write Function-Based Views and Class-Based Views.
+- Understand Django's URL dispatcher mechanism (`urls.py`, `urlpatterns`, `path()`, and `re_path()`).
+- Master built-in path converters: `str`, `int`, `slug`, `uuid`, and `path`.
+- Implement custom path converters for domain-specific parameters (e.g. 4-digit years or ISO dates).
+- Understand Function-Based Views (FBVs) vs Class-Based Views (CBVs: `View`, `TemplateView`, `RedirectView`).
+- Master the `HttpRequest` and `HttpResponse` lifecycle, including `JsonResponse`, headers, and status codes.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. URL Path Converters
+```python
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('articles/<int:year>/', views.year_archive),       # Matches positive integers
+    path('articles/<slug:slug>/', views.article_detail),    # Matches letters, numbers, hyphens, underscores
+    path('users/<uuid:user_id>/', views.user_profile),      # Matches formatted UUIDs
+    path('files/<path:file_path>/', views.download_file),   # Matches complete path including slashes
+]
+```
+
+### 2. FBV vs CBV Architecture
+- **Function-Based Views (FBV)**:
+  - Explicit, straightforward to read, minimal boilerplate for simple logic.
+  - Handling methods requires explicit `if request.method == 'GET':`.
+- **Class-Based Views (CBV)**:
+  - Object-oriented: separates HTTP verbs into class methods (`get()`, `post()`, `delete()`).
+  - Supports code reuse via mixins (`LoginRequiredMixin`, `MultipleObjectMixin`).
+
+### 3. URL Namespacing and Reverse Resolution
+Always provide `name` arguments to `path()`:
+```python
+path('orders/<int:pk>/', views.OrderDetailView.as_view(), name='order-detail')
+```
+In Python code: `reverse('order-detail', kwargs={'pk': 42})` -> `'/orders/42/'`.
+In Templates: `{% url 'order-detail' pk=order.id %}`.
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day37/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day37/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day37/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day37/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day37/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day37/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review URL dispatchers, converters, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build custom converters and CBV dispatchers in [`practice.py`](practice.py), and fix routing traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Dynamic URL Router & CBV Dispatcher in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

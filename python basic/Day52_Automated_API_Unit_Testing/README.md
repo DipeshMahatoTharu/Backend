@@ -1,50 +1,46 @@
-# Day 52 — Automated Testing
+# Day 52 — Automated API Testing: `APITestCase`, Mocking & Fixtures
 
 ## 🎯 Learning Objectives
-- Write automated testing test cases using APIClient.
+- Master DRF's testing framework: `APITestCase`, `APIClient`, and `force_authenticate()`.
+- Structure deterministic test suites: `setUpTestData()` (class-level db setup) vs `setUp()` (per-test setup).
+- Test status codes, JSON payload schemas, header invariants, and permission barriers.
+- Master mocking external third-party APIs (Stripe, Twilio, SendGrid) using `unittest.mock.patch`.
+- Measure test coverage using `coverage.py` (`coverage run manage.py test && coverage report`).
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. `setUpTestData` vs `setUp` Performance
+- **`setUpTestData(cls)`**: Executes once per TestCase class. Database state is created once and rolled back via transaction savepoints between tests. (10x faster!).
+- **`setUp(self)`**: Executes before **every single test method**. Use only for setting up non-database objects (e.g. `self.client = APIClient()`).
+
+### 2. Mocking Third-Party HTTP Calls
+```python
+from unittest.mock import patch
+from rest_framework.test import APITestCase
+
+class PaymentAPITests(APITestCase):
+    @patch('my_app.services.stripe.Charge.create')
+    def test_charge_success(self, mock_stripe_charge):
+        # Configure mock return value
+        mock_stripe_charge.return_value = {"id": "ch_123", "status": "succeeded"}
+
+        response = self.client.post('/api/v1/checkout/', {'amount': 100})
+        self.assertEqual(response.status_code, 200)
+        # Verify mock was called with exact arguments
+        mock_stripe_charge.assert_called_once_with(amount=100)
+```
+
+### 3. Testing Permission Gates
+Always write 3 tests per protected endpoint:
+1. Anonymous request -> `401 Unauthorized`.
+2. Authenticated user without ownership/role -> `403 Forbidden`.
+3. Authorized owner/admin -> `200 OK` / `204 No Content`.
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day52/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day52/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day52/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day52/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day52/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day52/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review `APITestCase`, mocking mechanics, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build mock runners and test clients in [`practice.py`](practice.py), and fix testing traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Full-Featured API Test Harness in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

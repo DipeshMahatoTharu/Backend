@@ -1,50 +1,50 @@
-# Day 42 — Django CRUD
+# Day 42 — Full-Stack Django CRUD Workflows & PRG Pattern
 
 ## 🎯 Learning Objectives
-- Assemble a complete Django CRUD application.
+- Build an end-to-end CRUD (Create, Read, Update, Delete) application in Django.
+- Master the **Post/Redirect/Get (PRG)** pattern to prevent duplicate form submissions upon browser refresh.
+- Implement secure state modification with Django's Messages framework (`django.contrib.messages`).
+- Master URL reversal (`django.urls.reverse` and `redirect`) to decouple views from hardcoded paths.
+- Handle object lookups with `get_object_or_404()` to return clean HTTP 404 responses automatically.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. The Post/Redirect/Get (PRG) Pattern
+Without PRG:
+1. User submits `POST /tickets/create/` (creates ticket #42).
+2. Server renders `success.html` directly with status `200 OK`.
+3. User hits `F5` (Refresh) -> Browser prompts *"Confirm Form Resubmission"* and sends another `POST`, creating ticket #43!
+
+**With PRG (Industry Standard)**:
+1. User submits `POST /tickets/create/`.
+2. Server creates ticket #42 and returns **`302 Found` Redirect** to `/tickets/42/`.
+3. Browser performs `GET /tickets/42/`. Refreshing now only re-executes safe `GET`!
+
+### 2. Standard Django CRUD View Structure
+```python
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import Ticket
+from .forms import TicketForm
+
+def ticket_update(request, pk):
+    ticket = get_object_or_404(Ticket, pk=pk)
+    if request.method == 'POST':
+        form = TicketForm(request.POST, instance=ticket)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Ticket #{ticket.pk} updated successfully!")
+            return redirect('ticket-detail', pk=ticket.pk)
+    else:
+        form = TicketForm(instance=ticket)
+    return render(request, 'tickets/ticket_form.html', {'form': form, 'ticket': ticket})
+```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day42/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day42/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day42/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day42/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day42/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day42/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review CRUD workflows, PRG mechanics, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Implement PRG controllers in [`practice.py`](practice.py), and fix duplicate mutation bugs in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Ticket Management CRUD Application in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

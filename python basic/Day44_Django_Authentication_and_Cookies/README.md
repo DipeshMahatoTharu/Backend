@@ -1,50 +1,49 @@
-# Day 44 — Django Authentication
+# Day 44 — Django Authentication, Session Storage & Password Hashing
 
 ## 🎯 Learning Objectives
-- Implement User logins, registration, logouts.
+- Master Django's authentication system: `User` model, `authenticate()`, `login(request, user)`, and `logout(request)`.
+- Understand session mechanics: the `sessionid` cookie, session stores (database, cache/Redis, signed cookies).
+- Understand password cryptography: Salt generation, PBKDF2 with SHA-256, iteration work factor, and why passwords must never be stored in plaintext.
+- Implement defense against Session Fixation by cycling session keys upon authentication.
+- Understand constant-time string comparisons (`hmac.compare_digest`) to prevent timing side-channel attacks.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. The Anatomy of a Django Password Hash
+Django stores password hashes in the format:
+```text
+pbkdf2_sha256$600000$salt_string$hashed_derived_key
+```
+- `pbkdf2_sha256`: The key derivation function.
+- `600000`: Work factor (iterations) to slow down GPU brute-force attacks.
+- `salt_string`: Cryptographic salt ensuring identical passwords produce distinct hashes.
+- `hashed_derived_key`: The final 256-bit hash.
+
+### 2. The Authentication Lifecycle
+```python
+from django.contrib.auth import authenticate, login, logout
+
+# 1. Verify credentials (constant-time password comparison)
+user = authenticate(request, username='dipesh', password='SecurePassword123')
+if user is not None:
+    # 2. Attach user to session (cycles session ID to prevent fixation)
+    login(request, user)
+    # request.user is now populated across all subsequent requests!
+else:
+    # Invalid credentials
+    pass
+```
+
+### 3. Session Backend Options
+- **`django.contrib.sessions.backends.db` (Default)**: Stores session data in `django_session` database table.
+- **`django.contrib.sessions.backends.cache`**: Stores sessions in Redis or Memcached (blazing fast, reduces database load).
+- **`django.contrib.sessions.backends.signed_cookies`**: Stores encrypted sessions directly in client cookies (stateless, zero server storage).
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day44/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day44/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day44/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day44/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day44/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day44/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review PBKDF2 hashing, session cookies, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build session managers and hashers in [`practice.py`](practice.py), and fix auth traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Secure Authentication & Session Lifecycle Manager in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).

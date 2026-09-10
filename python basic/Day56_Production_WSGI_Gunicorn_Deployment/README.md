@@ -1,50 +1,65 @@
-# Day 56 — Deployment
+# Day 56 — Production WSGI, Gunicorn Deployment & Nginx Architecture
 
 ## 🎯 Learning Objectives
-- Configure settings and wsgi gates for production.
+- Master the production web stack: Nginx (Reverse Proxy) -> Gunicorn (WSGI HTTP Server) -> Django (Application).
+- Understand Gunicorn worker models: Synchronous (`sync`), Threaded (`gthread`), and Asynchronous (`gevent`).
+- Sizing worker pools using the core formula: $(2 \times \text{CPU cores}) + 1$.
+- Configure Nginx reverse proxy headers: `X-Forwarded-For`, `X-Forwarded-Proto`, and `Host`.
+- Configure production settings: `DEBUG=False`, `ALLOWED_HOSTS`, and `SECURE_PROXY_SSL_HEADER`.
+
+---
+
+## 📚 Core Backend Concepts
+
+### 1. The Production Architecture Stack
+```text
+[ Browser / Mobile Client ]
+           │ HTTPS (:443)
+           ▼
+[ Nginx Reverse Proxy ]
+  - SSL Termination
+  - Serves static assets directly from disk (/static/)
+  - Buffers slow client connections
+  - Rate limiting & DDoS filtering
+           │ HTTP or UNIX Domain Socket (e.g. unix:/run/gunicorn.sock)
+           ▼
+[ Gunicorn WSGI Server ]
+  - Master process managing N worker processes
+  - Worker sizing: (2 * CPUs) + 1
+           │ Calls Python callable application(environ, start_response)
+           ▼
+[ Django WSGI Application ]
+```
+
+### 2. Sizing Gunicorn Workers
+```bash
+# Sizing formula: (2 * NUM_CORES) + 1
+# On a 4-core CPU server: (2 * 4) + 1 = 9 workers
+gunicorn my_project.wsgi:application \
+    --workers 9 \
+    --worker-class gthread \
+    --threads 2 \
+    --bind 127.0.0.1:8000 \
+    --timeout 30 \
+    --access-logfile - \
+    --error-logfile -
+```
+
+### 3. The `SECURE_PROXY_SSL_HEADER` Trap
+When Nginx terminates HTTPS and forwards HTTP to Gunicorn, Django thinks the request is insecure HTTP!
+To prevent infinite redirect loops when `SECURE_SSL_REDIRECT = True`:
+```python
+# settings.py
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+```
+And in `nginx.conf`:
+```nginx
+proxy_set_header X-Forwarded-Proto $scheme;
+```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
-- **HOUR 1 — LEARN + SMALL PRACTICE (60 min)**:
-  - 45 min: Review concepts and documentation.
-  - 15 min: Answer theory questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day56/questions.md)**.
-- **HOUR 2 — CODING PRACTICE (60 min)**:
-  - Solve coding exercises in **[`practice.py`](file:///d:/Backend/python%20basic/Day56/practice.py)** (or `practice.sql` for SQL days).
-  - Solve buggy code scripts in **[`debugging.py`](file:///d:/Backend/python%20basic/Day56/debugging.py)**.
-- **HOUR 3 — INTERVIEW + CHALLENGE (60 min)**:
-  - 20 min: Answer mock interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day56/interview.md)**.
-  - 20 min: Solve the whiteboard blank-page challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day56/whiteboard.py)** (or `whiteboard.sql`/`whiteboard.md`).
-  - 20 min: Complete the daily challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day56/challenge.py)**.
-
----
-
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered `questions.md`
-- [ ] Solved coding practice in `practice.py` (or `practice.sql`)
-- [ ] Finished debugging exercises in `debugging.py`
-- [ ] Filled out mock interview answers in `interview.md`
-- [ ] Attempted the whiteboard blank-page coding challenge in `whiteboard` file
-- [ ] Attempted and resolved the daily challenge in `challenge.py`
-
-
-## 📊 DAILY SCORE
-Use this at the end of the day to rate your progress.
-
-- **Learning Check**: [ ] Complete
-- **Practice Check**: [ ] Complete
-- **Debugging Check**: [ ] Complete
-- **Interview Check**: [ ] Complete
-- **Whiteboard Challenge**: [ ] Complete
-- **Daily Challenge**: [ ] Complete
-
-### Self-Rating
-- Topic Understanding: __ / 10
-- Problem Solving Ability: __ / 10
-- Interview Confidence: __ / 10
-
-**What I struggled with**:
-____________________________________________________
-
-**What I learned**:
-____________________________________________________
+- **HOUR 1 (Learn & Concepts)**: Review Nginx/Gunicorn stack, worker sizing, and complete [`questions.md`](questions.md).
+- **HOUR 2 (Practice & Debugging)**: Build worker capacity calculators and proxy header parsers in [`practice.py`](practice.py), and fix deployment traps in [`debugging.py`](debugging.py).
+- **HOUR 3 (Challenge & Interview)**: Build the Gunicorn & Nginx Reverse Proxy Simulator in [`challenge.py`](challenge.py), complete [`whiteboard.py`](whiteboard.py), and review [`interview.md`](interview.md).
