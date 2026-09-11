@@ -18,13 +18,13 @@ def buggy_write_transactions(file_path: str, transactions: list[dict]):
         
         for tx in transactions:
             try:
-                if tx["amount"] == True
-                    return tx["amount"]
+                 f.write(f"TX {tx['id']}: ${tx['amount']}\n")
             except KeyError:
-                raise  "Please enter the key"
+                print("Please enter the key")
+                continue
             # If tx is missing "amount", a KeyError is raised here
             # and f.close() is NEVER called!
-            f.write(f"TX {tx['id']}: ${tx['amount']}\n")
+           
        
 
 # ---------------------------------------------------------------------
