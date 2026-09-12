@@ -20,23 +20,23 @@ def buggy_write_transactions(file_path: str, transactions: list[dict]):
             try:
                  f.write(f"TX {tx['id']}: ${tx['amount']}\n")
             except KeyError:
-                print("Please enter the key")
+                print("Amount is missing")
                 continue
             # If tx is missing "amount", a KeyError is raised here
             # and f.close() is NEVER called!
            
-       
-
-# ---------------------------------------------------------------------
-# QUESTION: Why is opening files with raw open() and manual close() dangerous?
-#
-# MY ANSWER:
-# _____________________________________________________________________
-#
+    
 # CORRECTED CODE:
 # TODO: Rewrite using a `with open(...)` context manager and defensive key access.
 # ---------------------------------------------------------------------
 def fixed_write_transactions(file_path: Path, transactions: list[dict]):
+    with open (file_path,"w",encoding="utf-8")as f:
+        for tx in transactions:
+            try:
+                f.write(f"tx {tx['id']}: id successful")
+            except ConnectionAbortedError:
+                print("Key not accessable because id not found")
+            
     pass
 
 
