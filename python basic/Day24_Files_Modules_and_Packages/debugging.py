@@ -33,9 +33,10 @@ def fixed_write_transactions(file_path: Path, transactions: list[dict]):
     with open (file_path,"w",encoding="utf-8")as f:
         for tx in transactions:
             try:
-                f.write(f"tx {tx['id']}: id successful")
-            except ConnectionAbortedError:
+                f.write(f"tx {tx['id']}: $ {tx['amount']}")
+            except KeyError:
                 print("Key not accessable because id not found")
+                continue
             
     pass
 
@@ -50,15 +51,11 @@ def fixed_write_transactions(file_path: Path, transactions: list[dict]):
 
 def buggy_get_database_path():
     # Hardcoded Windows path string concatenation
-    base_folder = "C:\\projects\\my_backend_app"
-    config_path = base_folder + "\\config\\database.json"
+    base_folder = Path(__file__).resolve().parent
+    config_path = base_folder  /"config"/"database.json"
     return config_path
 #
-# CORRECTED CODE:
-# TODO: Rewrite to return a cross-platform Path object resolved relative to __file__.
-# ---------------------------------------------------------------------
-def fixed_get_database_path() -> Path:
-    pass
+
 
 
 # =====================================================================
@@ -72,17 +69,10 @@ def fixed_get_database_path() -> Path:
 def buggy_read_webhook(file_path: Path):
     with open(file_path, "r", encoding="utf-8") as f:
         # If file is empty or corrupted, unhandled JSONDecodeError crashes the service!
-        data = json.load(f)
-        return data
+        try:
+            data = json.load(f)
+            return data
+        except json.JSONDecodeError:
+            print("Error: The webhook file is empty or contains invalid JSON.")
+            return {}
 
-# ---------------------------------------------------------------------
-# QUESTION: How should backend file ingestion defensively handle empty or corrupt payloads?
-#
-# MY ANSWER:
-# _____________________________________________________________________
-#
-# CORRECTED CODE:
-# TODO: Rewrite with try/except to safely handle FileNotFoundError and JSONDecodeError.
-# ---------------------------------------------------------------------
-def fixed_read_webhook(file_path: Path) -> dict:
-    pass
