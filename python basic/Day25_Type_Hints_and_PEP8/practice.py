@@ -1,6 +1,6 @@
 # Day 25 Practice — Type Hints, Dataclasses & Clean Python
 
-from dataclasses import dataclass, field
+from dataclasses import field
 from typing import Optional, Literal, Any
 from datetime import datetime
 
@@ -24,8 +24,24 @@ def parse_pagination_params(
     page: str | int | None = None,
     page_size: str | int | None = None
 ) -> tuple[int, int]:
-    # TODO: Implement type-safe pagination parsing
-    pass
+    try:
+        if page is None :
+            page=1
+        if page_size is None :
+            page_size=20
+
+        page=int(page)
+        page_size=int(page_size)
+        if page <=0:
+            page =1
+        if page_size<=0:
+            page_size=20
+        return (page,page_size)
+    except ValueError:
+        raise ValueError("Invalid pagination ")    
+        
+
+print("Test1",parse_pagination_params(1,3))
 
 
 # =====================================================================
@@ -42,11 +58,21 @@ def parse_pagination_params(
 #    - `password`: str = "secret"
 # 2. Add a property `connection_url(self) -> str`:
 #    - Returns: `"postgresql://{user}:{password}@{host}:{port}/{database_name}"`
-
+from dataclasses import dataclass
 @dataclass(frozen=True)
 class DatabaseConfig:
-    # TODO: Declare fields and connection_url property
-    pass
+    host :str
+    port :int =5432
+    database_name:str ="app_db"
+    user : str ="postgres"
+    password: str ="secret"
+    
+    @property   
+    def connection_url(self) ->str:
+        return f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database_name}"
+
+myconfig=DatabaseConfig(host="localhost")
+print(myconfig.connection_url)
 
 
 # =====================================================================
@@ -68,6 +94,7 @@ class DatabaseConfig:
 @dataclass
 class UserProfile:
     # TODO: Declare fields with safe default_factory and validate in __post_init__
+    
     pass
 
 
