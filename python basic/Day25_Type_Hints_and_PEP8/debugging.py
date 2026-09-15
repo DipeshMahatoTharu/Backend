@@ -19,12 +19,18 @@ def buggy_create_cart(customer_id: str, items: list = []):
 # QUESTION: Why do mutable default arguments cause state leakage between requests?
 #
 # MY ANSWER:
-# _____________________________________________________________________
+# Python evaluates default arguments only once when the function is first defined, not each time the function is called. Because a list is mutable, every function call that relies on the default argument ends up sharing and modifying the exact same list in memory.
 #
 # CORRECTED CODE:
 # TODO: Rewrite using None as the default argument and initializing inside.
 # ---------------------------------------------------------------------
 def fixed_create_cart(customer_id: str, items: list[str] | None = None) -> dict[str, Any]:
+    if items is None:
+        items=[]
+    items.append("Welcome Coupon")
+    return {"customer_id": customer_id, "items": items}
+    
+        
     pass
 
 
@@ -42,16 +48,21 @@ def buggy_find_product(products: list[dict], search_id):
             return p
     return None
 
-# ---------------------------------------------------------------------
 # QUESTION: How do explicit type hints and type casting prevent silent query bugs?
 #
 # MY ANSWER:
+# Explicit type hints warn the developer that data might come in as the wrong format 
+# (like a string instead of an int). Type casting forces that data into the correct 
+# format (like using int()) so the program doesn't silently fail when comparing them.
 # _____________________________________________________________________
-#
 # CORRECTED CODE:
 # TODO: Rewrite with type hints and defensive integer conversion.
 # ---------------------------------------------------------------------
 def fixed_find_product(products: list[dict[str, Any]], search_id: int | str) -> dict[str, Any] | None:
+    for p in products:
+        if p["id"]==int(search_id):
+            return p 
+    return None
     pass
 
 
@@ -66,6 +77,7 @@ def fixed_find_product(products: list[dict[str, Any]], search_id: int | str) -> 
 
 def buggy_get_display_name(user: Any) -> str:
     # Unchecked attribute access crashes at runtime if user is a dict!
+    
     return user.username.upper()
 
 # ---------------------------------------------------------------------
@@ -78,4 +90,7 @@ def buggy_get_display_name(user: Any) -> str:
 # TODO: Rewrite with Union/isinstance checks to handle both dict and object types.
 # ---------------------------------------------------------------------
 def fixed_get_display_name(user: dict[str, Any] | object) -> str:
-    pass
+    if isinstance(user,dict):
+        return user["username"].append
+    else:
+        return user.username.upper()

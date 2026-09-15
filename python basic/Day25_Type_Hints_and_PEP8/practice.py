@@ -1,8 +1,7 @@
 # Day 25 Practice — Type Hints, Dataclasses & Clean Python
 
-from dataclasses import field
 from typing import Optional, Literal, Any
-from datetime import datetime
+
 
 # =====================================================================
 # TASK 1: Type-Annotated Backend Query Parser
@@ -91,12 +90,24 @@ print(myconfig.connection_url)
 #    - If `username` is empty, raise `ValueError("Username cannot be empty")`.
 #    - If `email` does not contain `'@'`, raise `ValueError("Invalid email address")`.
 
+from dataclasses import field
+from datetime import datetime
 @dataclass
 class UserProfile:
     # TODO: Declare fields with safe default_factory and validate in __post_init__
-    
-    pass
-
+    user_id: int
+    username:str
+    email : str
+    roles:list[str]=field(default_factory= lambda : ["viewer"])
+    created_at:datetime=field(default_factory=datetime.now)
+    def __post_init__(self):
+            if self.username == "":  
+                raise ValueError("Username is empty")
+            if "@" not in self.email:
+                raise ValueError("Invalid Email")
+profile1=UserProfile(31313,"Dipesh","mahagmail.com")
+print(profile1)
+            
 
 # =====================================================================
 # TASK 4: Typed Pipeline Filter
@@ -110,11 +121,20 @@ class UserProfile:
 #      * `role`: str
 #    - Returns: list[UserProfile] matching that role in their `roles` list.
 
+
 def filter_users_by_role(users: list[UserProfile], role: str) -> list[UserProfile]:
-    # TODO: Implement filtering
-    pass
+    
+    role_list=[]    
+    for user in users:
+        if role in user.roles:
+            role_list.append(user)
+      
+    return role_list    
 
+        
+  
 
+    
 # =====================================================================
 # VERIFICATION SUITE
 # =====================================================================
