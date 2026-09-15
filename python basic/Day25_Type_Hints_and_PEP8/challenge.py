@@ -62,8 +62,35 @@ class OrderItem:
     discount_pct: float = 0.0
 
     # TODO: Add __post_init__ validation
+    
+    def __post_init__(self):
+        if self.quantity <= 0:
+            raise ValueError("Quantity must be greater then 0")
+        if self.discount_pct <0 or self.discount_pct >100:
+            raise ValueError("Discount must not be greater then 100 or less then 0 ")
+
+        
     # TODO: Add line_total property
-    pass
+    # Property `line_total(self) -> float`:
+    #  Computes `quantity * unit_price * (1 - discount_pct / 100)`.
+    @property
+    def line_total(self)->float:
+        return self.quantity * self.product.unit_price *(1-self.discount_pct/100)
+    
+# 3. Dataclass `Order`:
+#    - `order_id`: str
+#    - `customer_email`: str
+#    - `items`: list[OrderItem] (use field(default_factory=list))
+#    - `status`: Literal["PENDING", "PAID", "SHIPPED", "CANCELLED"] = "PENDING"
+#    - `created_at`: datetime = field(default_factory=datetime.utcnow)
+#    Methods:
+#    - `add_item(self, item: OrderItem) -> None`
+#    - `subtotal(self) -> float`: Sum of all item line totals.
+#    - `tax(self, tax_rate: float = 0.10) -> float`: Tax computed on subtotal.
+#    - `grand_total(self, tax_rate: float = 0.10) -> float`: Subtotal + tax.
+#    - `mark_paid(self) -> None`: Changes status to "PAID". Raises ValueError if order is CANCELLED.
+#    - `generate_invoice(self, tax_rate: float = 0.10) -> dict[str, Any]`:
+#      Returns a structured dictionary representation suitable for JSON export.
 
 
 @dataclass
@@ -76,27 +103,47 @@ class Order:
 
     def add_item(self, item: OrderItem) -> None:
         # TODO: Append item to self.items
-        pass
-
+        self.items.append(item)
+ 
     def subtotal(self) -> float:
-        # TODO: Calculate subtotal
+        # TODO: Calculate 
+        total=0
+        for item in self.items:
+            total =total + item.line_total
+        return total
+        
         pass
 
     def tax(self, tax_rate: float = 0.10) -> float:
         # TODO: Calculate tax
-        pass
+        return self.subtotal() * tax_rate
+    
 
     def grand_total(self, tax_rate: float = 0.10) -> float:
         # TODO: Calculate grand total
-        pass
+        return self.subtotal() + self.tax()
+        
 
     def mark_paid(self) -> None:
-        # TODO: Transition status to PAID
-        pass
+        if self.status == "CANCELLED":
+            raise ValueError("Cannot pay the cancelled")
+        self.status="PAID"
+                
+                
+        
 
     def generate_invoice(self, tax_rate: float = 0.10) -> dict[str, Any]:
         # TODO: Return formatted dictionary
-        pass
+        return {
+            "order_id": self.order_id,
+            "customer_email": self.customer_email,
+            "status": self.status,
+            "subtotal": self.subtotal(),
+            "tax": self.tax(tax_rate),
+            "grand_total": self.grand_total(tax_rate),
+            # Challenge: How do you get the total number of items?
+            "item_count": len(self.items) 
+        }
 
 
 # ============================================================
