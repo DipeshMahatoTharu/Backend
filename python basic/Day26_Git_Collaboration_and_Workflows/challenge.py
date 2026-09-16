@@ -42,39 +42,64 @@ class PullRequestGuard:
     FORBIDDEN_PATTERNS = [".env", ".key", ".pem", ".sqlite3", "credentials.json"]
     VALID_BRANCH_PREFIXES = ("feature/", "bugfix/", "hotfix/", "refactor/")
 
+    VALID_COMMIT_TYPES = (
+        "feat:", 
+        "fix:", 
+        "chore:", 
+        "docs:", 
+        "style:", 
+        "refactor:", 
+        "test:"
+    )
     def __init__(self, branch_name: str, pr_title: str, changed_files: list[str]):
         self.branch_name = branch_name
         self.pr_title = pr_title
         self.changed_files = changed_files
 
+    
     def validate_branch_name(self) -> bool:
-        # TODO: Return True if branch begins with one of the valid prefixes
-        for valid in self.VALID_BRANCH_PREFIXES:
-            if  self.branch_name == valid:
-                return True
-            
-            
-        pass
+            return self.branch_name.startswith(self.VALID_BRANCH_PREFIXES)
+
+
 
     def validate_pr_title(self) -> bool:
         # TODO: Validate Conventional Commits format
-        
+        return self.pr_title.startswith(self.VALID_COMMIT_TYPES)
         pass
 
     def check_for_forbidden_files(self) -> list[str]:
+        bad_file=[]
         # TODO: Identify any committed files matching sensitive extensions
-        for commit in self.VALID_BRANCH_PREFIXES:
-            if self.changed_files == commit:
-                return False
-        pass
+        for check in self.changed_files:
+            if check.endswith(self.FORBIDDEN_PATTERNS):
+                bad_file.append(check)
+
+            
+        return bad_file        
+
 
     def is_pr_mergeable(self) -> tuple[bool, list[str]]:
         """
         Runs all checks and returns (is_mergeable, list_of_blocking_reasons).
         """
-        # TODO: Aggregate all validations
-        pass
+     # 1. Check the PR title
+        if not self.validate_pr_title():
+            blocking_reasons.append("PR title does not follow Conventional Commits format.")
 
+        # 2. Check for forbidden files
+        bad_files = self.check_for_forbidden_files()
+        
+        # In Python, an empty list is considered "False", and a list with items is "True"
+        if bad_files: 
+            # We join the list of bad files into a single readable string
+            blocking_reasons.append(f"PR contains forbidden files: {', '.join(bad_files)}")
+
+        # 3. Determine if the PR is mergeable
+        # If our list of reasons is empty (length of 0), it is safe to merge!
+        is_mergeable = len(blocking_reasons) == 0
+
+        # 4. Return the tuple
+        return is_mergeable, blocking_reasons
 
 class ConflictResolver:
     def __init__(self, raw_content: str):

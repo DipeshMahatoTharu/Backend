@@ -12,6 +12,7 @@
 
 -- TODO: Write CREATE TABLE users statement below:
 
+create user;
 
 
 
