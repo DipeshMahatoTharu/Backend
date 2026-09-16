@@ -75,10 +75,7 @@ def fixed_find_product(products: list[dict[str, Any]], search_id: int | str) -> 
 # Django User model objects, some are dataclasses). The code calls `.username`
 # which crashes with AttributeError when a dict is passed!
 
-def buggy_get_display_name(user: Any) -> str:
-    # Unchecked attribute access crashes at runtime if user is a dict!
-    
-    return user.username.upper()
+
 
 # ---------------------------------------------------------------------
 # QUESTION: Why is overusing 'Any' anti-pattern in backend type systems?

@@ -49,14 +49,23 @@ class PullRequestGuard:
 
     def validate_branch_name(self) -> bool:
         # TODO: Return True if branch begins with one of the valid prefixes
+        for valid in self.VALID_BRANCH_PREFIXES:
+            if  self.branch_name == valid:
+                return True
+            
+            
         pass
 
     def validate_pr_title(self) -> bool:
         # TODO: Validate Conventional Commits format
+        
         pass
 
     def check_for_forbidden_files(self) -> list[str]:
         # TODO: Identify any committed files matching sensitive extensions
+        for commit in self.VALID_BRANCH_PREFIXES:
+            if self.changed_files == commit:
+                return False
         pass
 
     def is_pr_mergeable(self) -> tuple[bool, list[str]]:

@@ -20,6 +20,22 @@ VALID_TYPES = {"feat", "fix", "docs", "style", "refactor", "perf", "test", "chor
 
 def lint_commit_message(msg: str) -> tuple[bool, str]:
     # TODO: Implement validation against Conventional Commits specification
+    parts=msg.split(":")
+    if len(parts) !=2:
+        print(False,"Invalid format must contain ':' seprating type and discription ")
+    
+    prefab=parts[0]
+    decription=parts[1]
+    if prefab not in VALID_TYPES:
+        return(False,"Not valid type")
+    
+    if not decription[0].islower():
+        return(False,"Decrption must start with lowercase")
+    if decription.endswith("."):
+        return(False,"Decription must not end with .")
+
+    return (True,"Valid commit msg ")
+    
     pass
 
 
@@ -41,6 +57,11 @@ def lint_commit_message(msg: str) -> tuple[bool, str]:
 
 def extract_conflict_blocks(file_content: str) -> list[dict]:
     # TODO: Extract conflict blocks from file_content
+    <<<<<<<< Head
+        return price 1*10
+    ========
+        return price 1*15
+    
     pass
 
 
@@ -74,6 +95,23 @@ def resolve_conflicts(file_content: str, strategy: str = "ours") -> str:
 
 def is_ignored(filename: str, ignore_patterns: list[str]) -> bool:
     # TODO: Implement ignore rule matching
+    file=filename
+   
+    for partern in ignore_patterns:
+        if file==partern:
+            return True
+
+        if partern.startswith("*"):
+            if file.endswith(partern[1:]):
+                return True
+        
+        if partern.endswith("/"):
+            if file.startswith(partern):
+                return True
+        
+    return False
+   
+        
     pass
 
 
