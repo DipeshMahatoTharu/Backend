@@ -31,7 +31,12 @@ create Table users(
 -- 3. slug: VARCHAR(100), UNIQUE, NOT NULL.
 
 -- TODO: Write CREATE TABLE categories statement below:
+create Table categories(
+    id SERIAL Primary Key,
+    name VARCHAR(100) UNIQUE NOT NULL,
+    slug VARCHAR (100) UNIQUE NOT NULL
 
+);
 
 
 
@@ -46,7 +51,11 @@ create Table users(
 -- 6. is_available: BOOLEAN, DEFAULT TRUE.
 
 -- TODO: Write CREATE TABLE products statement below:
-
+create table if not exist products(
+    id SERIAL Primary key,
+    category_id int Foreign key null DELETE,\
+    
+);
 
 
 
