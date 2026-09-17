@@ -51,10 +51,13 @@ create Table categories(
 -- 6. is_available: BOOLEAN, DEFAULT TRUE.
 
 -- TODO: Write CREATE TABLE products statement below:
-create table if not exist products(
+create table products(
     id SERIAL Primary key,
-    category_id int Foreign key null DELETE,\
-    
+    category_id int default 0 references category(id) on delete  set default ,
+    name VARCHAR(255) NOT NUll,
+    price Float NOT NULL ,
+    stock_quantity INT NOt 
+
 );
 
 
