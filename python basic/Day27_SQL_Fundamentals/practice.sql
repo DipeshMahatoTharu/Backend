@@ -12,7 +12,14 @@
 
 -- TODO: Write CREATE TABLE users statement below:
 
-create user;
+create Table users(
+    id SERIAL  Primary key,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+);
 
 
 
