@@ -55,10 +55,13 @@ create table products(
     id SERIAL Primary key,
     category_id int default 0 references category(id) on delete  set default ,
     name VARCHAR(255) NOT NUll,
-    price Float NOT NULL ,
-    stock_quantity INT NOt 
-
+    price DECIMAL(10,2) NOT NULL ,
+    stock_quantity INT NOt default 0 check(stock_quantity >=0),
+    is_available BOOLEAN default TRUE
 );
+
+
+
 
 
 
@@ -73,6 +76,14 @@ create table products(
 
 -- TODO: Write CREATE TABLE orders statement below:
 
+create table orders(
+    id SERIAL Primary Key,
+    user_id int  references user(id) on delete CASCADE,
+    order_status VARCHAR(20) DEFAULT 'Pending' check(order_status in ('Pending','Paid','Shipped','Canclled')),
+    total_amount DECIMAL(12,2) NOT NULL CHECK (total_amount >=0.0),
+    order_date timestamp default CURRENT_TIMESTAMP
+);
+
 
 
 
@@ -81,6 +92,12 @@ create table products(
 -- Requirements:
 -- 1. Add a new column 'phone_number VARCHAR(20)' to the 'users' table.
 -- 2. Add a UNIQUE constraint on 'products(name)'.
+ALTER Table users
+Add COLUMN phone_number VARCHAR(20);
+
+
+Alter TABLE products
+Add constraint products(name);
 
 -- TODO: Write ALTER TABLE statements below:
 
