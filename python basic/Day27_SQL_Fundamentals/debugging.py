@@ -5,7 +5,7 @@ import sqlite3
 # =====================================================================
 # BUGGY SCENARIO 1: Table Creation Order Dependency Bug
 # =====================================================================
-# Goal: Create a two-table relational database schema for authors and books.
+# Goal: Create a two-table relational database schema for authors and book
 # Problem: The developer ran `CREATE TABLE books` first, which references
 # `authors(id)`. Because `authors` does not exist yet, the migration
 # crashes with `sqlite3.OperationalError: no such table: main.authors`!
