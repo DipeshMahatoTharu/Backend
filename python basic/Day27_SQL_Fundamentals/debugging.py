@@ -19,8 +19,7 @@ def buggy_create_tables(conn: sqlite3.Connection):
             title TEXT NOT NULL,
             author_id INTEGER REFERENCES authors(id)
         );
-    """)
-    
+    """))
     cursor.execute("""
         CREATE TABLE authors (
             id INTEGER PRIMARY KEY,
