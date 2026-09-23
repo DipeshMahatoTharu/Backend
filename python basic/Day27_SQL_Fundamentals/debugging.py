@@ -10,34 +10,48 @@ import sqlite3
 # `authors(id)`. Because `authors` does not exist yet, the migration
 # crashes with `sqlite3.OperationalError: no such table: main.authors`!
 
-def buggy_create_tables(conn: sqlite3.Connection):
-    cursor = conn.cursor()
-    # BUG: Referencing authors before authors table exists!
-    cursor.execute("""
-        CREATE TABLE books (
-            id INTEGER PRIMARY KEY,
-            title TEXT NOT NULL,
-            author_id INTEGER REFERENCES authors(id)
-        );
-    """)
-    cursor.execute("""
-        CREATE TABLE authors (
-            id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL
-        );
-    """)
+# def buggy_create_tables(conn: sqlite3.Connection):
+#     cursor = conn.cursor()
+#     # BUG: Referencing authors before authors table exists!
+#     cursor.execute("""
+#         CREATE TABLE books (
+#             id INTEGER PRIMARY KEY,
+#             title TEXT NOT NULL,
+#             author_id INTEGER REFERENCES authors(id)
+#         );
+#     """)
+#     cursor.execute("""
+#         CREATE TABLE authors (
+#             id INTEGER PRIMARY KEY,
+#             name TEXT NOT NULL
+#         );
+#     """)
 
 # ---------------------------------------------------------------------
 # QUESTION: Why does table dependency order matter during DDL migrations?
 #
 # MY ANSWER:
-# _____________________________________________________________________
+# Table dependency order matters because a database reads instructions from top to bottom. If a child table has a REFERENCES rule (Foreign Key) pointing to a parent table, the database must already know that the parent table exists. You cannot point a rule at a table that hasn't been built yet.____________________________________
+
 #
 # CORRECTED CODE:
 # TODO: Rewrite the function in proper dependency order.
 # ---------------------------------------------------------------------
 def fixed_create_tables(conn: sqlite3.Connection):
-    pass
+    cursor=conn.cursor()
+    cursor.execute("""
+                    CREATE TABLE author(
+                        id INTEGER PRIMARY KEY,
+                        name TEXt NOT NULL
+                        );
+                        """)
+    cursor.execute("""
+                   CREATE TABLE books(
+                       id INTEGER primary key,
+                       title TEXT NOT NULL,
+                       author_id REFERENCEs author(id));
+
+                   """)    
 
 
 # =====================================================================
