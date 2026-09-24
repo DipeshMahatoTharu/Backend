@@ -31,18 +31,33 @@ REQUIREMENTS:
    - `test_invalid_foreign_key_rejected(conn)`: Asserts `sqlite3.IntegrityError` when creating an order for user_id 9999.
    - `test_cascade_delete(conn)`: Verifies that deleting a user deletes their corresponding orders.
 """
-
 import sqlite3
-
-
 def setup_database(conn: sqlite3.Connection) -> None:
     """Executes the DDL schema to set up tables and constraint checks."""
     cursor = conn.cursor()
     cursor.execute("PRAGMA foreign_keys = ON;")
     
     # TODO: Write CREATE TABLE statements for users, categories, products, orders
-    pass
-
+    cursor.execute("""Create Table  user 
+                   (id INTEGER PRIMANY KEY AUTOINCREMENT,
+                   Username TEXT unique NOT NULL ,
+                   email TEXT unique NOT NULL
+                   ); """)
+    cursor.execute("""Create TABLE catogories
+                   id integer PRIMARY KEY AUTOINCREMENT, 
+                   name TEXT UNIQUE NOT NULL
+                   """)
+    cursor.execute("""Create TABLE products
+                   id integer PRIMARY KEY AUTOINCREMENT, 
+                   category_id INTEGER,
+                   name TEXT NOT NULL,
+                   price REAL NOT NULL CHECK(price >= 0),
+                   stock INTEGER NOT NULL DEFAULT 0 CHECK(stock >= 0),
+                   FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE SET NULL),
+                   """)
+    cursor.execute("""Create TABLE order
+                   
+                   """)
 
 def test_duplicate_email_rejected(conn: sqlite3.Connection) -> bool:
     """Returns True if duplicate email raises IntegrityError, False otherwise."""
