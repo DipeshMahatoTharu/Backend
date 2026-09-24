@@ -38,25 +38,28 @@ def setup_database(conn: sqlite3.Connection) -> None:
     cursor.execute("PRAGMA foreign_keys = ON;")
     
     # TODO: Write CREATE TABLE statements for users, categories, products, orders
-    cursor.execute("""Create Table  user 
+    cursor.execute("""Create Table  users 
                    (id INTEGER PRIMANY KEY AUTOINCREMENT,
                    Username TEXT unique NOT NULL ,
                    email TEXT unique NOT NULL
                    ); """)
-    cursor.execute("""Create TABLE catogories
-                   id integer PRIMARY KEY AUTOINCREMENT, 
-                   name TEXT UNIQUE NOT NULL
+    cursor.execute("""Create TABLE categories
+                   (id integer PRIMARY KEY AUTOINCREMENT, 
+                   name TEXT UNIQUE NOT NULL);
                    """)
     cursor.execute("""Create TABLE products
-                   id integer PRIMARY KEY AUTOINCREMENT, 
+                   (id integer PRIMARY KEY AUTOINCREMENT, 
                    category_id INTEGER,
                    name TEXT NOT NULL,
                    price REAL NOT NULL CHECK(price >= 0),
                    stock INTEGER NOT NULL DEFAULT 0 CHECK(stock >= 0),
-                   FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE SET NULL),
+                   FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE SET NULL);
                    """)
     cursor.execute("""Create TABLE order
-                   
+                (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                status TEXT CHECK(status IN ('PENDING', 'PAID', 'SHIPPED')),
+                FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE);
                    """)
 
 def test_duplicate_email_rejected(conn: sqlite3.Connection) -> bool:
