@@ -62,11 +62,11 @@ def fixed_create_tables(conn: sqlite3.Connection):
 # Unless `PRAGMA foreign_keys = ON;` is explicitly executed per connection,
 # invalid foreign keys are inserted without error, corrupting relational integrity.
 
-def buggy_insert_order(conn: sqlite3.Connection, invalid_user_id: int):
-    # Notice: PRAGMA foreign_keys = ON is missing!
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO orders (user_id, status) VALUES (?, 'PENDING');", (invalid_user_id,))
-    conn.commit()
+# def buggy_insert_order(conn: sqlite3.Connection, invalid_user_id: int):
+#     # Notice: PRAGMA foreign_keys = ON is missing!
+#     cursor = conn.cursor()
+#     cursor.execute("INSERT INTO orders (user_id, status) VALUES (?, 'PENDING');", (invalid_user_id,))
+#     conn.commit()
 
 # ---------------------------------------------------------------------
 # QUESTION: Why must backend frameworks (and SQLite drivers) explicitly
@@ -79,4 +79,7 @@ def buggy_insert_order(conn: sqlite3.Connection, invalid_user_id: int):
 # TODO: Rewrite to enable foreign keys and catch the constraint violation.
 # ---------------------------------------------------------------------
 def fixed_insert_order(conn: sqlite3.Connection, invalid_user_id: int) -> bool:
-    pass
+    cursor=conn.cursor()
+    cursor.execute("PRAGMA foreign_keys = ON")
+    cursor.execute("Insert into order(user_id,status) VALUE (?,'PENDING');",(invalid_user_id,))
+    
