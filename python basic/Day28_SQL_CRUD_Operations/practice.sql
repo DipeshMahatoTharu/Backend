@@ -24,9 +24,21 @@
 -- 5. 'Python Cookbook', 'Books', 45.00, 100
 
 -- TODO: Write multi-row INSERT statement below:
-
-
-
+CREATE TABLE products(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    price Numeric(10,9) NOT NULL,
+    stock INT NOT NULL DEFAULT 0,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+INSERT into products (name,category,price) VALUES
+   ('Logitech MX Master 3', 'Electronics', 99.99, 25),
+    ('Keychron Q1 Pro', 'Electronics', 199.00, 10),
+    ('Ergonomic Chair', 'Furniture', 350.00, 5),
+    ('Standing Desk 60in', 'Furniture', 499.99, 0),
+    ('Python Cookbook', 'Books', 45.00, 100);
 
 -- =====================================================================
 -- TASK 2: Complex Filtering with Logical Operators & Ranges
@@ -39,6 +51,11 @@
 
 -- TODO: Write SELECT query below:
 
+SELECT category,price,stock,is_deleted FROM products
+WHERE (category ='Electronic' OR category= 'Furniture')
+AND price BETWEEN 50.00 and 400.00
+AND stock >0
+AND is_deleted=FALSE;
 
 
 
@@ -50,10 +67,9 @@
 -- Order the results by price descending. If prices match, sort by name ascending.
 
 -- TODO: Write text search & sorting query below:
-
-
-
-
+SELECT name FROM products
+WHERE name ILIkE %Pro%
+ORDER by price DESC
 -- =====================================================================
 -- TASK 4: Pagination (Limit & Offset)
 -- =====================================================================
@@ -62,6 +78,14 @@
 -- Filter out deleted items, and order by id ASC.
 
 -- TODO: Write pagination query below:
+SELECT *
+FROM products
+WHERE is_deleted=FALSE
+ORDER by id ASC
+OFFSET 2
+Limit 2;
+-- offset skip 2 limit take 2
+
 
 
 
@@ -73,5 +97,11 @@
 -- 2. Soft delete the product with id = 4 by setting is_deleted = TRUE.
 
 -- TODO: Write UPDATE and soft-delete statements below:
+UPDATE products
 
+SET price =  price * 1.05
+Where category = 'Electronics';
 
+UPDATE products
+SET is_deleted=TRUE
+WHERE id=4;
