@@ -39,7 +39,7 @@ def setup_database(conn: sqlite3.Connection) -> None:
     
     # TODO: Write CREATE TABLE statements for users, categories, products, orders
     cursor.execute("""Create Table  users 
-                   (id INTEGER PRIMANY KEY AUTOINCREMENT,
+                   (id INTEGER PRIMARY KEY AUTOINCREMENT,
                    Username TEXT unique NOT NULL ,
                    email TEXT unique NOT NULL
                    ); """)
@@ -55,7 +55,7 @@ def setup_database(conn: sqlite3.Connection) -> None:
                    stock INTEGER NOT NULL DEFAULT 0 CHECK(stock >= 0),
                    FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE SET NULL);
                    """)
-    cursor.execute("""Create TABLE order
+    cursor.execute("""Create TABLE orders
                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 status TEXT CHECK(status IN ('PENDING', 'PAID', 'SHIPPED')),
