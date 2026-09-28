@@ -25,8 +25,9 @@ def buggy_deactivate_user(conn: sqlite3.Connection, user_id: int):
 # TODO: Rewrite with a safe WHERE clause targeting only the specified user_id.
 # ---------------------------------------------------------------------
 def fixed_deactivate_user(conn: sqlite3.Connection, user_id: int):
-    pass
-
+    cursor=conn.cursor()
+    cursor.execute("update user set is_active=?,(user_id,)")
+    conn.commit
 
 # =====================================================================
 # BUGGY SCENARIO 2: SQL Injection via F-Strings
@@ -39,8 +40,8 @@ def fixed_deactivate_user(conn: sqlite3.Connection, user_id: int):
 def buggy_get_user(conn: sqlite3.Connection, username: str):
     cursor = conn.cursor()
     # VULNERABLE: Direct string interpolation of untrusted input!
-    query = f"SELECT * FROM users WHERE username = '{username}';"
-    cursor.execute(query)
+    query = f"SELECT * FROM users WHERE username = ?';"
+    cursor.execute(query,(username,))
     return cursor.fetchall()
 
 # ---------------------------------------------------------------------
@@ -53,8 +54,10 @@ def buggy_get_user(conn: sqlite3.Connection, username: str):
 # TODO: Rewrite using parameterized placeholders.
 # ---------------------------------------------------------------------
 def fixed_get_user(conn: sqlite3.Connection, username: str):
-    pass
-
+    cursor=conn.cursor()
+    query=f"SELECT * from user WHERE username ='?"
+    cursor.execute(query,(username,))
+    return cursor.fetchall()
 
 # =====================================================================
 # BUGGY SCENARIO 3: The NULL Equality Comparison Trap
@@ -80,4 +83,5 @@ def buggy_find_unverified_phones(conn: sqlite3.Connection):
 # TODO: Rewrite with proper IS NULL syntax.
 # ---------------------------------------------------------------------
 def fixed_find_unverified_phones(conn: sqlite3.Connection):
-    pass
+    cursor=conn.cursor()
+    cursor.execute("SELECT id, username FROM users WHERE phone is NULL")
