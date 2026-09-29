@@ -71,6 +71,7 @@ def setup_catalog_db(conn: sqlite3.Connection) -> None:
     """)
     
     # Seed 10 sample products
+    # total price on 3th colum  
     products = [
         ('MacBook Pro 16', 'Electronics', 2499.00, 10, 0),
         ('Dell XPS 15', 'Electronics', 1899.00, 0, 0),       # Out of stock
@@ -108,12 +109,16 @@ def search_products(
     # TODO: Implement dynamic query building using '?' placeholders
     # 1. Base WHERE clause: is_deleted = 0
     # 2. Append conditions for keyword, category, min_price, max_price, in_stock_only
-    # 3. Query total count first
+    
     # 4. Apply ORDER BY and LIMIT ? OFFSET ?
     # 5. Return structured pagination dictionary
     cursor=conn.cursor()
     qurey="SELECT * FROM products where  is_deleted =0 "
+    # append the para if correct condition 
+    total ="SELECT count(*) FROM  products where is_deleted=0"
     params=[]
+
+
     
     if keyword:
         qurey+= "And name Like ?"
@@ -128,9 +133,26 @@ def search_products(
         qurey +="AND price <= ?"
         params.append(max_price)
         #   * `in_stock_only`: bool (if True, stock > 0)
+
+    in_stock_only =True
     if in_stock_only:
-        qurey += "AND if stock= Truw"
-        params.append(in_stock_only)
+        # 0 mean out of stock 
+        qurey += "AND  stock > 0" 
+    
+    # 3. Query total count first
+  
+    print(total)
+#    * `sort_by`: str ("price", "name", or "id", defaults to "price")
+#      * `sort_order`: str ("ASC" or "DESC", defaults to "ASC")
+#      * `page`: int (1-indexed page number, defaults to 1)
+#      * `page_size`: int (number of items per page, defaults to 3)
+
+
+    
+
+
+
+
     
 
                    
