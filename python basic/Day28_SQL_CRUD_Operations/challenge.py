@@ -121,7 +121,18 @@ def search_products(
     if category:
         qurey+="AND category = ?"
         params.append(category)
-    if min_price
+    if min_price:
+        qurey+= "AND price >= ?"
+        params.append(min_price)
+    if max_price:
+        qurey +="AND price <= ?"
+        params.append(max_price)
+        #   * `in_stock_only`: bool (if True, stock > 0)
+    if in_stock_only:
+        qurey += "AND if stock= Truw"
+        params.append(in_stock_only)
+    
+
                    
                                  
     
