@@ -111,9 +111,19 @@ def search_products(
     # 3. Query total count first
     # 4. Apply ORDER BY and LIMIT ? OFFSET ?
     # 5. Return structured pagination dictionary
-    pass
-
-
+    cursor=conn.cursor()
+    qurey="SELECT * FROM products is_deleted =0 "
+    params=[]
+    
+    if keyword:
+        qurey+= "And name Like =?"
+        params.append("f%{keyword}%")
+        
+    
+                   
+                                 
+    
+    
 # ============================================================
 # VERIFICATION SUITE
 # ============================================================
