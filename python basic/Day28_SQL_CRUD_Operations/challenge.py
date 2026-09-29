@@ -112,14 +112,16 @@ def search_products(
     # 4. Apply ORDER BY and LIMIT ? OFFSET ?
     # 5. Return structured pagination dictionary
     cursor=conn.cursor()
-    qurey="SELECT * FROM products is_deleted =0 "
+    qurey="SELECT * FROM products where  is_deleted =0 "
     params=[]
     
     if keyword:
-        qurey+= "And name Like =?"
+        qurey+= "And name Like ?"
         params.append("f%{keyword}%")
-        
-    
+    if category:
+        qurey+="AND category = ?"
+        params.append(category)
+    if min_price
                    
                                  
     
