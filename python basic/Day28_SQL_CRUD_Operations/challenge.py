@@ -109,57 +109,73 @@ def search_products(
     # TODO: Implement dynamic query building using '?' placeholders
     # 1. Base WHERE clause: is_deleted = 0
     # 2. Append conditions for keyword, category, min_price, max_price, in_stock_only
-    
     # 4. Apply ORDER BY and LIMIT ? OFFSET ?
     # 5. Return structured pagination dictionary
     cursor=conn.cursor()
     query="SELECT * FROM products where  is_deleted =0 "
+    
    
     params=[]
 
 
     
     if keyword:
-        query+= "And name Like ?"
+        query+= " And name Like ? "
         params.append("%" + keyword + "%")
     if category:
-        query+="AND category = ?"
+        query+=" AND category = ? "
         params.append(category)
-    if min_price:
-        query+= "AND price >= ?"
+    if min_price is not None:
+        query+= " AND price >= ? "
         params.append(min_price)
     if max_price:
-        query +="AND price <= ?"
+        query +=" AND price <= ? "
         params.append(max_price)
         #   * `in_stock_only`: bool (if True, stock > 0)
     
     if in_stock_only:
-        query += "AND  stock > 0" 
-    
-    # 3. Query total count first
+        query += " AND  stock > 0 " 
+
+
+ # 3. Query total count first
     count_query=query.replace("SELECT *","SELECT COUNT (*)")
     cursor.execute(count_query, params)
-    result=cursor.fetchone()
+    result=cursor.fetchone()[0]
     print(result)
+    totalpage=math.ceil(result/page_size)   
+    
+    
+#4 num
+    offset=(page-1)*page_size 
+
+    query += "ORDER BY price limit ? offset ?"
+    params.extend([page_size,offset])
+    print("check",params)
+    
+    
+    
+    #5 get current page 
+    
+    cursor.execute(query,params)
+    rows=cursor.fetchall()
+    
+    print("Row : ",rows)
+    print("Total :" ,result)
+    print("total_page : ", totalpage)
+    
+
+
+   
+
+    
+    
     
     
 #    * `sort_by`: str ("price", "name", or "id", defaults to "price")
+
 #      * `sort_order`: str ("ASC" or "DESC", defaults to "ASC") 
 #      * `page`: int (1-indexed page number, defaults to 1)
-#      * `page_size`: int (number of items per page, defaults to 3)
-
-
-    
-
-
-
-
-    
-
-                   
-                                 
-    
-    
+#      * `page_size`: int (number of items per page, defaults to 3)    
 # ============================================================
 # VERIFICATION SUITE
 # ============================================================
