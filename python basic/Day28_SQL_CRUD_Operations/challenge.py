@@ -113,37 +113,38 @@ def search_products(
     # 4. Apply ORDER BY and LIMIT ? OFFSET ?
     # 5. Return structured pagination dictionary
     cursor=conn.cursor()
-    qurey="SELECT * FROM products where  is_deleted =0 "
-    # append the para if correct condition 
-    total ="SELECT count(*) FROM  products where is_deleted=0"
+    query="SELECT * FROM products where  is_deleted =0 "
+   
     params=[]
 
 
     
     if keyword:
-        qurey+= "And name Like ?"
-        params.append("f%{keyword}%")
+        query+= "And name Like ?"
+        params.append("%" + keyword + "%")
     if category:
-        qurey+="AND category = ?"
+        query+="AND category = ?"
         params.append(category)
     if min_price:
-        qurey+= "AND price >= ?"
+        query+= "AND price >= ?"
         params.append(min_price)
     if max_price:
-        qurey +="AND price <= ?"
+        query +="AND price <= ?"
         params.append(max_price)
         #   * `in_stock_only`: bool (if True, stock > 0)
-
-    in_stock_only =True
+    
     if in_stock_only:
-        # 0 mean out of stock 
-        qurey += "AND  stock > 0" 
+        query += "AND  stock > 0" 
     
     # 3. Query total count first
-  
-    print(total)
+    count_query=query.replace("SELECT *","SELECT COUNT (*)")
+    cursor.execute(count_query, params)
+    result=cursor.fetchone()
+    print(result)
+    
+    
 #    * `sort_by`: str ("price", "name", or "id", defaults to "price")
-#      * `sort_order`: str ("ASC" or "DESC", defaults to "ASC")
+#      * `sort_order`: str ("ASC" or "DESC", defaults to "ASC") 
 #      * `page`: int (1-indexed page number, defaults to 1)
 #      * `page_size`: int (number of items per page, defaults to 3)
 
