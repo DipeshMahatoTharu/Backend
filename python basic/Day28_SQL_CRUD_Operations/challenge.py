@@ -165,17 +165,46 @@ def search_products(
     
 
 
-   
+
 
     
     
     
     
 #    * `sort_by`: str ("price", "name", or "id", defaults to "price")
+    sort_by="price"
+    sort_by="name"
+    sort_by="id"
+    
+    
+    allowed_sort_columns = {
+    "price": "price",
+    "name": "name",
+    "id": "id"
+}
+    sort_column=allowed_sort_columns.get(sort_by,"price")
 
-#      * `sort_order`: str ("ASC" or "DESC", defaults to "ASC") 
+
+
+#      * `sort_order`: str ("ASC" or "DESC", defaults to "ASC")
+    sort_order=sort_order.upper()
+    sort_order="ASC"
+
 #      * `page`: int (1-indexed page number, defaults to 1)
-#      * `page_size`: int (number of items per page, defaults to 3)    
+
+#      * `page_size`: int (number of items per page, defaults to 3)  
+
+    results = []
+
+    for row in rows:
+        results.append({
+            "id": row[0],
+            "name": row[1],
+            "category": row[2],
+            "price": row[3],
+            "stock": row[4],
+            "is_deleted": row[5]
+        })  
 # ============================================================
 # VERIFICATION SUITE
 # ============================================================
