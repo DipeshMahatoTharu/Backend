@@ -43,10 +43,6 @@ FROM products;
 
 
 
-
-
-
-
 -- =====================================================================
 -- TASK 2: Category-Level Aggregation & Inventory Value
 -- =====================================================================
@@ -79,9 +75,17 @@ ORDER BY total_sum DESC;
 -- Order results by average price descending.
 
 -- TODO: Write query using GROUP BY and HAVING below:
+SELECT 
+        category,
+        count (*) as total_products,
+        AVG(price) AS avg_price
+    FROM products
+    GROUP BY category
+ 
 
-
-
+    HAVING count(*) >2  
+        AND AVG(price) > 50.00
+    ORDER BY avg_price DESC;
 
 
 -- =====================================================================
@@ -94,6 +98,16 @@ ORDER BY total_sum DESC;
 -- TODO: Write multi-column grouping query below:
 
 
+SELECT 
+    category,
+    is_available,
+    count(*)  as total_products,
+    sum(stock) as  total_stock
+
+    
+FROM products
+GROUP BY category  ,is_available
+ORDER BY category ASC,is_available DES
 
 
 -- =====================================================================
