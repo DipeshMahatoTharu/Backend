@@ -23,6 +23,26 @@
 -- 5. Total inventory units in stock as 'total_units'
 
 -- TODO: Write SELECT query below:
+CREATE TABLE products(
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    category VARCHAR(50),
+    price NUMERIC(10,2),
+    stock INT,
+    is_available BOOLEAN
+)
+SELECT 
+    count(*) as total_products,
+    ROUND(AVG(price),2) AS avg_price,
+    MIN(price) as min_price,
+    MAX(price) as max_price,
+    sum(stock) as total_units
+FROM products;
+
+
+
+
+
 
 
 
@@ -38,9 +58,16 @@
 -- Filter out products where stock = 0 BEFORE aggregating.
 -- Order by total warehouse value descending.
 
--- TODO: Write category aggregation query below:
 
-
+SELECT
+    category,
+    COUNT(*) AS total_products,
+    AVG(price) AS avg_product,
+    SUM(price * stock) AS total_sum
+FROM products
+WHERE stock > 0
+GROUP BY category
+ORDER BY total_sum DESC;
 
 
 -- =====================================================================
@@ -52,6 +79,7 @@
 -- Order results by average price descending.
 
 -- TODO: Write query using GROUP BY and HAVING below:
+
 
 
 
