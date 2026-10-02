@@ -125,3 +125,12 @@ ORDER BY category ASC,is_available DES
 -- TODO: Write monthly analytics query below:
 
 
+CREATE table orders{
+    id int PRIMARY KEY UNIQUE,
+    customer_id int NOT NULL ,
+    order_date DATE NOT NULL,
+    total_amount int DECIMAL(10,2) NOT NULL,
+    status VARCHAR(50) NOT NULL
+
+};
+
