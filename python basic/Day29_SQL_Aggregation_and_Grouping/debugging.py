@@ -12,6 +12,7 @@ import sqlite3
 
 def buggy_get_high_budget_depts(conn: sqlite3.Connection):
     cursor = conn.cursor()
+    
     # CRASH: Aggregates are not evaluated yet during the WHERE phase!
     cursor.execute("""
         SELECT department, SUM(salary) 
@@ -25,14 +26,18 @@ def buggy_get_high_budget_depts(conn: sqlite3.Connection):
 # QUESTION: Why cannot aggregate functions be evaluated in the WHERE clause?
 #
 # MY ANSWER:
-# _____________________________________________________________________
-#
+# becauses where sum(salary) takes indiviual and HAVING(salary) takes from grouped by 
 # CORRECTED CODE:
 # TODO: Rewrite the query using the correct HAVING clause.
 # ---------------------------------------------------------------------
 def fixed_get_high_budget_depts(conn: sqlite3.Connection):
-    pass
-
+    cursor=conn.cursor()
+    cursor.execute("""
+                   SELECT department ,SUM(salary)
+                   FROM employees
+                   GROUP BY department;
+                   HAVING SUM(salary) >100000 
+                   """)
 
 # =====================================================================
 # BUGGY SCENARIO 2: Non-Aggregated Column in SELECT
@@ -50,20 +55,30 @@ def buggy_get_top_earner_per_dept(conn: sqlite3.Connection):
         SELECT department, name, MAX(salary)
         FROM employees
         GROUP BY department;
-    """)
+    """)    
     return cursor.fetchall()
-
-# ---------------------------------------------------------------------
 # QUESTION: How does a window function (e.g. ROW_NUMBER()) or subquery solve this?
-#
 # MY ANSWER:
 # _____________________________________________________________________
-#
 # CORRECTED CODE:
 # TODO: Rewrite using a subquery to guarantee the correct matching employee name.
 # ---------------------------------------------------------------------
 def fixed_get_top_earner_per_dept(conn: sqlite3.Connection):
-    pass
+    cursor=conn.cursor()
+    cursor.execute("""
+                   SELECT e.department ,e.name, MAX(SALARY)
+                   FROM employees as e
+                   JOIN(
+                        SELECT department ,MAX(SALARY) as max_salary
+                        FROM employees
+                        GROUP BY department 
+                   
+                   )AS m
+                    ON e.department =m.department ;
+                    AND e.salary=m.max_salary;
+                   """)
+    return cursor.fectchall()
+
 
 
 # =====================================================================

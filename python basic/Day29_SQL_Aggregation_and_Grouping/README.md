@@ -73,9 +73,9 @@ To master complex queries, memorize how the database engine executes SQL clauses
 ---
 
 ## 🏁 Completion Checklist
-- [ ] Read concepts and answered **[`questions.md`](file:///d:/Backend/python%20basic/Day29_SQL_Aggregation_and_Grouping/questions.md)**
-- [ ] Completed all aggregation tasks in **[`practice.sql`](file:///d:/Backend/python%20basic/Day29_SQL_Aggregation_and_Grouping/practice.sql)**
-- [ ] Fixed all bugs in **[`debugging.py`](file:///d:/Backend/python%20basic/Day29_SQL_Aggregation_and_Grouping/debugging.py)**
+- [X] Read concepts and answered **[`questions.md`](file:///d:/Backend/python%20basic/Day29_SQL_Aggregation_and_Grouping/questions.md)**
+- [X] Completed all aggregation tasks in **[`practice.sql`](file:///d:/Backend/python%20basic/Day29_SQL_Aggregation_and_Grouping/practice.sql)**
+- [X] Fixed all bugs in **[`debugging.py`](file:///d:/Backend/python%20basic/Day29_SQL_Aggregation_and_Grouping/debugging.py)**
 - [ ] Solved whiteboard challenge in **[`whiteboard.sql`](file:///d:/Backend/python%20basic/Day29_SQL_Aggregation_and_Grouping/whiteboard.sql)**
 - [ ] Passed revenue analytics tests in **[`challenge.py`](file:///d:/Backend/python%20basic/Day29_SQL_Aggregation_and_Grouping/challenge.py)**
 - [ ] Studied backend interview answers in **[`interview.md`](file:///d:/Backend/python%20basic/Day29_SQL_Aggregation_and_Grouping/interview.md)**
