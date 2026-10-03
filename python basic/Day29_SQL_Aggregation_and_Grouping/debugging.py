@@ -77,7 +77,7 @@ def fixed_get_top_earner_per_dept(conn: sqlite3.Connection):
                     ON e.department =m.department ;
                     AND e.salary=m.max_salary;
                    """)
-    return cursor.fectchall()
+    return cursor.fetchall()
 
 
 
@@ -100,10 +100,19 @@ def buggy_calculate_avg_commission(conn: sqlite3.Connection):
 # QUESTION: How does COALESCE(commission, 0) correct the computation?
 #
 # MY ANSWER:
-# _____________________________________________________________________
+# __________Find the team's average commission, but make sure NULL commissions count as $0 instead of being ignored.
 #
 # CORRECTED CODE:
 # TODO: Rewrite using COALESCE to include zero-commission agents in the average.
 # ---------------------------------------------------------------------
 def fixed_calculate_avg_commission(conn: sqlite3.Connection):
-    pass
+    cursor=conn.cursor()
+    cursor.execute("""
+                   SELECT  AVG(COALESCE(comission,0))
+                   FROM sales_agents;
+                   """)
+    
+    
+    
+    return cursor.fetchone()[0]
+    
