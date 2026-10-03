@@ -104,6 +104,21 @@ def get_monthly_revenue_report(conn: sqlite3.Connection) -> list[dict[str, Any]]
     # TODO: Implement SELECT with strftime('%Y-%m', order_date), COUNT, SUM, AVG
     # Filter WHERE status = 'COMPLETED'
     # GROUP BY month ORDER BY month ASC
+    cursor.execute("""
+                   SELECT strftime('%Y-%m,order_date),
+                   COUNT(*),
+                   SUM(total_amount),
+                   AVG(total_amount)
+
+                   WHERE status ='COMPLETED'
+                   
+                   GROUP BY month 
+                   ORDER BY month ASC
+                   
+                   
+                   
+                   
+                   """)
     pass
 
 
@@ -112,6 +127,21 @@ def get_customer_ltv_report(conn: sqlite3.Connection, min_spend: float = 200.0) 
     cursor = conn.cursor()
     # TODO: Join customers and orders, GROUP BY customer, filter HAVING SUM(total_amount) >= min_spend
     # ORDER BY lifetime_spend DESC
+    cursor.execute("""
+                   SELECT order,
+                   
+                   
+                   GROUP BY customer
+                   HAVING SUM(total_amount)>min_spend
+                   ORDER BY lifetime_spend DEC
+                   
+                   
+                   
+                   
+                   
+                   
+                   """)
+    
     pass
 
 

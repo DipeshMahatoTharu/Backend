@@ -61,7 +61,7 @@ To become internship-ready, you must complete the following phases:
 *   [X] Day 26: Git Collaboration & Workflows
 *   [X] Day 27: SQL Fundamentals
 *   [X] Day 28: SQL CRUD Operations
-*   [ ] Day 29: SQL Aggregation & Grouping
+*   [X] Day 29: SQL Aggregation & Grouping
 *   [ ] Day 30: SQL Table Joins
 *   [ ] Day 31: SQL Subqueries & Transactions
 *   [ ] Day 32: PostgreSQL Database Configurations
