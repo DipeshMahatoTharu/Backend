@@ -18,6 +18,7 @@
 -- Order by order_date DESC.
 
 -- TODO: Write INNER JOIN query below:
+SELECT id,name,email,country
 
 
 
