@@ -18,7 +18,14 @@
 -- Order by order_date DESC.
 
 -- TODO: Write INNER JOIN query below:
-SELECT id,name,email,country
+SELECT c.name,c.email,o.id,o.order_date,o.total_amount
+FROM customers c
+INNER JOIN orders o
+    ON c.id =o.customer_id
+WHERE o.status='COMPLETED'
+ORDER BY DESC order_date
+
+
 
 
 
