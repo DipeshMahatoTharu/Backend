@@ -27,9 +27,6 @@ ORDER BY DESC order_date
 
 
 
-
-
-
 -- =====================================================================
 -- TASK 2: Detecting Unmatched Records (LEFT JOIN + IS NULL)
 -- =====================================================================
@@ -39,6 +36,12 @@ ORDER BY DESC order_date
 -- who have 0 associated orders in the orders table.
 
 -- TODO: Write LEFT JOIN query below:
+
+SELECT c.user ,c.email
+FROM customer c
+    on c.id =o.customer_id
+WHERE c.id is NULL
+
 
 
 
