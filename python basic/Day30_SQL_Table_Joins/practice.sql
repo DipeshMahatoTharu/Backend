@@ -39,8 +39,11 @@ ORDER BY DESC order_date
 
 SELECT c.user ,c.email
 FROM customer c
+LEFT JOIN order o
     on c.id =o.customer_id
-WHERE c.id is NULL
+WHERE c.id is NULL;
+
+
 
 
 
