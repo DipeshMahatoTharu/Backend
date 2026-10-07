@@ -103,3 +103,11 @@ LEFT JOIN  employees as m
 
 -- TODO: Write aggregated LEFT JOIN query below:
 
+SELECT c.name,c.country,
+       COUNT(o.total_order),
+       COALESCE(SUM(o.total),0.00) AS total_spend 
+FROM Customers AS c
+LEFT JOIN order AS o
+    ON c.id=o.customer_id
+GROUP BY c.id
+ORDER BY total_spend  DESC;
