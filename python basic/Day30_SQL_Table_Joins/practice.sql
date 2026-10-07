@@ -84,6 +84,12 @@ where o.order_id =1001
 
 -- TODO: Write Self-Join query below:
 
+SELECT e.name,e.role,
+COALESCE(m.name,'TOP EXECUTIVE') AS reports_to
+FROM employees AS e 
+LEFT JOIN  employees as m 
+    ON e.manager_id = m.id 
+
 
 
 
@@ -96,5 +102,4 @@ where o.order_id =1001
 -- Order by total gross spend descending.
 
 -- TODO: Write aggregated LEFT JOIN query below:
-
 
