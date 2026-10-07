@@ -17,7 +17,10 @@ def buggy_get_customer_subscriptions(conn: sqlite3.Connection):
     cursor.execute("""
         SELECT c.name, s.plan_name 
         FROM customers c 
-        JOIN subscriptions s;
+        JOIN subscriptions s
+        ON c.id=s.customer_id
+        WHERE s.pan_name='Premium' 
+        
     """)
     return cursor.fetchall()
 
@@ -25,13 +28,6 @@ def buggy_get_customer_subscriptions(conn: sqlite3.Connection):
 # QUESTION: Why must every JOIN always specify an explicit ON predicate?
 #
 # MY ANSWER:
-# _____________________________________________________________________
-#
-# CORRECTED CODE:
-# TODO: Rewrite with explicit ON c.id = s.customer_id.
-# ---------------------------------------------------------------------
-def fixed_get_customer_subscriptions(conn: sqlite3.Connection):
-    pass
 
 
 # =====================================================================
@@ -49,16 +45,20 @@ def buggy_get_all_customers_vip(conn: sqlite3.Connection):
     cursor.execute("""
         SELECT c.name, o.id AS order_id
         FROM customers c
-        LEFT JOIN orders o ON c.id = o.customer_id
-        WHERE o.order_type = 'VIP';
+        LEFT JOIN orders o 
+        ON c.id = o.customer_id
+        AND o.order_type = 'VIP';
     """)
     return cursor.fetchall()
 
 # ---------------------------------------------------------------------
 # QUESTION: Why does moving the filter to the ON clause fix this?
-#
-# MY ANSWER:
-# _____________________________________________________________________
+
+# Moving the filter to the ON clause fixes it because ON ... AND o.order_type = 'VIP' 
+# only allows VIP orders to match. Non-VIP orders don't match, so they become NULL. 
+# Since it is a LEFT JOIN, the customer is still kept.
+
+
 #
 # CORRECTED CODE:
 # TODO: Rewrite the query placing the order_type filter in the ON clause.
