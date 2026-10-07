@@ -44,11 +44,6 @@ LEFT JOIN order o
 WHERE c.id is NULL;
 
 
-
-
-
-
-
 -- =====================================================================
 -- TASK 3: 4-Table Itemized Receipt Join
 -- =====================================================================
@@ -64,7 +59,15 @@ WHERE c.id is NULL;
 -- Filter for order id = 1001.
 
 -- TODO: Write 4-table join query below:
-
+SELECT c.name,o.order_id,p.name,oi.quantity,oi.unit_price,(oi.quantity*oi.unit_price)
+FROM customer as c
+INNER JOIN order as o 
+    ON c.id=o.customer_id
+INNER JOIN order_items as oi
+    ON o.order_id =oi.order_id
+INNER JOIN product as p 
+    ON oi.id = p.id
+where o.order_id =1001
 
 
 
