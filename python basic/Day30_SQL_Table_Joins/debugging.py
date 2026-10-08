@@ -103,22 +103,21 @@ def fixed_customer_financial_summary(conn: sqlite3.Connection, customer_id: int)
     cursor.execute("""
                    SELECT 
                     c.id, 
-                    SUM(a.balance) AS total_bank_balance,
-                    SUM(o.amount) AS total_order_spend
+                    o.total_amount_spend,
+                    a.total_balance 
                           FROM customers c
                           LEFT JOIN (
                             SELECT customer_id,SUM(balance) AS total_balance
                             FROM accounts
                             GROUP BY customer_id
-        
                           )a
-                          
+                          ON c.id =a.customer_id
                           LEFT JOIN (
-                              SELECT customer_id,SUM(amount) as total_amount_spend,
-                              FROM accounts,
-                              GROUP BY customer_id                              
-                              
+                              SELECT customer_id,SUM(amount) as total_amount_spend  
+                              FROM orders
+                              GROUP BY customer_id                               
                           )o
+                          ON c.id=o.customer_id 
                    """)
     return cursor.fetchone()
     
