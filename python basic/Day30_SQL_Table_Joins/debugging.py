@@ -27,7 +27,10 @@ def buggy_get_customer_subscriptions(conn: sqlite3.Connection):
 # ---------------------------------------------------------------------
 # QUESTION: Why must every JOIN always specify an explicit ON predicate?
 #
-# MY ANSWER:
+# MY ANSWER:Every JOIN should specify an explicit 
+# ON condition so the database knows how the tables are related. 
+# Without it, unrelated rows can be combined into a Cartesian Product, 
+# creating a huge number of rows and using excessive memory.
 
 
 # =====================================================================
@@ -59,14 +62,6 @@ def buggy_get_all_customers_vip(conn: sqlite3.Connection):
 # Since it is a LEFT JOIN, the customer is still kept.
 
 
-#
-# CORRECTED CODE:
-# TODO: Rewrite the query placing the order_type filter in the ON clause.
-# ---------------------------------------------------------------------
-def fixed_get_all_customers_vip(conn: sqlite3.Connection):
-    pass
-
-
 # =====================================================================
 # BUGGY SCENARIO 3: Duplicate Row Inflation in One-to-Many Aggregations
 # =====================================================================
@@ -78,7 +73,6 @@ def fixed_get_all_customers_vip(conn: sqlite3.Connection):
 
 def buggy_customer_financial_summary(conn: sqlite3.Connection, customer_id: int):
     cursor = conn.cursor()
-    # BUG: Fan-out multiplication causes massive inflation of sums!
     cursor.execute("""
         SELECT 
             c.id, 
@@ -102,4 +96,17 @@ def buggy_customer_financial_summary(conn: sqlite3.Connection, customer_id: int)
 # TODO: Rewrite using subqueries to calculate sums independently before joining.
 # ---------------------------------------------------------------------
 def fixed_customer_financial_summary(conn: sqlite3.Connection, customer_id: int):
-    pass
+    cursor=conn.cursor()
+    cursor.execute("""
+                   SELECT 
+                    c.id, 
+                    SUM(a.balance) AS total_bank_balance,
+                    SUM(o.amount) AS total_order_spend
+                          FROM customers c
+                          LEFT JOIN accounts a ON c.id = a.customer_id
+                          LEFT JOIN orders o ON c.id = o.customer_id
+                          WHERE c.id = ?
+                          GROUP BY c.id;
+                   """)
+    return cursor.fetchone()
+    
