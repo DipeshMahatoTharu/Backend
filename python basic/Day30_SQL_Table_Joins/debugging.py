@@ -76,11 +76,14 @@ def buggy_customer_financial_summary(conn: sqlite3.Connection, customer_id: int)
     cursor.execute("""
         SELECT 
             c.id, 
-            SUM(a.balance) AS total_bank_balance,
-            SUM(o.amount) AS total_order_spend
+            a.total_bank_balance,
+            o.total_order_spend
+
         FROM customers c
-        LEFT JOIN accounts a ON c.id = a.customer_id
-        LEFT JOIN orders o ON c.id = o.customer_id
+        LEFT JOIN accounts a 
+        ON c.id = a.customer_id
+        LEFT JOIN orders o 
+        ON c.id = o.customer_id
         WHERE c.id = ?
         GROUP BY c.id;
     """, (customer_id,))
@@ -103,10 +106,19 @@ def fixed_customer_financial_summary(conn: sqlite3.Connection, customer_id: int)
                     SUM(a.balance) AS total_bank_balance,
                     SUM(o.amount) AS total_order_spend
                           FROM customers c
-                          LEFT JOIN accounts a ON c.id = a.customer_id
-                          LEFT JOIN orders o ON c.id = o.customer_id
-                          WHERE c.id = ?
-                          GROUP BY c.id;
+                          LEFT JOIN (
+                            SELECT customer_id,SUM(balance) AS total_balance
+                            FROM accounts
+                            GROUP BY customer_id
+        
+                          )a
+                          
+                          LEFT JOIN (
+                              SELECT customer_id,SUM(amount) as total_amount_spend,
+                              FROM accounts,
+                              GROUP BY customer_id                              
+                              
+                          )o
                    """)
     return cursor.fetchone()
     
