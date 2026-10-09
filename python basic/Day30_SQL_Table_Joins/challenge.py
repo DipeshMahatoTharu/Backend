@@ -140,7 +140,60 @@ def generate_vendor_manifest(conn: sqlite3.Connection, vendor_id: int) -> list[d
     """Joins 4 tables to produce a vendor shipment manifest."""
     cursor = conn.cursor()
     # TODO: Write 4-table join returning shipping manifest items for vendor_id
-    pass
+
+#     1. Function `setup_fulfillment_db(conn: sqlite3.Connection)`:
+#    - Creates normalized tables:
+#      * `vendors` (id INTEGER PRIMARY KEY, name TEXT, email TEXT)
+#      * `products` (id INTEGER PRIMARY KEY, vendor_id INTEGER, name TEXT, sku TEXT, price REAL,
+#                   FOREIGN KEY(vendor_id) REFERENCES vendors(id))
+#      * `customers` (id INTEGER PRIMARY KEY, full_name TEXT, address TEXT)
+#      * `orders` (id INTEGER PRIMARY KEY, customer_id INTEGER, order_date TEXT, status TEXT,
+#                 FOREIGN KEY(customer_id) REFERENCES customers(id))
+#      * `order_items` (id INTEGER PRIMARY KEY, order_id INTEGER, product_id INTEGER, quantity INTEGER, price_at_purchase REAL,
+#                      FOREIGN KEY(order_id) REFERENCES orders(id),
+#                      FOREIGN KEY(product_id) REFERENCES products(id))
+#    - Seeds sample multi-vendor data.
+    
+    
+# 2. Function `generate_vendor_manifest(conn: sqlite3.Connection, vendor_id: int) -> list[dict]`:
+#    - Returns all items supplied by `vendor_id` across 'PAID' or 'SHIPPED' orders.
+#    - Requires joining: orders -> order_items -> products -> customers.
+#    - Dict format per item:
+#      {
+#          "order_id": int,
+#          "order_date": str,
+#          "customer_name": str,
+#          "shipping_address": str,
+#          "product_name": str,
+#          "sku": str,
+#          "quantity": int,
+#          "line_total": float (quantity * price_at_purchase)
+#      }
+    cursor.execute("""
+                   SELECT v.id,
+                   o.order_date,
+                   c.full_name as customer_name,
+                   c.address as shipping_address,
+                   p.name as product_name,
+                   p.sku,
+                   oi.quantity,
+                   (quantity * price_at_purchase) AS line_total
+                   
+                   FROM vendors as v
+                   INNER JOIN products as p
+                    ON v.id=p.vendor_id
+                   INNER JOIN customers as c
+                   ON o.id =c.id
+                   INNER JOIN Price as p 
+                   ON c.id=p.id
+                   INNER  JOIN Order_list as oi
+                   ON p.id=oi.id
+                    
+                   
+                   
+                   """)
+    return cursor.fetchall()
+    
 
 
 def get_vendor_revenue_leaderboard(conn: sqlite3.Connection) -> list[dict[str, Any]]:

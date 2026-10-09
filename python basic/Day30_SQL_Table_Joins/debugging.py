@@ -112,12 +112,15 @@ def fixed_customer_financial_summary(conn: sqlite3.Connection, customer_id: int)
                             GROUP BY customer_id
                           )a
                           ON c.id =a.customer_id
+                          
+                          
                           LEFT JOIN (
                               SELECT customer_id,SUM(amount) as total_amount_spend  
                               FROM orders
                               GROUP BY customer_id                               
                           )o
                           ON c.id=o.customer_id 
-                   """)
+                          WHERE  c.id=5
+                   """,(customer_id,))
     return cursor.fetchone()
     
