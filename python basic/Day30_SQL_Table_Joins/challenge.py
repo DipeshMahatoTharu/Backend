@@ -182,12 +182,15 @@ def generate_vendor_manifest(conn: sqlite3.Connection, vendor_id: int) -> list[d
                    FROM vendors as v
                    INNER JOIN products as p
                     ON v.id=p.vendor_id
+                    INNER JOIN orders as 
+                
+                   INNER  JOIN Order_list as oi
+                   ON p.id=oi.id
                    INNER JOIN customers as c
                    ON o.id =c.id
                    INNER JOIN Price as p 
                    ON c.id=p.id
-                   INNER  JOIN Order_list as oi
-                   ON p.id=oi.id
+                   
                     
                    
                    
