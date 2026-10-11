@@ -179,20 +179,17 @@ def generate_vendor_manifest(conn: sqlite3.Connection, vendor_id: int) -> list[d
                    oi.quantity,
                    (quantity * price_at_purchase) AS line_total
                    
-                   FROM vendors as v
-                   INNER JOIN products as p
-                    ON v.id=p.vendor_id
-                    INNER JOIN orders as 
+                   FROM orders AS o
+                   INNER JOIN order_items AS oi
+                   ON o.id=oi.order_id
+                   
                 
-                   INNER  JOIN Order_list as oi
-                   ON p.id=oi.id
-                   INNER JOIN customers as c
-                   ON o.id =c.id
-                   INNER JOIN Price as p 
-                   ON c.id=p.id
-                   
-                    
-                   
+                   INNER JOIN products AS p 
+                   ON oi.id =p.vendor_id
+
+                   INNER JOIN customer AS c
+                   ON p.vendor_id AS  c.id
+                   WHERE o.status IN ('PAID', 'SHIPPED')
                    
                    """)
     return cursor.fetchall()
