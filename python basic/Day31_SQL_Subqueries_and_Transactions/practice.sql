@@ -1,25 +1,113 @@
--- =====================================================================
--- Day 31 SQL Practice — Subqueries, CTEs & Transactions
--- =====================================================================
+    -- =====================================================================
+    -- Day 31 SQL Practice — Subqueries, CTEs & Transactions
+    -- =====================================================================
 
--- Table schema reference:
--- accounts (id, user_name, balance, is_frozen)
--- ledger (id, from_account_id, to_account_id, amount, status, created_at)
--- products (id, name, category, price)
--- orders (id, customer_id, total_amount, status)
+    -- Table schema reference:
+    -- accounts (id, user_name, balance, is_frozen)
+    -- ledger (id, from_account_id, to_account_id, amount, status, created_at)
+    -- products (id, name, category, price)
+    -- orders (id, customer_id, total_amount, status)
 
--- =====================================================================
--- TASK 1: Correlated Scalar Subquery
--- =====================================================================
--- Write a query to find all products that are priced HIGHER than
--- the AVERAGE price of products in their OWN category.
--- Return: product name, category, price, and category average price.
--- Order by category ASC, price DESC.
+-- ==========================================
+-- TABLE 1: products
+-- ==========================================
+CREATE TABLE products (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(100),
+    category VARCHAR(100),
+    price DECIMAL(10, 2)
+);
 
--- TODO: Write correlated subquery below:
+-- ==========================================
+-- TABLE 2: accounts
+-- ==========================================
+CREATE TABLE accounts (
+    id INTEGER PRIMARY KEY,
+    user_name VARCHAR(100),
+    balance DECIMAL(10, 2),
+    is_frozen BOOLEAN
+);
+
+-- ==========================================
+-- TABLE 3: ledger
+-- ==========================================
+CREATE TABLE ledger (
+    id INTEGER PRIMARY KEY,
+    from_account_id INTEGER,
+    to_account_id INTEGER,
+    amount DECIMAL(10, 2),
+    status VARCHAR(30),
+    created_at TIMESTAMP
+);
+
+-- ==========================================
+-- TABLE 4: orders
+-- ==========================================
+CREATE TABLE orders (
+    id INTEGER PRIMARY KEY,
+    customer_id INTEGER,
+    total_amount DECIMAL(10, 2),
+    status VARCHAR(30)
+);
 
 
 
+-- PRODUCTS
+INSERT INTO products (id, name, category, price) VALUES
+(1, 'Keyboard', 'Accessories', 80),
+(2, 'Mouse', 'Accessories', 40),
+(3, 'Headphones', 'Accessories', 120),
+(4, 'Laptop', 'Electronics', 1200),
+(5, 'Monitor', 'Electronics', 300),
+(6, 'Webcam', 'Electronics', 100),
+(7, 'Novel', 'Books', 20),
+(8, 'SQL Guide', 'Books', 50),
+(9, 'Python Guide', 'Books', 80);
+
+-- ACCOUNTS
+INSERT INTO accounts (id, user_name, balance, is_frozen) VALUES
+(1, 'Ram', 500, FALSE),
+(2, 'Sita', 1200, FALSE),
+(3, 'Hari', 100, TRUE),
+(4, 'Gita', 800, FALSE);
+
+-- LEDGER
+INSERT INTO ledger
+(id, from_account_id, to_account_id, amount, status, created_at)
+VALUES
+(1, 1, 2, 100, 'COMPLETED', '2026-10-12 09:00:00'),
+(2, 2, 4, 200, 'COMPLETED', '2026-10-12 10:00:00'),
+(3, 1, 3, 50, 'PENDING',   '2026-10-12 11:00:00'),
+(4, 4, 1, 75, 'COMPLETED', '2026-10-12 12:00:00'),
+(5, 3, 2, 150, 'COMPLETED', '2026-10-12 13:00:00');
+
+-- ORDERS
+INSERT INTO orders (id, customer_id, total_amount, status) VALUES
+(1, 101, 500, 'PAID'),
+(2, 102, 1200, 'PAID'),
+(3, 101, 300, 'PENDING'),
+(4, 103, 800, 'PAID'),
+(5, 104, 200, 'CANCELLED'),
+(6, 102, 600, 'PAID');
+    -- =====================================================================
+    -- TASK 1: Correlated Scalar Subquery
+    -- =====================================================================
+    -- Write a query to find all products that are priced HIGHER than
+    -- the AVERAGE price of products in their OWN category.
+    -- Return: product name, category, price, and category average price.
+    -- Order by category ASC, price DESC.
+
+    -- TODO: Write correlated subquery below:
+
+SELECT name,category,price, (
+    SELECT
+    AVG(price)
+    FROM products
+    WHERE category=products.category
+) as category_average_price
+GROUP BY category_average_price DESC
+
+FROM products;
 
 -- =====================================================================
 -- TASK 2: Semi-Join with EXISTS
