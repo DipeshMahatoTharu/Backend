@@ -170,7 +170,7 @@ def generate_vendor_manifest(conn: sqlite3.Connection, vendor_id: int) -> list[d
 #          "line_total": float (quantity * price_at_purchase)
 #      }
     cursor.execute("""
-                   SELECT v.id,
+                   SELECT o.id AS order_id,
                    o.order_date,
                    c.full_name as customer_name,
                    c.address as shipping_address,
@@ -182,25 +182,51 @@ def generate_vendor_manifest(conn: sqlite3.Connection, vendor_id: int) -> list[d
                    FROM orders AS o
                    INNER JOIN order_items AS oi
                    ON o.id=oi.order_id
-                   
+    
                 
                    INNER JOIN products AS p 
-                   ON oi.id =p.vendor_id
+                   ON oi.product_id =p.id
 
-                   INNER JOIN customer AS c
-                   ON p.vendor_id AS  c.id
+                   INNER JOIN customers AS c
+                   ON o.customer_id=  c.id
                    WHERE o.status IN ('PAID', 'SHIPPED')
-                   
-                   """)
+                   AND p.vendor_id=?
+                   """,(vendor_id,))
     return cursor.fetchall()
     
-
+# 3. Function `get_vendor_revenue_leaderboard(conn: sqlite3.Connection) -> list[dict]`:
+#    - Uses LEFT JOINs from `` to calculate total revenue and total units sold.
+#    - Must include vendors with 0 sales (revenue = $0.00).
+#    - Ordered by total revenue descending.
 
 def get_vendor_revenue_leaderboard(conn: sqlite3.Connection) -> list[dict[str, Any]]:
     """Aggregates revenue per vendor, including vendors with 0 sales."""
     cursor = conn.cursor()
     # TODO: Write LEFT JOIN query calculating total revenue per vendor
-    pass
+    
+    cursor.execute("""
+                    SELECT v.id ,
+                    COALESCE(SUM(oi.quantity * oi.price_at_purchase) , 0)  AS total_revenue, 
+                    COALESCE(SUM(oi.quantity),0) AS units_sold,
+                    v.name AS vendor_name
+                    
+                    FROM vendors as v
+                   LEFT JOIN products as p
+                   ON v.id = p.vendor_id
+                   
+                   LEFT JOIN order_items as oi 
+                   ON p.id =oi.product_id
+                   
+                   
+                   GROUP BY v.id 
+                   ORDER BY total_revenue DESC
+
+                   
+                   
+                   
+                   
+                   """)
+    return cursor.fetchall()
 
 
 # ================================ ============================

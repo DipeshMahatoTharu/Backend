@@ -15,9 +15,9 @@ Use this document to track your progress as you complete each training day. When
 
 ## 🎯 Missing Skills Checklist
 To become internship-ready, you must complete the following phases:
-- [ ] Phase 1: Solidify OOP (Complete outstanding OOP Practice projects & Day 20 Whiteboard)
-- [ ] Phase 2: Git branch workflows and conflict resolution
-- [ ] Phase 3: SQL commands and relational databases
+- [X] Phase 1: Solidify OOP (Complete outstanding OOP Practice projects & Day 20 Whiteboard)
+- [X] Phase 2: Git branch workflows and conflict resolution
+- [X] Phase 3: SQL commands and relational databases
 - [ ] Phase 4: HTTP Request-Response lifecycle and JSON structures
 - [ ] Phase 5: Django MVC/MVT architecture
 - [ ] Phase 6: Django ORM database queries
@@ -57,12 +57,11 @@ To become internship-ready, you must complete the following phases:
 *   [x] Day 23: Exception Handling & Defensiveness
 *   [x] Day 24: Files, Modules & Packages
 *   [X] **Day 25: Type Hints & PEP 8 Static Analysis** 
-
 *   [X] Day 26: Git Collaboration & Workflows
 *   [X] Day 27: SQL Fundamentals
 *   [X] Day 28: SQL CRUD Operations
 *   [X] Day 29: SQL Aggregation & Grouping
-*   [ ] Day 30: SQL Table Joins
+*   [X] Day 30: SQL Table Joins
 *   [ ] Day 31: SQL Subqueries & Transactions
 *   [ ] Day 32: PostgreSQL Database Configurations
 *   [ ] Day 33: HTTP Protocols & Formats
