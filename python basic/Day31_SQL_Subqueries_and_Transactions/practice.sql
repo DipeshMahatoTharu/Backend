@@ -164,6 +164,18 @@ SELECT * FROM AverageSpend;
 -- 3. Credit Account 2 by $150.00 ONLY if is_frozen = FALSE.
 -- 4. Insert an audit record into the 'ledger' table.
 -- 5. COMMIT the transaction.
+BEGIN;
+
+UPDATE accounts
+SET balance=balance -150
+where id=1;
+
+UPDATE accounts
+SET balance=balance +150
+where id=2;
+
+COMMIT;
+ROLLBACK;
 
 -- TODO: Write transaction script below:
 
@@ -183,4 +195,16 @@ SELECT * FROM AverageSpend;
 
 -- TODO: Write SAVEPOINT script below:
 
+Begin;
+INSERT INTO ledger(id,amount)
+VALUES(999,100);
 
+
+SAVEPOINT sp1
+
+UPDATE accounts
+SET balance =balance -100
+WHERE id =999;
+ROLLBACK TO SAVEPOINT sp1;
+
+COMMIT
