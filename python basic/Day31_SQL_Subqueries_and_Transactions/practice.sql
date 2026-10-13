@@ -1,3 +1,4 @@
+-- Active: 1791819057946@@127.0.0.1@3306
     -- =====================================================================
     -- Day 31 SQL Practice — Subqueries, CTEs & Transactions
     -- =====================================================================
@@ -102,12 +103,14 @@ INSERT INTO orders (id, customer_id, total_amount, status) VALUES
 SELECT name,category,price, (
     SELECT
     AVG(price)
-    FROM products
-    WHERE category=products.category
-) as category_average_price
-GROUP BY category_average_price DESC
+    FROM products as p2
+    WHERE p2.category=products.category
+) AS category_average_price
 
-FROM products;
+FROM products
+ORDER BY category,price DESC;
+
+
 
 -- =====================================================================
 -- TASK 2: Semi-Join with EXISTS
@@ -118,6 +121,14 @@ FROM products;
 
 -- TODO: Write query using EXISTS below:
 
+SELECT  a.id ,o.id
+FROM orders AS o
+WHERE EXISTS(
+    o.customer_id=a.id
+
+
+
+)
 
 
 
