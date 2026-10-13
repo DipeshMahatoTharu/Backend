@@ -121,13 +121,12 @@ ORDER BY category,price DESC;
 
 -- TODO: Write query using EXISTS below:
 
-SELECT  a.id ,o.id
-FROM orders AS o
+SELECT  a.id 
+FROM accounts AS a
 WHERE EXISTS(
-    o.customer_id=a.id
-
-
-
+    SELECT o.id 
+    FROM orders AS o
+    WHERE o.customer_id=a.id
 )
 
 
@@ -142,9 +141,18 @@ WHERE EXISTS(
 --    the average customer spend, along with how much above they are.
 
 -- TODO: Write CTE query below:
+WITH CustomerSpend AS(
+    SELECT customer_id,
+    SUM(total_amount) AS lifetime_spend
+    FROM orders
+    GROUP BY customer_id
+),
+AverageSpend AS(
+    SELECT AVG(lifetime_spend) AS customers_total
+    FROM CustomerSpend
 
-
-
+)
+SELECT * FROM AverageSpend;
 
 -- =====================================================================
 -- TASK 4: Safe Bank Transfer Transaction Script
