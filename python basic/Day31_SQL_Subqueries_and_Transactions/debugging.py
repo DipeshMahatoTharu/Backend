@@ -25,7 +25,7 @@ def buggy_find_same_price_products(conn: sqlite3.Connection):
 # how does the 'IN' or 'ANY' operator fix it?
 #
 # MY ANSWER:
-# _____________________________________________________________________
+# WE used in to choose any of the office desk and solve the error 
 #
 # CORRECTED CODE:
 # TODO: Rewrite using the IN operator to safely handle multiple matching items.
@@ -64,13 +64,24 @@ def buggy_checkout_process(conn: sqlite3.Connection, user_id: int, cost: float):
 # QUESTION: How do try/except blocks or context managers guarantee ROLLBACK?
 #
 # MY ANSWER:
-# _____________________________________________________________________
+# A try/except block helps handle errors during a database transaction. If an exception occurs before commit(), the except block calls conn.rollback() to undo uncommitted changes and then raise re-raises the original error. If all operations succeed, conn.commit() saves the changes permanently.
+
+# A database context manager, such as Python's with conn: for SQLite, can automatically commit when the block succeeds and roll back if an exception occurs. This helps keep the database transaction consistent.
 #
 # CORRECTED CODE:
 # TODO: Wrap in try/except/rollback logic to guarantee clean connection rollback.
 # ---------------------------------------------------------------------
 def fixed_checkout_process(conn: sqlite3.Connection, user_id: int, cost: float):
-    pass
+    cursor=conn.cursor()
+    try:
+        cursor.execute("BEGIN TRANSACTION;")
+        cursor.execute("UPDATE accounts SET balance =balance - ? WHERE id =?",(cost,user_id))
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise 
+   
+
 
 
 # =====================================================================
