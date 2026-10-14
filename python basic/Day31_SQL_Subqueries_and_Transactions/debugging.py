@@ -35,15 +35,10 @@ def fixed_find_same_price_products(conn: sqlite3.Connection):
     cursor.execute("""
                    SELECT id ,name,price
                    FROM products
-                   where price=(
-                       SELECR price FROM product WHERE name ANY 'Office DESK')
-                       
-                       
-                       
-                   )
-                   
-                   
+                   WHERE price IN (
+                       SELECT price FROM products WHERE name = 'Office DESK')   
                    """)
+    return cursor.fetchall()
 
 # =====================================================================
 # BUGGY SCENARIO 2: Missing ROLLBACK on Python Exceptions
