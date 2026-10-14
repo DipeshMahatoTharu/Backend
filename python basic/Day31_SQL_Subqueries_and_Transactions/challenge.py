@@ -124,7 +124,11 @@ def execute_atomic_transfer(
     if recevier[1]:
         return (False,"Account is freeze cant receviced ")
         
-    
+    cursor.execute("""
+                    UPDATE accounts
+                    SET balance =balance + ?
+                    WHERE id =?
+                   """,(amount,to_id,))
         
 
 
