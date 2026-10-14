@@ -31,8 +31,19 @@ def buggy_find_same_price_products(conn: sqlite3.Connection):
 # TODO: Rewrite using the IN operator to safely handle multiple matching items.
 # ---------------------------------------------------------------------
 def fixed_find_same_price_products(conn: sqlite3.Connection):
-    pass
-
+    cursor=conn.cursor()
+    cursor.execute("""
+                   SELECT id ,name,price
+                   FROM products
+                   where price=(
+                       SELECR price FROM product WHERE name ANY 'Office DESK')
+                       
+                       
+                       
+                   )
+                   
+                   
+                   """)
 
 # =====================================================================
 # BUGGY SCENARIO 2: Missing ROLLBACK on Python Exceptions
