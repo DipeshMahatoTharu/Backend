@@ -1,84 +1,109 @@
-# Day 32 — PostgreSQL Architecture, Python Drivers & Connection Pooling
+# Day 32 — PostgreSQL Setup, Python Drivers & Connection Management
 
 ## 🎯 Learning Objectives
-- Connect Python applications to PostgreSQL using industry-standard drivers (`psycopg2` / `psycopg3`).
-- Understand why opening a fresh TCP database connection per HTTP request causes severe performance degradation.
-- Implement and manage **Connection Pools** (`SimpleConnectionPool`, `ThreadedConnectionPool`) to reuse database sockets.
-- Prevent SQL injection in Python drivers using parameterized tuples (`%s`).
-- Master driver-level transaction controls and dictionary cursor factories (`RealDictCursor`).
-- Learn the role of **PgBouncer** in scaling PostgreSQL to tens of thousands of concurrent connections.
+- Connect Python applications to PostgreSQL using the industry-standard `psycopg2` driver.
+- Execute parameterized queries safely using tuples (`%s`) to prevent SQL injection.
+- Manage database transactions cleanly with explicit `commit()` and `rollback()` handling.
+- Retrieve query results as Python dictionaries using `RealDictCursor`.
+- Understand the basics of connection reuse using `ThreadedConnectionPool`.
 
 ---
 
 ## 📚 Core Backend Concepts
 
-### 1. The Cost of Database Connections
-In PostgreSQL, each incoming connection spawns a new dedicated backend process on the database host, consuming 5MB–10MB of server RAM and incurring expensive TCP handshake and authentication overhead:
-- **Anti-Pattern**:
-  ```python
-  # DISASTER: Connecting on every API request
-  @app.get("/users/{user_id}")
-  def get_user(user_id):
-      conn = psycopg2.connect(...) # 50ms latency penalty + process overhead!
-      ...
-      conn.close()
-  ```
-- **Production Architecture**: Use a **Connection Pool** that maintains warm, pre-authenticated connections ready for immediate checkout.
-
-### 2. Connection Pooling Mechanics
+### 1. Connecting Python to PostgreSQL
+In production, your Python backend connects to PostgreSQL over a network socket. Connection details should always be loaded from environment variables rather than hardcoded in source code:
 ```python
-from psycopg2.pool import ThreadedConnectionPool
-from psycopg2.extras import RealDictCursor
+import os
+import psycopg2
 
-# Initialize pool on application startup
-pool = ThreadedConnectionPool(
-    minconn=5,
-    maxconn=20,
-    dsn="postgresql://postgres:secret@localhost:5432/production_db"
+conn = psycopg2.connect(
+    dbname=os.environ.get("DB_NAME", "postgres"),
+    user=os.environ.get("DB_USER", "postgres"),
+    password=os.environ.get("DB_PASSWORD", ""),
+    host=os.environ.get("DB_HOST", "localhost"),
+    port=os.environ.get("DB_PORT", "5432")
 )
-
-def fetch_user(user_id: int):
-    conn = pool.getconn()
-    try:
-        with conn.cursor(cursor_factory=RealDictCursor) as cur:
-            # ALWAYS parameterize with %s
-            cur.execute("SELECT id, username, email FROM users WHERE id = %s;", (user_id,))
-            return cur.fetchone() # Returns a Python dictionary!
-    finally:
-        # ALWAYS return the connection to the pool in a finally block!
-        pool.putconn(conn)
 ```
 
-### 3. PgBouncer: The External Connection Pooler
-In web architectures using Gunicorn or Celery, each worker process runs in its own memory space:
-- 10 Gunicorn servers with 8 workers each = 80 processes.
-- If each maintains a local pool of 10 connections, they attempt to open $80 \times 10 = 800$ database connections!
-- PostgreSQL performance degrades rapidly when active connections exceed 200–300.
-- **PgBouncer** sits between the application servers and PostgreSQL as a lightweight proxy, multiplexing thousands of client connections down to 20–50 high-throughput PostgreSQL backend processes.
+### 2. Parameterized Queries (Preventing SQL Injection)
+Never use Python f-strings or string concatenation (`+`) to build SQL queries. An attacker could enter `' OR '1'='1` into a login form and bypass authentication or drop tables.
+- **Vulnerable Code**:
+  ```python
+  # DANGEROUS: SQL Injection vulnerability!
+  query = f"SELECT * FROM users WHERE email = '{user_email}';"
+  cursor.execute(query)
+  ```
+- **Safe Code**:
+  ```python
+  # SAFE: The driver escapes and validates the parameter tuple
+  query = "SELECT * FROM users WHERE email = %s;"
+  cursor.execute(query, (user_email,))
+  ```
+
+### 3. Explicit Transactions (Commit & Rollback)
+By default, `psycopg2` starts a transaction automatically on the first SQL command.
+- To persist database writes (`INSERT`, `UPDATE`, `DELETE`), you must explicitly call `conn.commit()`.
+- If an exception occurs, you must call `conn.rollback()` to cancel pending changes and leave the connection in a clean state:
+```python
+try:
+    cursor.execute("UPDATE accounts SET balance = balance - %s WHERE id = %s;", (100, sender_id))
+    cursor.execute("UPDATE accounts SET balance = balance + %s WHERE id = %s;", (100, recipient_id))
+    conn.commit()
+except Exception as e:
+    conn.rollback()
+    print(f"Transaction failed, changes rolled back: {e}")
+```
+
+### 4. Dictionary Cursors (`RealDictCursor`)
+Standard cursors return rows as plain tuples: `(1, "dipesh", "dipesh@example.com")`. In web backends and APIs, you want dictionaries where keys match column names:
+```python
+from psycopg2.extras import RealDictCursor
+
+with conn.cursor(cursor_factory=RealDictCursor) as cur:
+    cur.execute("SELECT id, username, email FROM users WHERE id = %s;", (user_id,))
+    user = cur.fetchone()
+    # user is now a dictionary: {"id": 1, "username": "dipesh", "email": "dipesh@example.com"}
+```
+
+### 5. Basic Connection Pooling
+Opening a new TCP connection on every web request is slow and consumes database server memory. A connection pool keeps a small set of open, authenticated connections ready for immediate checkout:
+```python
+from psycopg2.pool import ThreadedConnectionPool
+
+pool = ThreadedConnectionPool(minconn=1, maxconn=10, dsn="postgresql://postgres:secret@localhost:5432/app_db")
+
+# In an API view / request handler:
+conn = pool.getconn()
+try:
+    # Execute queries using conn...
+    conn.commit()
+finally:
+    # ALWAYS return the connection back to the pool:
+    pool.putconn(conn)
+```
 
 ---
 
 ## 📅 Today's 3-Hour Structure
 
-- **HOUR 1 — LEARN + CONCEPT DRILLS (60 min)**:
-  - 40 min: Review psycopg2 architecture, pooling, RealDictCursor, and PgBouncer.
-  - 20 min: Complete conceptual analysis in **[`questions.md`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/questions.md)**.
+- **HOUR 1 — LEARN & CONCEPTS (60 min)**:
+  - 35 min: Study driver connectivity, parameterized queries, and commit/rollback lifecycles.
+  - 25 min: Complete conceptual analysis in **[`questions.md`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/questions.md)**.
 
-- **HOUR 2 — DRIVER PRACTICE & DEBUGGING (60 min)**:
-  - 35 min: Implement the pooling and driver tasks in **[`practice.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/practice.py)**.
-  - 25 min: Diagnose connection pool leaks and uncommitted dirty connections in **[`debugging.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/debugging.py)**.
+- **HOUR 2 — PRACTICE & DEBUGGING (60 min)**:
+  - 35 min: Implement the 4 core driver tasks in **[`practice.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/practice.py)**.
+  - 25 min: Diagnose connection leaks and uncommitted transaction bugs in **[`debugging.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/debugging.py)**.
 
-- **HOUR 3 — INTERVIEW & PORTFOLIO CHALLENGE (60 min)**:
-  - 20 min: Study PostgreSQL server performance tuning in **[`interview.md`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/interview.md)**.
-  - 20 min: Write the safe transactional transfer driver script on **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/whiteboard.py)**.
-  - 20 min: Build the Resilient Thread-Safe User Repository in **[`challenge.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/challenge.py)**.
+- **HOUR 3 — CHALLENGE & INTERVIEW (60 min)**:
+  - 20 min: Review core SQL driver interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/interview.md)**.
+  - 20 min: Write a safe transactional script on **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/whiteboard.py)**.
+  - 20 min: Complete the Resilient Connection Repository challenge in **[`challenge.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/challenge.py)**.
 
 ---
 
-## 🏁 Completion Checklist
-- [ ] Read concepts and answered **[`questions.md`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/questions.md)**
-- [ ] Completed all pooling tasks in **[`practice.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/practice.py)**
-- [ ] Fixed all connection leak bugs in **[`debugging.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/debugging.py)**
-- [ ] Solved whiteboard challenge in **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/whiteboard.py)**
-- [ ] Passed repository pooling tests in **[`challenge.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/challenge.py)**
-- [ ] Studied backend interview answers in **[`interview.md`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/interview.md)**
+## 🏁 Definition of Done for Day 32
+- [ ] Explained why parameterized queries (`%s` with a tuple) are mandatory for database security.
+- [ ] Completed Tasks 1 to 4 in **[`practice.py`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/practice.py)** with clean commits and rollbacks.
+- [ ] Verified that connections checked out from a pool are safely returned in a `finally` block.
+- [ ] Answered conceptual driver questions in **[`questions.md`](file:///d:/Backend/python%20basic/Day32_PostgreSQL_Database_Configurations/questions.md)**.

@@ -1,9 +1,9 @@
 ===================================================
 PYTHON BACKEND & DATABASE DEVELOPER ROADMAP (TEXT VERSION)
-75-DAY MASTER CURRICULUM (ZERO-TO-HIRED EDITION)
+75-DAY JUNIOR EMPLOYABILITY CURRICULUM
 ===================================================
 
-For the complete, fully interactive version with deep breakdowns and guides, see:
+For the complete, fully interactive version with deep breakdowns, see:
 --> ROADMAP.md (in the root directory)
 --> PROGRESS.md (daily tracker)
 
@@ -14,12 +14,12 @@ CURRENT PROGRESS STATUS
 [x] Phase 2: Advanced Python & Git (Days 21–26)          [100% Completed]
 [ ] Phase 3: Relational DBs & PostgreSQL (Days 27–36)    [50% Completed - Current Day: 32]
 [ ] Phase 4: HTTP & REST API Architecture (Days 37–39)   [Pending]
-[ ] Phase 5: Django Web Framework Mastery (Days 40–50)   [Pending]
-[ ] Phase 6: Django REST Framework (DRF) (Days 51–57)    [Pending]
-[ ] Phase 7: Automated Testing & Architecture (Days 58–63)[Pending]
-[ ] Phase 8: Async Tasks, Celery & Redis (Days 64–68)    [Pending]
-[ ] Phase 9: DevOps, Docker & Deployment (Days 69–72)    [Pending]
-[ ] Phase 10: System Design & Interview Prep (Days 73–75)[Pending]
+[ ] Phase 5: Progressive Django Mastery (Days 40–50)     [Stage 2: MarketFlow Monolith]
+[ ] Phase 6: Django REST Framework (DRF) (Days 51–57)    [Stage 2: MarketFlow REST API]
+[ ] Phase 7: Automated Testing & Architecture (Days 58–63)[Stage 2: MarketFlow Testing]
+[ ] Phase 8: Caching, Async & Celery (Days 64–68)        [Stage 3: Capstone Enhancements]
+[ ] Phase 9: DevOps, Docker & CI/CD (Days 69–72)         [Stage 3: Deployment]
+[ ] Phase 10: Junior System Design & Interviews (73–75)  [Stage 3: Portfolio Defense]
 
 ---------------------------------------------------
 PHASE 3: RELATIONAL DATABASES & POSTGRESQL (DAYS 27–36)
@@ -29,75 +29,75 @@ PHASE 3: RELATIONAL DATABASES & POSTGRESQL (DAYS 27–36)
 [x] Day 29: SQL Aggregation & Grouping (GROUP BY, HAVING)
 [x] Day 30: SQL Table Joins (INNER, LEFT, RIGHT, FULL OUTER)
 [x] Day 31: SQL Subqueries & Transactions (ACID, SQLite)
-[ ] Day 32: PostgreSQL Architecture, Drivers & Connection Pooling (CURRENT)
+[ ] Day 32: PostgreSQL Setup, Python Drivers & Connection Management (CURRENT DAY)
 [ ] Day 33: PostgreSQL Indexing, B-Trees & Query Optimization (EXPLAIN ANALYZE)
-[ ] Day 34: Database Normalization (1NF–3NF), Schema Design & Whiteboard ER Modeling
-[ ] Day 35: Transactions, ACID, MVCC, Isolation Levels & Concurrency Locking (SELECT FOR UPDATE)
-[ ] Day 36: PostgreSQL Advanced Features: JSONB, GIN Indexes, Arrays, UUIDs & Full-Text Search
+[ ] Day 34: Database Normalization (1NF–3NF), Schema Design & ER Modeling
+[ ] Day 35: Transactions, ACID, MVCC & Concurrency Basics
+[ ] Day 36: PostgreSQL Advanced Data Types: JSONB & Full-Text Search Basics
 
 ---------------------------------------------------
 PHASE 4: HTTP PROTOCOLS & REST API ARCHITECTURE (DAYS 37–39)
 ---------------------------------------------------
-[ ] Day 37: HTTP Protocols, Request-Response Lifecycle, Headers & TLS Handshake
-[ ] Day 38: HTTP Methods, Idempotency & Status Codes (2xx, 3xx, 4xx, 5xx)
-[ ] Day 39: REST API Conventions, URI Design & Error Contracts
+[ ] Day 37: HTTP Protocols, Request-Response Lifecycle & Headers
+[ ] Day 38: HTTP Methods, Idempotency & Standard Status Codes
+[ ] Day 39: RESTful API Conventions & Resource Design
 
 ---------------------------------------------------
-PHASE 5: DJANGO WEB FRAMEWORK MASTERY (DAYS 40–50)
+PHASE 5: PROGRESSIVE DJANGO MONOLITH (DAYS 40–50)
 ---------------------------------------------------
-[ ] Day 40: Django Architecture: MVT Pattern, Settings, Apps & WSGI/ASGI
-[ ] Day 41: URL Routing & Class-Based Views (CBVs) vs FBVs
-[ ] Day 42: Django Template Engine, Context Processors & Static Files
-[ ] Day 43: Django Database Models, Field Types & The Migrations Engine
-[ ] Day 44: Django ORM Queries: Advanced Filtering, Q Objects, F Expressions
-[ ] Day 45: ORM Performance Mastery: The N+1 Problem, select_related & prefetch_related
-[ ] Day 46: Django Model Relationships: OneToOne, ForeignKey, ManyToMany with through
-[ ] Day 47: Django Full CRUD Application & Admin Customization
-[ ] Day 48: Django Forms, ModelForms & Clean Validation Methods
-[ ] Day 49: Django Authentication, Password Hashing & Session Security
-[ ] Day 50: Custom User Models (AbstractUser vs AbstractBaseUser), RBAC & Signals vs Overrides
+[ ] Day 40: Django Project Setup, Virtual Environments & Settings Configuration
+[ ] Day 41: Django URL Routing & Class-Based Views (CBVs) vs FBVs
+[ ] Day 42: Django Template Engine & Static Files Basics
+[ ] Day 43: Django Models, Field Types & The Migrations Engine
+[ ] Day 44: Django ORM Queries: Filtering, Q Objects & Aggregations
+[ ] Day 45: ORM Performance: Identifying and Resolving N+1 Queries
+[ ] Day 46: Model Relationships: ForeignKey, OneToOne & ManyToMany
+[ ] Day 47: Django Forms & ModelForms with Defensive Validation
+[ ] Day 48: Django Authentication, Password Security & Sessions
+[ ] Day 49: Custom User Models (AbstractUser) & Role-Based Access
+[ ] Day 50: Project Consolidation: Model Methods, Signals vs Services & Milestone 3
 
 ---------------------------------------------------
-PHASE 6: DJANGO REST FRAMEWORK (DRF) PRODUCTION APIS (DAYS 51–57)
+PHASE 6: DJANGO REST FRAMEWORK (DRF) (DAYS 51–57)
 ---------------------------------------------------
-[ ] Day 51: DRF Serialization, ModelSerializers & Field Validations
-[ ] Day 52: Writable Nested Serializers & Complex Relational Payloads
-[ ] Day 53: APIView, GenericAPIView, Mixins & ModelViewSets with Routers
-[ ] Day 54: Authentication in DRF: Token Auth & SimpleJWT (Token Rotation)
-[ ] Day 55: Object-Level Permissions (BasePermission), API Throttling & Rate Limiting
-[ ] Day 56: Filtering, Searching, Ordering (django-filter) & Custom Pagination
+[ ] Day 51: DRF Architecture, ModelSerializers & Field Validation
+[ ] Day 52: Writable Nested Serializers: Managing Related Records
+[ ] Day 53: APIView, Generic Views, Mixins & ModelViewSets with Routers
+[ ] Day 54: DRF Authentication: Token Auth & JWT with SimpleJWT
+[ ] Day 55: Permissions, Role-Based Access & API Throttling Basics
+[ ] Day 56: Filtering, Searching, Ordering & Custom Pagination
 [ ] Day 57: API Documentation with OpenAPI 3.0 & Swagger (drf-spectacular)
 
 ---------------------------------------------------
-PHASE 7: AUTOMATED TESTING, CLEAN CODE & ARCHITECTURE (DAYS 58–63)
+PHASE 7: AUTOMATED TESTING & CLEAN CODE (DAYS 58–63)
 ---------------------------------------------------
-[ ] Day 58: API Manual Testing: Postman Environments & cURL
-[ ] Day 59: Automated API Unit & Integration Testing with pytest-django & APITestCase
-[ ] Day 60: Test Fixtures, Model Factories (factory_boy) & Test Coverage (coverage.py)
-[ ] Day 61: Backend Debugging, Query Profiling & Memory Leak Troubleshooting
-[ ] Day 62: Clean Code, SOLID Principles & Refactoring Anti-Patterns in Python
-[ ] Day 63: Production Backend Architecture: The Service Layer Pattern & Decoupled Logic
+[ ] Day 58: API Manual Testing: Postman Workspaces & cURL CLI
+[ ] Day 59: Automated API Testing with pytest-django & APITestCase
+[ ] Day 60: Testing Best Practices: Test Fixtures, Model Factories & Coverage
+[ ] Day 61: Backend Debugging, Error Handling & Logging
+[ ] Day 62: Clean Code & Refactoring Common Backend Anti-Patterns
+[ ] Day 63: Service Layer Architecture & Milestone 4 (JOB APPLICATION TRIGGER)
 
 ---------------------------------------------------
-PHASE 8: ASYNCHRONOUS SYSTEMS, CACHING & BACKGROUND WORKERS (DAYS 64–68)
+PHASE 8: CACHING & BACKGROUND TASKS (DAYS 64–68)
 ---------------------------------------------------
-[ ] Day 64: Caching Systems & Redis Strategies (Cache-Aside, Write-Through, TTL, Invalidation)
-[ ] Day 65: Asynchronous Task Queues: Celery Architecture, Redis Broker & Worker Setup
-[ ] Day 66: Advanced Celery: Retries with Exponential Backoff, Dead-Letter Queues & Celery Beat
-[ ] Day 67: Real-Time WebSockets & Django Channels Basics
-[ ] Day 68: Webhooks, Third-Party API Integration (Stripe/Payment Gateway) & Idempotency Keys
+[ ] Day 64: Caching Strategies with Redis: Cache-Aside & Invalidation
+[ ] Day 65: Asynchronous Task Processing: Celery & Redis Setup
+[ ] Day 66: Background Task Retries, Error Handling & Scheduled Jobs
+[ ] Day 67: Real-Time WebSockets & Django Channels Overview
+[ ] Day 68: Webhooks, Third-Party API Integration & Idempotency
 
 ---------------------------------------------------
-PHASE 9: DEVOPS, DOCKER, CI/CD & PRODUCTION DEPLOYMENT (DAYS 69–72)
+PHASE 9: DEVOPS, DOCKER & CI/CD (DAYS 69–72)
 ---------------------------------------------------
-[ ] Day 69: Docker Fundamentals: Dockerfile, Multi-Stage Builds & .dockerignore
-[ ] Day 70: Multi-Container Orchestration (docker-compose for Django + Postgres + Redis + Celery)
-[ ] Day 71: Production Web Servers: Nginx Reverse Proxy, Gunicorn WSGI, SSL/TLS & Security
-[ ] Day 72: CI/CD Pipelines with GitHub Actions: Automated Linting, Testing & Cloud Deploy
+[ ] Day 69: Linux Basics, Environment Variables & Production Security
+[ ] Day 70: Docker Fundamentals: Writing Clean Dockerfiles
+[ ] Day 71: Multi-Container Orchestration with docker-compose
+[ ] Day 72: CI/CD Pipelines with GitHub Actions & Cloud Deployment
 
 ---------------------------------------------------
-PHASE 10: JUNIOR SYSTEM DESIGN, INTERVIEW BOOTCAMP & CAPSTONE (DAYS 73–75)
+PHASE 10: JUNIOR SYSTEM DESIGN & INTERVIEW PREP (DAYS 73–75)
 ---------------------------------------------------
-[ ] Day 73: Junior Backend System Design Masterclass: URL Shortener, Rate Limiter & DB Scaling
-[ ] Day 74: 50-Question Senior Mock Technical Interview Bootcamp
-[ ] Day 75: Hotel Booking System Capstone Assessment & Production Architecture Defense
+[ ] Day 73: Junior Backend System Design Fundamentals
+[ ] Day 74: Junior Technical Interview Preparation: Python, SQL & Frameworks
+[ ] Day 75: Portfolio Packaging, Capstone Project Defense & Career Readiness
