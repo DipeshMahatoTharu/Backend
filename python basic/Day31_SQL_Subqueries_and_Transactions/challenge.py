@@ -17,19 +17,13 @@ REQUIREMENTS:
    - Sets up:
      * `accounts` (id INTEGER PRIMARY KEY, owner TEXT, balance REAL CHECK(balance >= 0), is_frozen INTEGER DEFAULT 0)
      * `transfer_ledger` (id INTEGER PRIMARY KEY AUTOINCREMENT, from_id INTEGER, to_id INTEGER,
-                         amount REAL, status TEXT, note TEXT, created_at TEXT)
+                         amount REAL, status TEX    T, note TEXT, created_at TEXT)
    - Seeds initial accounts:
      * 1: Alice ($1000.00)
      * 2: Bob ($500.00)
      * 3: Charlie ($200.00, is_frozen = 1)
 
-2. Function `execute_atomic_transfer(...) -> tuple[bool, str]`:
-   - Parameters:
-     * `conn`: sqlite3.Connection
-     * `from_id`: int
-     * `to_id`: int
-     * `amount`: float
-     * `simulate_crash`: bool (if True, raises an error right after debiting from_id)
+
 
    - Rules:
      * Transaction must be atomic (all operations succeed, or all rollback).
@@ -80,7 +74,13 @@ def setup_banking_db(conn: sqlite3.Connection) -> None:
     ])
     conn.commit()
 
-
+# 2. Function `execute_atomic_transfer(...) -> tuple[bool, str]`:
+#    - Parameters:
+#      * `conn`: sqlite3.Connection
+#      * `from_id`: int
+#      * `to_id`: int
+#      * `amount`: float
+#      * `simulate_crash`: bool (if True, raises an error right after debiting from_id)
 def execute_atomic_transfer(
     conn: sqlite3.Connection,
     from_id: int,
@@ -92,8 +92,44 @@ def execute_atomic_transfer(
     Executes an ACID-compliant money transfer between two accounts.
     """
     # TODO: Implement atomic transfer logic with try/except/rollback
-    pass
+    cursor=conn.cursor()
+    cursor.execute("""
+                        SELECT balance,is_frozen
+                        FROM accounts 
+                        WHERE id=?;
 
+                       """,(from_id,))
+    sender=cursor.fetchone()
+    if sender is None:
+        return(False,"Sorry there is no sender ")
+    if sender[0] <amount:
+        return(False ,"Insufficient funds")
+    
+    if sender[1]:
+        return (False,"Account is freeze cant trasfer")
+    
+    if amount <=0:
+        return (False,"Cannot trasfer monery less then 0")
+        
+    cursor.execute("""
+                   SELECT balance,is_frozen
+                   FROM accounts
+                   WHERE id=?
+                   """,(to_id,))
+
+    recevier=cursor.fetchone()
+    if recevier is None:
+        return (False,"incorrect destination")
+    
+    if recevier[1]:
+        return (False,"Account is freeze cant receviced ")
+        
+    
+        
+
+
+        
+    
 
 def get_account_balances(conn: sqlite3.Connection) -> list[dict[str, Any]]:
     cursor = conn.cursor()
