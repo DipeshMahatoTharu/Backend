@@ -67,6 +67,7 @@ You do **not** need to master every advanced topic before applying for jobs. Job
   - 🚀 **JUNIOR DEVELOPER APPLICATION TRIGGER**: You are now qualified to apply actively for **Junior Python / Django Backend Developer roles**!
 - **Milestone 5 (Day 72) — Containerized Production Deployment**:
   - *Evidence*: Docker Compose setup running Django, PostgreSQL, Redis, and Celery, with automated CI testing via GitHub Actions and live cloud deployment.
+  
 - **Milestone 6 (Day 75) — Junior Interview & System Architecture Ready**:
   - *Evidence*: Can walk through project architecture, explain trade-offs (caching, relational vs NoSQL, indexes), and solve practical junior coding/debugging interview problems.
 
