@@ -110,28 +110,57 @@ def execute_atomic_transfer(
     
     if amount <=0:
         return (False,"Cannot trasfer monery less then 0")
-        
-    cursor.execute("""
-                   SELECT balance,is_frozen
-                   FROM accounts
-                   WHERE id=?
-                   """,(to_id,))
-
-    recevier=cursor.fetchone()
-    if recevier is None:
-        return (False,"incorrect destination")
-    
-    if recevier[1]:
-        return (False,"Account is freeze cant receviced ")
-        
-    cursor.execute("""
-                    UPDATE accounts
-                    SET balance =balance + ?
-                    WHERE id =?
-                   """,(amount,to_id,))
+    try:
+        cursor.execute("BEGIN")
+        cursor.execute("""
+                            SELECT balance,is_frozen
+                            FROM accounts
+                            WHERE id=?
+                            """,(to_id,))
+        recevier=cursor.fetchone()
+        if recevier is None:
+                        return (False,"incorrect destination")
+                    
+        if recevier[1]:
+                        return (False,"Account is freeze cant receviced ")
         
 
-
+        
+       
+        cursor.execute("""
+                            
+                                UPDATE accounts
+                                SET balance =balance - ?
+                                WHERE id =?
+                            
+                            
+                            """,(amount,from_id,))
+        if simulate_crash:
+            raise RuntimeError("Simulated network outage mid-transfer")
+                
+        cursor.execute("""
+                        UPDATE accounts
+                        SET balance =balance + ?
+                        WHERE id =?
+                    """,(amount,to_id,))
+        
+        status = "SUCCESS"
+        note = "Transfer completed successfully"
+        created_at = datetime.now().isoformat()
+        
+        cursor.execute("""
+                       INSERT INTO transfer_ledger
+                       (from_id,to_id,amount,status,note,created_at)
+                       VALUES(?,?,?,?,?,?)
+                       """,(from_id,to_id,amount,status,note,created_at))
+       
+       
+        conn.commit()
+        return (True, "Transfer successful")
+    except Exception:
+            conn.rollback()
+            raise
+        
         
     
 
