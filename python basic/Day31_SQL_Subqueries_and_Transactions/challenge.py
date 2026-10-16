@@ -108,8 +108,8 @@ def execute_atomic_transfer(
     if sender[1]:
         return (False,"Account is freeze cant trasfer")
     
-    if amount <=0:
-        return (False,"Cannot trasfer monery less then 0")
+    if amount <= 0:
+        return (False, "Amount must be greater than zero")
     try:
         cursor.execute("BEGIN")
         cursor.execute("""
@@ -119,10 +119,12 @@ def execute_atomic_transfer(
                             """,(to_id,))
         recevier=cursor.fetchone()
         if recevier is None:
-                        return (False,"incorrect destination")
+            conn.rollback()
+            return (False,"incorrect destination")
                     
         if recevier[1]:
-                        return (False,"Account is freeze cant receviced ")
+            conn.rollback()
+            return (False,"Account is freeze cant receviced ")
         
 
         
