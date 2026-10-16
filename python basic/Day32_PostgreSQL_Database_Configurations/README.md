@@ -64,7 +64,7 @@ with conn.cursor(cursor_factory=RealDictCursor) as cur:
     cur.execute("SELECT id, username, email FROM users WHERE id = %s;", (user_id,))
     user = cur.fetchone()
     # user is now a dictionary: {"id": 1, "username": "dipesh", "email": "dipesh@example.com"}
-```
+``` 
 
 ### 5. Basic Connection Pooling
 Opening a new TCP connection on every web request is slow and consumes database server memory. A connection pool keeps a small set of open, authenticated connections ready for immediate checkout:
