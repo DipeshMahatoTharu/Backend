@@ -206,3 +206,4 @@ def update_tracker_file(file_path: str = TRACKER_FILE, dry_run: bool = False) ->
 if __name__ == "__main__":
     is_dry = "--dry-run" in sys.argv
     update_tracker_file(dry_run=is_dry)
+

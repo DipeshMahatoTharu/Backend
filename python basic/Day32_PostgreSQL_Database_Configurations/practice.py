@@ -24,7 +24,12 @@ from contextlib import contextmanager
 
 def build_connection_url() -> str:
     # TODO: Read from os.environ and format connection URL
-    pass
+    user=os.environ.get("DB_USER","postgres")
+    password=os.environ.get("DB_PASSWOrd","")
+    host=os.environ.get("DB_HOST","localhost")
+    port=os.environ.get("DB_PORT","port")
+    database_name=os.environ.get("DB_NAME","app_production")
+    return f"postgresql://{user}:{password}@{host}:{port}/{database_name}"
 
 
 # =====================================================================
@@ -39,7 +44,7 @@ def build_connection_url() -> str:
 
 def dict_row_factory(cursor: Any, row: tuple) -> dict[str, Any]:
     # TODO: Construct dictionary from cursor.description and row tuple
-    pass
+    
 
 
 # =====================================================================
