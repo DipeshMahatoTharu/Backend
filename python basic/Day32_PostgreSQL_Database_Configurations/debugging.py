@@ -12,30 +12,37 @@ import sqlite3
 # After 10 exceptions, the pool is completely exhausted, taking down the API.
 
 class MockConnectionPool:
-    def __init__(self): self.active = 0
-    def getconn(self): self.active += 1; return sqlite3.connect(":memory:")
-    def putconn(self, conn): self.active -= 1; conn.close()
+    def __init__(self): 
+        self.active = 0
+        
+    def getconn(self): 
+        self.active += 1; 
+        return sqlite3.connect(":memory:")
+    
+    def putconn(self, conn): 
+        self.active -= 1;
+        conn.close()
 
 def buggy_fetch_profile(pool: MockConnectionPool, user_id: int):
     conn = pool.getconn()
-    cursor = conn.cursor()
-    # If this query or following code crashes with an error:
-    cursor.execute("SELECT * FROM non_existent_table WHERE id = ?;", (user_id,))
-    data = cursor.fetchone()
-    pool.putconn(conn) # NEVER REACHED ON ERROR!
+    try:
+        cursor = conn.cursor()
+        # If this query or following code crashes with an error:
+        cursor.execute("SELECT * FROM non_existent_table WHERE id = ?;", (user_id,))
+        data = cursor.fetchone()
+        
+    # NEVER REACHED ON ERROR!
+    finally:
+        pool.putconn(conn)
     return data
 
 # ---------------------------------------------------------------------
 # QUESTION: Why is a `try...finally` block mandatory when managing pool checkouts?
-#
 # MY ANSWER:
-# _____________________________________________________________________
-#
-# CORRECTED CODE:
-# TODO: Rewrite using try/finally to guarantee pool.putconn() always runs.
-# ---------------------------------------------------------------------
-def fixed_fetch_profile(pool: MockConnectionPool, user_id: int):
-    pass
+# A try...finally block ensures that the database connection is
+# returned to the pool even if an error occurs during query execution
+# or processing. Without finally, the connection might not be returned,
+# causing connection leaks and eventually exhausting the connection pool.
 
 
 # =====================================================================
@@ -54,7 +61,9 @@ def buggy_update_subscription(conn: sqlite3.Connection, customer_id: int, new_pl
     # Validation error occurs
     if new_plan == "INVALID_PLAN":
         # Returning without rollback!
+        conn.rollback()
         return False
+        
     
     conn.commit()
     return True
@@ -64,13 +73,9 @@ def buggy_update_subscription(conn: sqlite3.Connection, customer_id: int, new_pl
 # a connection back into the available pool?
 #
 # MY ANSWER:
-# _____________________________________________________________________
-#
-# CORRECTED CODE:
-# TODO: Rewrite to ensure rollback is executed before exiting on failure.
-# ---------------------------------------------------------------------
-def fixed_update_subscription(conn: sqlite3.Connection, customer_id: int, new_plan: str):
-    pass
+# rollback() undoes uncommitted changes when a transaction fails.
+# This prevents unwanted changes from being saved and helps ensure
+# that a connection is not reused with an unfinished transaction.
 
 
 # =====================================================================
