@@ -89,18 +89,16 @@ def buggy_update_subscription(conn: sqlite3.Connection, customer_id: int, new_pl
 def buggy_search_by_email(conn: sqlite3.Connection, user_input_email: str):
     cursor = conn.cursor()
     # VULNERABLE: Python string interpolation instead of driver parameterization!
-    cursor.execute("SELECT * FROM users WHERE email = '%s'" % user_input_email)
-    return cursor.fetchall()
+    cursor.execute("SELECT * FROM users WHERE email = ?", (user_input_email,))
+    return cursor.fetchall()    
 
 # ---------------------------------------------------------------------
 # QUESTION: What is the syntax difference between Python string `%` formatting
 # and database driver parameterized tuples?
 #
 # MY ANSWER:
-# _____________________________________________________________________
-#
-# CORRECTED CODE:
-# TODO: Rewrite using proper driver parameterized placeholders.
-# ---------------------------------------------------------------------
-def fixed_search_by_email(conn: sqlite3.Connection, user_input_email: str):
-    pass
+# Python % formatting inserts values directly into the SQL string
+# before execution, which can allow SQL injection.
+# Parameterized queries use a driver placeholder, such as ? in SQLite,
+# and pass values separately as a tuple to keep input data separate
+# from SQL code.
