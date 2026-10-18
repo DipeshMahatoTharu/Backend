@@ -25,9 +25,9 @@ from contextlib import contextmanager
 def build_connection_url() -> str:
     # TODO: Read from os.environ and format connection URL
     user=os.environ.get("DB_USER","postgres")
-    password=os.environ.get("DB_PASSWOrd","")
+    password=os.environ.get("DB_PASSWORD","")
     host=os.environ.get("DB_HOST","localhost")
-    port=os.environ.get("DB_PORT","port")
+    port=os.environ.get("DB_PORT","5432")
     database_name=os.environ.get("DB_NAME","app_production")
     return f"postgresql://{user}:{password}@{host}:{port}/{database_name}"
 
@@ -46,11 +46,6 @@ def dict_row_factory(cursor: Any, row: tuple) -> dict[str, Any]:
     # TODO: Construct dictionary from cursor.description and row tuple
     column_name=[column[0] for column in cursor.description]
     
-    cursor.description = [
-    ("id", int),
-    ("name", str),
-    ("price", int)
-]
     result=dict(zip(column_name,row))
     print(result)
     return result
@@ -83,7 +78,14 @@ dict_row_factory(cursor, row)
 @contextmanager
 def managed_transaction(conn: Any) -> Generator[Any, None, None]:
     # TODO: Implement transaction management with try/except/rollback
-    
+    try:
+        yield conn
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+
+
 
 
 # # =====================================================================
@@ -96,42 +98,43 @@ def managed_transaction(conn: Any) -> Generator[Any, None, None]:
 # #    - Execute `SELECT * FROM users WHERE username = ?;` (or `%s`) using parameterized tuple.
 # #    - Return the matched user dict or None.
 
-# def safe_fetch_user(conn: Any, username: str) -> dict[str, Any] | None:
-#     # TODO: Execute parameterized query and return single dict
-#     pass
-
-
+def safe_fetch_user(conn: Any, username: str) -> dict[str, Any] | None:
+    # TODO: Execute parameterized query and return single dict
+    cursor=conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE username =?",(username,))
+    user=cursor.fetchone()
+    return user
 # # ============================================================
 # # VERIFICATION SUITE
 # # ============================================================
-# if __name__ == "__main__":
-#     print("--- Running Day 32 Practice Tasks ---")
+if __name__ == "__main__":
+    print("--- Running Day 32 Practice Tasks ---")
 
-#     # Test Task 1
-#     url = build_connection_url()
-#     print(f"Task 1 (Generated DB URL): {url}")
+    # Test Task 1
+    url = build_connection_url()
+    print(f"Task 1 (Generated DB URL): {url}")
 
-#     # Setup in-memory database to test Tasks 2, 3, 4
-#     test_conn = sqlite3.connect(":memory:")
-#     test_conn.row_factory = dict_row_factory
-#     test_conn.execute("CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT, email TEXT);")
+    # Setup in-memory database to test Tasks 2, 3, 4
+    test_conn = sqlite3.connect(":memory:")
+    test_conn.row_factory = dict_row_factory
+    test_conn.execute("CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT, email TEXT);")
 
-#     # Test Task 3: Transaction Commit
-#     with managed_transaction(test_conn):
-#         test_conn.execute("INSERT INTO users (username, email) VALUES (?, ?);", ("dipesh", "dipesh@backend.com"))
-#     print("Task 3: Committed user insert.")
+    # Test Task 3: Transaction Commit
+    with managed_transaction(test_conn):
+        test_conn.execute("INSERT INTO users (username, email) VALUES (?, ?);", ("dipesh", "dipesh@backend.com"))
+    print("Task 3: Committed user insert.")
 
-#     # Test Task 3: Transaction Rollback on Error
-#     try:
-#         with managed_transaction(test_conn):
-#             test_conn.execute("INSERT INTO users (username, email) VALUES (?, ?);", ("temp_user", "temp@test.com"))
-#             raise ValueError("Simulated API failure midway!")
-#     except ValueError as e:
-#         print(f"Task 3: Caught error ({e}), rollback executed.")
+    # Test Task 3: Transaction Rollback on Error
+    try:
+        with managed_transaction(test_conn):
+            test_conn.execute("INSERT INTO users (username, email) VALUES (?, ?);", ("temp_user", "temp@test.com"))
+            raise ValueError("Simulated API failure midway!")
+    except ValueError as e:
+        print(f"Task 3: Caught error ({e}), rollback executed.")
 
-#     # Test Task 4: Safe Fetch
-#     user = safe_fetch_user(test_conn, "dipesh")
-#     print(f"Task 4 (Fetched User Dict): {user}")
+    # Test Task 4: Safe Fetch
+    user = safe_fetch_user(test_conn, "dipesh")
+    print(f"Task 4 (Fetched User Dict): {user}")
 
-#     test_conn.close()
-#     print("Practice verifications complete.")
+    test_conn.close()
+    print("Practice verifications complete.")
