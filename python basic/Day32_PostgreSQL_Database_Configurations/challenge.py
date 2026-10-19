@@ -90,8 +90,10 @@ class ThreadSafeConnectionPool:
             pass
         self._checked_out = max(0, self._checked_out - 1)
         self._pool.put(conn)
+        
 
-    @property
+    @property   
+    
     def active_count(self) -> int:
         return self._checked_out
 
@@ -104,12 +106,8 @@ class UserRepository:
 #    - `__init__(self, pool: ThreadSafeConnectionPool)`:
 #    - `create_user(self, username: str, email: str, password_hash: str) -> dict`:
 #      Inserts a user, commits, and returns the newly created user record.
-#    - `get_user_by_id(self, user_id: int) -> dict | None`:
-#      Fetches user by primary key.
-#    - `batch_register(self, user_list: list[tuple[str, str, str]]) -> int`:
-#      Inserts multiple users in a single atomic transaction.
-#    - CRITICAL REQUIREMENT: Every single method MUST return the connection
-#      to the pool in a `finally` block!
+#   
+
 
     def create_user(self, username: str, email: str, password_hash: str) -> dict[str, Any]:
         """Creates a new user safely using a connection from the pool."""
@@ -120,24 +118,68 @@ class UserRepository:
             cursor.execute("""
                            INSERT INTO users (username,email,password_hash)
                            VALUES(?,?,?)
-                           """)
+                           """,(username,email,password_hash,))
             conn.commit()
+            new_user=cursor.lastrowid
+            cursor.execute("SELECT * FROM users WHERE id =?",(new_user,))
+            user = cursor.fetchone()
+            return user
         except Exception:
             conn.rollback()
             raise 
         finally:
-            self.pool.get_connection(conn)
+            self.pool.release_connection(conn)
         
-
+#  - `get_user_by_id(self, user_id: int) -> dict | None`:
+# #      Fetches user by primary key.
     def get_user_by_id(self, user_id: int) -> Optional[dict[str, Any]]:
         """Fetches user by id, guaranteeing connection is returned to pool."""
         # TODO: Implement checkout, select, and guaranteed release
-        pass
+        conn=self.pool.get_connection()
+        cursor=conn.cursor()
+        try:
+            cursor.execute("""SELECT * FROM users WHERE id = ?
+                           """,(user_id,))
+            
+            user=cursor.fetchone()
+           
+            return user
+            
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            self.pool.release_connection(conn)
+ #    - `batch_register(self, user_list: list[tuple[str, str, str]]) -> int`:
+#      Inserts multiple users in a single atomic transaction.
+#    - CRITICAL REQUIREMENT: Every single method MUST return the connection
+#      to the pool in a `finally` block!           
 
     def batch_register(self, user_list: list[tuple[str, str, str]]) -> int:
         """Batch registers users atomically."""
         # TODO: Implement atomic batch insert using executemany
-        pass
+        conn=self.pool.get_connection()
+        try:
+            cursor=conn.cursor()
+            cursor.executemany("""
+                           INSERT INTO users (username, email, password_hash)
+                         VALUES (?,?,?)
+                           
+                    
+                           
+                           """,user_list)
+            conn.commit()
+            cursor.rowcount
+            return cursor.rowcount
+        
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            self.pool.release_connection(conn)
+
+
+        
 
 
 # ============================================================
