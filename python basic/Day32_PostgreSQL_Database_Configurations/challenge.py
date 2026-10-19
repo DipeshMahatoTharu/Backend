@@ -24,6 +24,7 @@ REQUIREMENTS:
      to the pool.
    - `active_count` property: returns number of connections currently checked out.
 
+
 2. Class `UserRepository`:
    - `__init__(self, pool: ThreadSafeConnectionPool)`:
    - `create_user(self, username: str, email: str, password_hash: str) -> dict`:
