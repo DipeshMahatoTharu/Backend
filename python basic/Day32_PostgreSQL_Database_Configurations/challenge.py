@@ -58,7 +58,7 @@ class ThreadSafeConnectionPool:
 
     @staticmethod
     def _dict_factory(cursor, row):
-        return {col[0]: row[idx] for idx, col in enumerate(cursor.description)}
+        return {col[0]: row[idx] for idx, col i n enumerate(cursor.description)}
 
     @staticmethod
     def _init_schema(conn):
@@ -100,10 +100,34 @@ class UserRepository:
     def __init__(self, pool: ThreadSafeConnectionPool):
         self.pool = pool
 
+# 2. Class `UserRepository`:
+#    - `__init__(self, pool: ThreadSafeConnectionPool)`:
+#    - `create_user(self, username: str, email: str, password_hash: str) -> dict`:
+#      Inserts a user, commits, and returns the newly created user record.
+#    - `get_user_by_id(self, user_id: int) -> dict | None`:
+#      Fetches user by primary key.
+#    - `batch_register(self, user_list: list[tuple[str, str, str]]) -> int`:
+#      Inserts multiple users in a single atomic transaction.
+#    - CRITICAL REQUIREMENT: Every single method MUST return the connection
+#      to the pool in a `finally` block!
+
     def create_user(self, username: str, email: str, password_hash: str) -> dict[str, Any]:
         """Creates a new user safely using a connection from the pool."""
         # TODO: Implement checkout, parameterized insert, commit, and guaranteed release
-        pass
+        conn=self.pool.get_connection()
+        try:
+            cursor=conn.cursor()
+            cursor.execute("""
+                           INSERT INTO users (username,email,password_hash)
+                           VALUES(?,?,?)
+                           """)
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise 
+        finally:
+            self.pool.get_connection(conn)
+        
 
     def get_user_by_id(self, user_id: int) -> Optional[dict[str, Any]]:
         """Fetches user by id, guaranteeing connection is returned to pool."""
