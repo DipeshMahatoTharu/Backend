@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 50 REVISION SESSION (~10–15 MINUTES)
-Topic: Custom User Models, Form Validation & SQL Joins
+Topic: Custom User Models & Authorization Architecture
 ============================================================
 
-Verified Prerequisites: Days 1–49 (Day 49 Authorization & Custom User Models, Day 47 Forms, Day 30 Joins)
+Verified Prerequisites: Day 49 (Authorization & Custom User Models)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–49 (Day 49 Authorization & Custom User Models, 
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. Why does the official Django documentation recommend creating a custom user model (extending `AbstractBaseUser` or `AbstractUser`) at the start of a project?
+# 1. Why does the official Django documentation recommend creating a custom user model at the start of a project?
 #
-# 2. Why should critical business logic be placed in explicit service functions or model methods rather than in Django signals?
+# 2. What is the difference between authentication ('who you are') and authorization ('what you are permitted to do')?
 #
-# 3. In SQL, what is the effect of an `INNER JOIN` when an employee record has no matching department?
+# 3. How do Django permissions and groups enforce access control?
 
 
 # ============================================================

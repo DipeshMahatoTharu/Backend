@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 46 REVISION SESSION (~10–15 MINUTES)
-Topic: N+1 Query Problem, select_related & B-Tree Index Traversal
+Topic: Django Database Models, Migrations & ORM Queries
 ============================================================
 
-Verified Prerequisites: Days 1–45 (Day 45 Prefetching & ForeignKeys, Day 33 Indexing)
+Verified Prerequisites: Days 43–44 (Day 43 Models & Migrations, Day 44 ORM Queries & Q Objects)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,23 +22,22 @@ Verified Prerequisites: Days 1–45 (Day 45 Prefetching & ForeignKeys, Day 33 In
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is the N+1 query problem in ORMs, and how does `select_related` fix it using an SQL JOIN?
+# 1. What is the difference between `makemigrations` (generates migration code) and `migrate` (executes SQL DDL)?
 #
-# 2. What is the difference between `select_related` (single-valued FKs/OneToOne) and `prefetch_related` (ManyToMany/reverse FKs)?
+# 2. What does 'lazy evaluation' mean for Django QuerySets and what actions trigger database execution?
 #
-# 3. How does an indexed foreign key column speed up JOIN lookups in PostgreSQL?
+# 3. How do Django `Q` objects allow constructing queries with `OR` logic?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `count_simulated_queries(item_count: int, use_select_related: bool) -> int` returning the number of database queries executed when accessing a foreign key attribute for N items.
+# Write `simulate_q_filter(items: list[dict], cat: str = None, min_price: float = None) -> list[dict]` matching items where category matches OR price >= min_price.
 
-def count_simulated_queries(item_count: int, use_select_related: bool) -> int:
+def simulate_q_filter(items: list[dict], cat: str = None, min_price: float = None) -> list[dict]:
     """
-    If use_select_related is True: executes exactly 1 query (with SQL JOIN).
-    If False: executes 1 initial query + 1 query per item (1 + N queries).
+    Simulates Django Q(category=cat) | Q(price__gte=min_price)
     """
     # WRITE YOUR CODE HERE:
     pass
@@ -49,15 +48,20 @@ def count_simulated_queries(item_count: int, use_select_related: bool) -> int:
 # ============================================================
 def run_test():
     print("--- Running Day 46 Revision Challenge ---")
-    q_opt = count_simulated_queries(50, True)
-    q_naive = count_simulated_queries(50, False)
-    if q_opt is None:
-        print("[!] Function `count_simulated_queries` is not yet implemented.")
+    data = [
+        {"name": "A", "category": "books", "price": 10},
+        {"name": "B", "category": "tech", "price": 100},
+        {"name": "C", "category": "clothing", "price": 50},
+    ]
+    res = simulate_q_filter(data, cat="books", min_price=80)
+    if res is None:
+        print("[!] Function `simulate_q_filter` is not yet implemented.")
         return
-    if q_opt == 1 and q_naive == 51:
-        print("[+] Test Passed: N+1 query count calculation verified.")
+    names = [r["name"] for r in res]
+    if sorted(names) == ["A", "B"]:
+        print("[+] Test Passed: Disjunctive OR filter simulation succeeded.")
     else:
-        print(f"[-] Test Failed: q_opt={q_opt}, q_naive={q_naive}")
+        print(f"[-] Test Failed: Got names={names}")
 
 if __name__ == "__main__":
     run_test()
@@ -66,15 +70,18 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: If select_related is enabled, only 1 SQL JOIN query is sent.
-# Hint 2: Return 1 if `use_select_related` else `item_count + 1`.
+# Hint 1: Check if an item matches `cat` OR meets `min_price`.
+# Hint 2: Use `[i for i in items if (cat and i.get('category') == cat) or (min_price is not None and i.get('price', 0) >= min_price)]`.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-def _reference_solution(item_count: int, use_select_related: bool) -> int:
-    return 1 if use_select_related else item_count + 1
+def _reference_solution(items: list[dict], cat: str = None, min_price: float = None) -> list[dict]:
+    return [
+        i for i in items
+        if (cat and i.get("category") == cat) or (min_price is not None and i.get("price", 0) >= min_price)
+    ]
 
 
 # ============================================================

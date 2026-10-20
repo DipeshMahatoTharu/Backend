@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 66 REVISION SESSION (~10–15 MINUTES)
-Topic: Celery Architecture (Producer/Broker/Worker) & Network Exceptions
+Topic: Celery Architecture & Background Task Queues
 ============================================================
 
-Verified Prerequisites: Days 1–65 (Day 65 Celery & Task Queues, Day 23 Exception Handling)
+Verified Prerequisites: Day 65 (Celery Architecture & Task Queues)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–65 (Day 65 Celery & Task Queues, Day 23 Excepti
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What are the three core roles in a Celery background task system: Producer (Django app), Broker (Redis/RabbitMQ), and Consumer/Worker (Celery process)?
+# 1. What are the 3 core components of a background task system (Producer, Broker, Worker)?
 #
-# 2. Why should email sending, PDF generation, and image resizing never be performed synchronously inside an HTTP request handler?
+# 2. Why should slow I/O operations (sending emails, processing payments, resizing images) never run synchronously in an HTTP view?
 #
-# 3. Why must background tasks be idempotent so running them more than once does not cause duplicate side effects?
+# 3. What is a task broker (e.g. Redis or RabbitMQ)?
 
 
 # ============================================================

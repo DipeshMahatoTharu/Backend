@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 34 REVISION SESSION (~10–15 MINUTES)
-Topic: B-Tree Indexes, Composite Index Rules & Dict Operations
+Topic: Lists, List Conditions, Slicing & Dictionaries
 ============================================================
 
-Verified Prerequisites: Days 1–33 (Day 33 B-Tree Indexing, Day 9 Dictionaries)
+Verified Prerequisites: Days 7–9 (Day 7 Lists, Day 8 List Operations, Day 9 Dictionaries)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,23 +22,23 @@ Verified Prerequisites: Days 1–33 (Day 33 B-Tree Indexing, Day 9 Dictionaries)
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. Why does a B-Tree index allow O(log n) lookups instead of O(n) table scans?
+# 1. What is the algorithmic time complexity of checking if a key exists in a Python dict (O(1)) vs an item in an unsorted list (O(n))?
 #
-# 2. In a composite index on `(status, created_at)`, why can a query filter on `status` alone use the index, but a query on `created_at` alone cannot?
+# 2. How does Python list slice step syntax `items[::-1]` reverse a sequence?
 #
-# 3. What is the difference between `dict.get('key')` and `dict['key']` when the key is missing?
+# 3. Why is `dict.get(key, default)` preferred over direct bracket indexing `dict[key]` when keys may be absent?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `is_using_index(plan_steps: list[str]) -> bool` which inspects a list of EXPLAIN plan step strings and returns True if any step uses an index and False if it only does sequential scans.
+# Write `count_word_frequencies(words: list[str]) -> dict[str, int]` that normalizes all words to lowercase and counts the occurrence of each word in a dictionary.
 
-def is_using_index(plan_steps: list[str]) -> bool:
+def count_word_frequencies(words: list[str]) -> dict[str, int]:
     """
-    Returns True if any step in plan_steps contains 'INDEX' (case-insensitive),
-    False otherwise.
+    Counts frequency of each word normalized to lowercase.
+    Example: ['Python', 'Django', 'python'] -> {'python': 2, 'django': 1}
     """
     # WRITE YOUR CODE HERE:
     pass
@@ -49,18 +49,15 @@ def is_using_index(plan_steps: list[str]) -> bool:
 # ============================================================
 def run_test():
     print("--- Running Day 34 Revision Challenge ---")
-    plan1 = ["Seq Scan on users (cost=0.00..35.50 rows=2550 width=36)"]
-    plan2 = ["Bitmap Index Scan on idx_users_email (cost=0.00..4.30 rows=10 width=0)"]
-    
-    r1 = is_using_index(plan1)
-    r2 = is_using_index(plan2)
-    if r1 is None or r2 is None:
-        print("[!] Function `is_using_index` is not yet implemented.")
+    words = ["Python", "Django", "python", "API", "api", "Python"]
+    res = count_word_frequencies(words)
+    if res is None:
+        print("[!] Function `count_word_frequencies` is not yet implemented.")
         return
-    if r1 is False and r2 is True:
-        print("[+] Test Passed: Correctly identified Sequential Scan vs Index Scan.")
+    if res.get("python") == 3 and res.get("django") == 1 and res.get("api") == 2:
+        print("[+] Test Passed: Word frequency dictionary correctly aggregated.")
     else:
-        print(f"[-] Test Failed: r1={r1}, r2={r2}")
+        print(f"[-] Test Failed: Got {res}")
 
 if __name__ == "__main__":
     run_test()
@@ -69,15 +66,19 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Iterate through each step string and check for the substring 'INDEX'.
-# Hint 2: Use `any('INDEX' in step.upper() for step in plan_steps)`.
+# Hint 1: Iterate through words, calling `.lower()` on each word.
+# Hint 2: Use `counts[w] = counts.get(w, 0) + 1` to accumulate counts in a loop.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-def _reference_solution(plan_steps: list[str]) -> bool:
-    return any("INDEX" in step.upper() for step in plan_steps)
+def _reference_solution(words: list[str]) -> dict[str, int]:
+    counts = {}
+    for w in words:
+        lw = w.lower()
+        counts[lw] = counts.get(lw, 0) + 1
+    return counts
 
 
 # ============================================================

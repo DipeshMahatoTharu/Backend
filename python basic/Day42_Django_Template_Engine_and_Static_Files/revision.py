@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 42 REVISION SESSION (~10–15 MINUTES)
-Topic: URL Converters, FBVs vs CBVs & SQL Aggregations
+Topic: SQL Subqueries, Transactions, Connection Pooling & B-Tree Indexes
 ============================================================
 
-Verified Prerequisites: Days 1–41 (Day 41 URL Routing & Views, Day 29 SQL Aggregations)
+Verified Prerequisites: Days 31–33 (Day 31 Subqueries & Transactions, Day 32 Drivers & Pooling, Day 33 Indexing)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,24 +22,23 @@ Verified Prerequisites: Days 1–41 (Day 41 URL Routing & Views, Day 29 SQL Aggr
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. In Django `path('posts/<int:post_id>/', ...)`, what does the `<int:...>` path converter do?
+# 1. What are the four ACID properties in database transaction management?
 #
-# 2. When is a Function-Based View (FBV) preferred over a Class-Based View (CBV) for beginners?
+# 2. Why must SQL queries always use parameterized placeholders (`%s` or `?`) instead of f-string formatting?
 #
-# 3. In SQL, what is the role of `GROUP BY` when computing summary statistics like `AVG(price)` per category?
+# 3. Why does a B-Tree index offer O(log n) lookups instead of O(n) table scans?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `extract_id_from_path(path: str) -> int | None` that simulates Django's `<int:pk>` path converter for URLs formatted like `/api/v1/items/<id>/`.
+# Write `is_using_index(plan_steps: list[str]) -> bool` which inspects a list of EXPLAIN plan step strings and returns True if any step uses an index scan and False if it only does sequential scans.
 
-import re
-
-def extract_id_from_path(path: str) -> int | None:
+def is_using_index(plan_steps: list[str]) -> bool:
     """
-    Extracts integer ID from path segment: '/items/<id>/'. Returns int or None.
+    Returns True if any step in plan_steps contains 'INDEX' (case-insensitive),
+    False otherwise.
     """
     # WRITE YOUR CODE HERE:
     pass
@@ -50,15 +49,17 @@ def extract_id_from_path(path: str) -> int | None:
 # ============================================================
 def run_test():
     print("--- Running Day 42 Revision Challenge ---")
-    i1 = extract_id_from_path("/api/v1/items/456/")
-    i2 = extract_id_from_path("/api/v1/items/invalid/")
-    if i1 is None and i2 is None:
-        print("[!] Function `extract_id_from_path` is not yet implemented.")
+    p1 = ["Seq Scan on users (cost=0.00..35.50 rows=2550 width=36)"]
+    p2 = ["Bitmap Index Scan on idx_users_email (cost=0.00..4.30 rows=10 width=0)"]
+    r1 = is_using_index(p1)
+    r2 = is_using_index(p2)
+    if r1 is None or r2 is None:
+        print("[!] Function `is_using_index` is not yet implemented.")
         return
-    if i1 == 456 and i2 is None:
-        print("[+] Test Passed: Path integer converter simulated correctly.")
+    if r1 is False and r2 is True:
+        print("[+] Test Passed: B-Tree index scan correctly detected.")
     else:
-        print(f"[-] Test Failed: i1={i1}, i2={i2}")
+        print(f"[-] Test Failed: r1={r1}, r2={r2}")
 
 if __name__ == "__main__":
     run_test()
@@ -67,18 +68,15 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Use `re.search(r'/items/(\d+)/', path)` or parse path segments.
-# Hint 2: Match `re.search(r'/items/(\d+)', path)`: if match, return `int(match.group(1))` else None.
+# Hint 1: Iterate through each step string and check for the substring 'INDEX'.
+# Hint 2: Use `return any('INDEX' in step.upper() for step in plan_steps)`.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-import re
-
-def _reference_solution(path: str) -> int | None:
-    m = re.search(r'/items/(\d+)/?', path)
-    return int(m.group(1)) if m else None
+def _reference_solution(plan_steps: list[str]) -> bool:
+    return any("INDEX" in step.upper() for step in plan_steps)
 
 
 # ============================================================

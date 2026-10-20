@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 47 REVISION SESSION (~10–15 MINUTES)
-Topic: Django Relationships, related_name & String Validation
+Topic: ForeignKeys, select_related, Prefetching & CRUD Views
 ============================================================
 
-Verified Prerequisites: Days 1–46 (Day 46 CRUD Application & Relationships, Day 23 String Processing)
+Verified Prerequisites: Days 45–46 (Day 45 ForeignKeys & N+1 Problem, Day 46 CRUD Application)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,24 +22,23 @@ Verified Prerequisites: Days 1–46 (Day 46 CRUD Application & Relationships, Da
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What does the `related_name` argument in a `ForeignKey` define on the reverse model?
+# 1. What is the N+1 query problem in ORMs, and how does `select_related` fix it using an SQL JOIN?
 #
-# 2. If model `Author` has many `Books`, how do you access the books from an author instance if `related_name='books'`?
+# 2. What is the difference between `select_related` (single-valued FK) and `prefetch_related` (many-to-many / reverse FK)?
 #
-# 3. Why is regular expression pattern matching useful for validating standardized strings like SKUs or phone numbers?
+# 3. What does `related_name` in a `ForeignKey` field define on the reverse model?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `validate_sku(sku: str) -> bool` that verifies an SKU follows the format: 3 uppercase letters, a hyphen, and 3 digits (e.g. 'ABC-123').
+# Write `count_simulated_queries(item_count: int, use_select_related: bool) -> int` returning query count: 1 query if select_related is True, 1 + item_count queries if False.
 
-import re
-
-def validate_sku(sku: str) -> bool:
+def count_simulated_queries(item_count: int, use_select_related: bool) -> int:
     """
-    Returns True if sku matches ^[A-Z]{3}-\d{3}$, False otherwise.
+    If use_select_related is True: executes 1 query (with SQL JOIN).
+    If False: executes 1 initial query + 1 query per item (1 + N queries).
     """
     # WRITE YOUR CODE HERE:
     pass
@@ -50,16 +49,15 @@ def validate_sku(sku: str) -> bool:
 # ============================================================
 def run_test():
     print("--- Running Day 47 Revision Challenge ---")
-    v1 = validate_sku("PRD-404")
-    v2 = validate_sku("prd-404")
-    v3 = validate_sku("PRD404")
-    if v1 is None:
-        print("[!] Function `validate_sku` is not yet implemented.")
+    q_opt = count_simulated_queries(50, True)
+    q_naive = count_simulated_queries(50, False)
+    if q_opt is None:
+        print("[!] Function `count_simulated_queries` is not yet implemented.")
         return
-    if v1 is True and v2 is False and v3 is False:
-        print("[+] Test Passed: SKU pattern validator succeeded.")
+    if q_opt == 1 and q_naive == 51:
+        print("[+] Test Passed: N+1 query optimization verified.")
     else:
-        print(f"[-] Test Failed: v1={v1}, v2={v2}, v3={v3}")
+        print(f"[-] Test Failed: q_opt={q_opt}, q_naive={q_naive}")
 
 if __name__ == "__main__":
     run_test()
@@ -68,17 +66,15 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Use `re.fullmatch(r'^[A-Z]{3}-\d{3}$', sku)`.
-# Hint 2: Return `bool(re.fullmatch(r'^[A-Z]{3}-\d{3}$', sku))`.
+# Hint 1: If select_related is enabled, only 1 SQL JOIN query is sent.
+# Hint 2: Return 1 if `use_select_related` else `item_count + 1`.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-import re
-
-def _reference_solution(sku: str) -> bool:
-    return bool(re.fullmatch(r'^[A-Z]{3}-\d{3}$', sku))
+def _reference_solution(item_count: int, use_select_related: bool) -> int:
+    return 1 if use_select_related else item_count + 1
 
 
 # ============================================================

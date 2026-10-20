@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 40 REVISION SESSION (~10–15 MINUTES)
-Topic: RESTful URI Conventions, HTTP Methods & Virtual Environments
+Topic: Type Hints, PEP 8, Git Workflows & SQL Fundamentals
 ============================================================
 
-Verified Prerequisites: Days 1–39 (Day 39 REST URI Conventions, Day 38 HTTP Methods, Day 24 Venvs)
+Verified Prerequisites: Days 25–27 (Day 25 Type Hints, Day 26 Git Collaboration, Day 27 SQL Fundamentals)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,23 +22,22 @@ Verified Prerequisites: Days 1–39 (Day 39 REST URI Conventions, Day 38 HTTP Me
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. Why do RESTful APIs use plural nouns for URIs (e.g. `/api/v1/orders/`) rather than verbs (e.g. `/api/v1/getOrders`)?
+# 1. What are type hints in Python and why do they enhance developer tooling without causing runtime overhead?
 #
-# 2. How does HTTP method choice (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`) express the intended action without embedding verbs in the URL path?
+# 2. What are the stages of Git tracking: Working Directory -> Staging Area -> Local Repo -> Remote Repo?
 #
-# 3. Why is it vital to keep `.venv/` in `.gitignore` rather than committing it to Git?
+# 3. What SQL keyword creates a table and defines primary key constraints?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `is_restful_uri(path: str) -> bool` returning False if the path contains action verbs like 'get', 'create', 'delete', or 'update', and True if it adheres to noun-based REST conventions.
+# Write `generate_create_table_sql(table_name: str, schema: dict[str, str]) -> str` generating an SQL CREATE TABLE statement. E.g. `schema = {'id': 'INTEGER PRIMARY KEY', 'name': 'TEXT NOT NULL'}` -> `CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT NOT NULL);`.
 
-def is_restful_uri(path: str) -> bool:
+def generate_create_table_sql(table_name: str, schema: dict[str, str]) -> str:
     """
-    Returns False if any path segment contains 'get', 'create', 'delete', or 'update' (case-insensitive),
-    True otherwise.
+    Generates CREATE TABLE statement from schema dictionary.
     """
     # WRITE YOUR CODE HERE:
     pass
@@ -49,15 +48,16 @@ def is_restful_uri(path: str) -> bool:
 # ============================================================
 def run_test():
     print("--- Running Day 40 Revision Challenge ---")
-    bad = is_restful_uri("/api/v1/users/create")
-    good = is_restful_uri("/api/v1/users/123")
-    if bad is None or good is None:
-        print("[!] Function `is_restful_uri` is not yet implemented.")
+    s = {"id": "INTEGER PRIMARY KEY", "email": "TEXT NOT NULL"}
+    sql = generate_create_table_sql("users", s)
+    if sql is None:
+        print("[!] Function `generate_create_table_sql` is not yet implemented.")
         return
-    if bad is False and good is True:
-        print("[+] Test Passed: RESTful URI pattern detected cleanly.")
+    expected = "CREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT NOT NULL);"
+    if sql.strip() == expected:
+        print("[+] Test Passed: DDL SQL string accurately generated.")
     else:
-        print(f"[-] Test Failed: bad={bad}, good={good}")
+        print(f"[-] Test Failed: Got '{sql}'")
 
 if __name__ == "__main__":
     run_test()
@@ -66,17 +66,16 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Split the path by '/' and check if any forbidden verb is present in lowercased segments.
-# Hint 2: Use `verbs = {'get', 'create', 'delete', 'update'}` and `any(v in segment.lower() for v in verbs for segment in path.split('/'))`.
+# Hint 1: Format each column definition as `f'{col} {col_type}'`.
+# Hint 2: Join column definitions with `', '` and return `f'CREATE TABLE {table_name} ({cols});'`.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-def _reference_solution(path: str) -> bool:
-    verbs = {"get", "create", "delete", "update"}
-    segments = [s.lower() for s in path.strip("/").split("/")]
-    return not any(any(v in s for v in verbs) for s in segments)
+def _reference_solution(table_name: str, schema: dict[str, str]) -> str:
+    cols = ", ".join(f"{col} {ctype}" for col, ctype in schema.items())
+    return f"CREATE TABLE {table_name} ({cols});"
 
 
 # ============================================================

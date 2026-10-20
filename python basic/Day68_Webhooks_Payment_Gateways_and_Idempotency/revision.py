@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 68 REVISION SESSION (~10–15 MINUTES)
-Topic: WebSockets vs HTTP, Idempotency & Database Rollbacks
+Topic: Real-Time WebSockets vs HTTP & Django Channels
 ============================================================
 
-Verified Prerequisites: Days 1–67 (Day 67 WebSockets & Real-time, Day 38 Idempotency, Day 31/35 ACID)
+Verified Prerequisites: Day 67 (Real-Time WebSockets & Channels)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–67 (Day 67 WebSockets & Real-time, Day 38 Idemp
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. Why do WebSockets require an initial HTTP 101 Switching Protocols handshake before switching to the binary WebSocket protocol?
+# 1. How does a persistent WebSocket connection differ from a standard HTTP request/response cycle?
 #
-# 2. What is an idempotency key (often passed in `Idempotency-Key` headers) and how does it prevent double-charging credit cards on network timeouts?
+# 2. What is the purpose of Django Channels and ASGI (Asynchronous Server Gateway Interface)?
 #
-# 3. Why is an atomic database transaction rollback essential if a payment webhook fails after deducting loyalty points?
+# 3. What role does Redis play as a channel layer for broadcasting messages across WebSocket connections?
 
 
 # ============================================================

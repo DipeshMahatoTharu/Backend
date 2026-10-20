@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 52 REVISION SESSION (~10–15 MINUTES)
-Topic: DRF ModelSerializer & Field Validation
+Topic: DRF Serialization, Serializer Fields & APIView
 ============================================================
 
-Verified Prerequisites: Days 1–51 (Day 51 DRF Serialization, Day 31/35 Transactions)
+Verified Prerequisites: Day 51 (DRF Serialization & APIView)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–51 (Day 51 DRF Serialization, Day 31/35 Transac
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. In DRF, how does `ModelSerializer` automatically generate serializer fields from model definitions?
+# 1. What is the role of a DRF Serializer in converting complex QuerySets to Python datatypes (JSON)?
 #
-# 2. What is the difference between serializer field-level validation (`validate_<field>`) and object-level validation (`validate`)?
+# 2. How does `ModelSerializer` differ from a regular `Serializer` in DRF?
 #
-# 3. Why is `transaction.atomic()` important when a serializer's `create()` method writes to multiple related database tables?
+# 3. What is the difference between `APIView` and Django's standard `View`?
 
 
 # ============================================================

@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 44 REVISION SESSION (~10–15 MINUTES)
-Topic: Django Migrations, SQL DDL & Database Constraints
+Topic: HTTP Protocols, Methods, Status Codes & RESTful Conventions
 ============================================================
 
-Verified Prerequisites: Days 1–43 (Day 43 Django Models & Migrations, Day 34 Database Constraints)
+Verified Prerequisites: Days 37–39 (Day 37 HTTP Anatomy, Day 38 Methods & Codes, Day 39 REST Conventions)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,23 +22,27 @@ Verified Prerequisites: Days 1–43 (Day 43 Django Models & Migrations, Day 34 D
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is the difference between `makemigrations` (creates Python migration file) and `migrate` (executes SQL DDL against the DB)?
+# 1. What is HTTP method idempotency, and why are GET and PUT idempotent while POST is not?
 #
-# 2. Why should you never manually alter production database tables using raw SQL when using Django migrations?
+# 2. What are the standard status codes: Success (200), Created (201), Bad Request (400), Not Found (404)?
 #
-# 3. What does a `UNIQUE` constraint prevent at the database level?
+# 3. Why do RESTful API conventions use plural nouns for URIs rather than action verbs?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `validate_field_constraints(data: dict, schema: dict) -> tuple[bool, list[str]]` that checks if all required schema fields are present and non-null in data.
+# Write `determine_status_code(method: str, resource_found: bool, is_valid_payload: bool) -> int` mapping request context to standard HTTP status codes.
 
-def validate_field_constraints(data: dict, schema: dict) -> tuple[bool, list[str]]:
+def determine_status_code(method: str, resource_found: bool, is_valid_payload: bool) -> int:
     """
-    schema format: {'fields': {'title': {'required': True}, 'slug': {'required': True}}}
-    Returns (is_valid, list_of_missing_fields)
+    Rules:
+    - If payload is invalid: return 400
+    - If method is 'GET' or 'DELETE' and resource not found: return 404
+    - If method is 'POST' and valid: return 201
+    - If method is 'GET' or 'PUT' and found and valid: return 200
+    - Default fallback: 200
     """
     # WRITE YOUR CODE HERE:
     pass
@@ -49,20 +53,17 @@ def validate_field_constraints(data: dict, schema: dict) -> tuple[bool, list[str
 # ============================================================
 def run_test():
     print("--- Running Day 44 Revision Challenge ---")
-    schema = {"fields": {"title": {"required": True}, "slug": {"required": True}, "desc": {"required": False}}}
-    valid_data = {"title": "Post 1", "slug": "post-1"}
-    invalid_data = {"title": "Post 2"}
-    
-    res1 = validate_field_constraints(valid_data, schema)
-    if res1 is None:
-        print("[!] Function `validate_field_constraints` is not yet implemented.")
+    c1 = determine_status_code("POST", True, True)
+    c2 = determine_status_code("GET", False, True)
+    c3 = determine_status_code("POST", True, False)
+    c4 = determine_status_code("GET", True, True)
+    if c1 is None:
+        print("[!] Function `determine_status_code` is not yet implemented.")
         return
-    r1, m1 = res1
-    r2, m2 = validate_field_constraints(invalid_data, schema)
-    if r1 is True and r2 is False and "slug" in m2:
-        print("[+] Test Passed: Schema constraint validator succeeded.")
+    if (c1, c2, c3, c4) == (201, 404, 400, 200):
+        print("[+] Test Passed: REST HTTP status codes verified.")
     else:
-        print(f"[-] Test Failed: r1={r1}, r2={r2}, m2={m2}")
+        print(f"[-] Test Failed: Got {(c1, c2, c3, c4)}")
 
 if __name__ == "__main__":
     run_test()
@@ -71,19 +72,21 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Iterate through `schema['fields']` and check if `conf.get('required')` is True.
-# Hint 2: If field not in data or data[field] is None: append field name to missing list.
+# Hint 1: Handle errors first (if not valid -> 400, if not found on GET/DELETE -> 404).
+# Hint 2: If method == 'POST': return 201; else return 200.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-def _reference_solution(data: dict, schema: dict) -> tuple[bool, list[str]]:
-    missing = []
-    for f, conf in schema.get("fields", {}).items():
-        if conf.get("required") and (f not in data or data[f] is None):
-            missing.append(f)
-    return (len(missing) == 0, missing)
+def _reference_solution(method: str, resource_found: bool, is_valid_payload: bool) -> int:
+    if not is_valid_payload:
+        return 400
+    if not resource_found and method.upper() in ("GET", "DELETE"):
+        return 404
+    if method.upper() == "POST":
+        return 201
+    return 200
 
 
 # ============================================================

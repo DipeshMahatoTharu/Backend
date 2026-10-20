@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 55 REVISION SESSION (~10–15 MINUTES)
-Topic: JWT Access vs Refresh Tokens & Role-Based Access Control
+Topic: DRF Token Authentication & JWT (SimpleJWT)
 ============================================================
 
-Verified Prerequisites: Days 1–54 (Day 54 JWT Auth, Day 49 Authorization & Roles)
+Verified Prerequisites: Day 54 (DRF Token Auth & JWT)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–54 (Day 54 JWT Auth, Day 49 Authorization & Rol
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is the role of an Access Token (short-lived, sent with every request) versus a Refresh Token (long-lived, used to acquire new access tokens)?
+# 1. What is the difference between an Access Token (short-lived) and a Refresh Token (long-lived) in JWT?
 #
-# 2. Why is storing JWT access tokens in browser local storage vulnerable to XSS attacks?
+# 2. What are the three parts of a JSON Web Token (Header, Payload, Signature)?
 #
-# 3. In Role-Based Access Control (RBAC), how do roles (e.g. `admin`, `staff`, `customer`) simplify permission management?
+# 3. Why should JWT access tokens never be stored in browser `localStorage` due to XSS risks?
 
 
 # ============================================================

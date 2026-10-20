@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 57 REVISION SESSION (~10–15 MINUTES)
-Topic: django-filter, Pagination & API Error Codes
+Topic: DRF Filtering, Ordering & Pagination
 ============================================================
 
-Verified Prerequisites: Days 1–56 (Day 56 Filtering & Pagination, Day 38 Error Codes)
+Verified Prerequisites: Day 56 (DRF Searching & Pagination)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–56 (Day 56 Filtering & Pagination, Day 38 Error
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. How does `django-filter` simplify URL filtering without writing manual `filter()` queries for every parameter in the view?
+# 1. What are the benefits of `django-filter` over writing manual `.filter()` code for every query parameter?
 #
-# 2. What are the advantages of PageNumberPagination vs CursorPagination when working with large datasets?
+# 2. What is the difference between `PageNumberPagination` and `CursorPagination`?
 #
-# 3. Why is returning structured error dictionaries (e.g. `{'detail': 'Not found'}`) critical for frontend API clients?
+# 3. Why is database indexing critical on columns used in `OrderingFilter` (e.g. `created_at`)?
 
 
 # ============================================================

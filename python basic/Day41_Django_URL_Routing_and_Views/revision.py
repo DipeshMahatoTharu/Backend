@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 41 REVISION SESSION (~10–15 MINUTES)
-Topic: Django MVT Pattern, Environment Variables & Python Decorators
+Topic: SQL CRUD Operations, Aggregations & Table Joins
 ============================================================
 
-Verified Prerequisites: Days 1–40 (Day 40 Django Intro & Settings, Day 22 Decorators)
+Verified Prerequisites: Days 28–30 (Day 28 SQL CRUD, Day 29 Aggregation & Grouping, Day 30 Table Joins)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,24 +22,24 @@ Verified Prerequisites: Days 1–40 (Day 40 Django Intro & Settings, Day 22 Deco
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What are the distinct responsibilities of Model, View, and Template in Django's MVT pattern?
+# 1. What is the difference between an INNER JOIN and a LEFT JOIN in SQL?
 #
-# 2. Why must SECRET_KEY and DB credentials be read from environment variables rather than hardcoded in `settings.py`?
+# 2. Why must all non-aggregated SELECT columns appear in the GROUP BY clause?
 #
-# 3. How does a Python decorator wrap and modify the execution of an underlying view function?
+# 3. What is the difference between WHERE (row filter) and HAVING (group filter)?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write a decorator `require_auth` that inspects a simulated `request` dict. If `request.get('is_authenticated')` is True, it calls the function; otherwise, it returns `{'error': 'Unauthorized', 'status': 401}`.
+# Write `calculate_customer_totals(conn) -> list[tuple[str, float]]` querying an in-memory SQLite database to compute total order amount per customer using an INNER JOIN and SUM(amount) GROUP BY customer name, sorted by total descending.
 
-import functools
+import sqlite3
 
-def require_auth(func):
+def calculate_customer_totals(conn: sqlite3.Connection) -> list[tuple[str, float]]:
     """
-    Decorator that checks if request['is_authenticated'] is True.
+    Executes SELECT c.name, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.name ORDER BY 2 DESC;
     """
     # WRITE YOUR CODE HERE:
     pass
@@ -49,22 +49,26 @@ def require_auth(func):
 # VERIFICATION RUNNER (Executes your code without revealing solutions)
 # ============================================================
 def run_test():
+    import sqlite3
+    conn = sqlite3.connect(":memory:")
+    cur = conn.cursor()
+    cur.execute("CREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT);")
+    cur.execute("CREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, amount REAL);")
+    cur.execute("INSERT INTO customers VALUES (1, 'Alice'), (2, 'Bob');")
+    cur.execute("INSERT INTO orders VALUES (101, 1, 50.0), (102, 1, 75.0), (103, 2, 20.0);")
+    conn.commit()
+
     print("--- Running Day 41 Revision Challenge ---")
-    wrapper = require_auth(lambda r: {"status": 200})
-    if wrapper is None:
-        print("[!] Decorator `require_auth` is not yet implemented.")
+    res = calculate_customer_totals(conn)
+    if res is None:
+        print("[!] Function `calculate_customer_totals` is not yet implemented.")
+        conn.close()
         return
-
-    @require_auth
-    def profile_view(request):
-        return {"data": f"Welcome user {request.get('user_id')}", "status": 200}
-
-    r_anon = profile_view({"is_authenticated": False})
-    r_user = profile_view({"is_authenticated": True, "user_id": 42})
-    if r_anon.get("status") == 401 and r_user.get("status") == 200:
-        print("[+] Test Passed: require_auth decorator enforced access control.")
+    if res == [("Alice", 125.0), ("Bob", 20.0)]:
+        print("[+] Test Passed: SQL JOIN and GROUP BY aggregation calculated accurately.")
     else:
-        print(f"[-] Test Failed: anon={r_anon}, user={r_user}")
+        print(f"[-] Test Failed: Got {res}")
+    conn.close()
 
 if __name__ == "__main__":
     run_test()
@@ -73,22 +77,25 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Use `functools.wraps(func)` and define an inner wrapper that accepts `request, *args, **kwargs`.
-# Hint 2: Inside wrapper: `if not request.get('is_authenticated'): return {'error': 'Unauthorized', 'status': 401}` else return `func(request, *args, **kwargs)`.
+# Hint 1: Write query: `SELECT c.name, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.name ORDER BY SUM(o.amount) DESC`.
+# Hint 2: Execute query with `conn.cursor()`, run `.fetchall()`, and return the list of tuples.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-import functools
+import sqlite3
 
-def _reference_solution(func):
-    @functools.wraps(func)
-    def wrapper(request, *args, **kwargs):
-        if not request.get("is_authenticated"):
-            return {"error": "Unauthorized", "status": 401}
-        return func(request, *args, **kwargs)
-    return wrapper
+def _reference_solution(conn: sqlite3.Connection) -> list[tuple[str, float]]:
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT c.name, SUM(o.amount)
+        FROM customers c
+        JOIN orders o ON c.id = o.customer_id
+        GROUP BY c.name
+        ORDER BY SUM(o.amount) DESC;
+    """)
+    return cur.fetchall()
 
 
 # ============================================================

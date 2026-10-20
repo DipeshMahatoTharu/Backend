@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 56 REVISION SESSION (~10–15 MINUTES)
-Topic: Custom Permissions (BasePermission) & Query Filtering
+Topic: DRF Object-Level Permissions & Custom BasePermission
 ============================================================
 
-Verified Prerequisites: Days 1–55 (Day 55 Object Permissions, Day 39 REST Query Params)
+Verified Prerequisites: Day 55 (DRF Object-Level Permissions)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–55 (Day 55 Object Permissions, Day 39 REST Quer
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. In DRF `BasePermission`, what is the difference between `has_permission(request, view)` and `has_object_permission(request, view, obj)`?
+# 1. In DRF `BasePermission`, what is the difference between `has_permission()` and `has_object_permission()`?
 #
-# 2. What are the HTTP 'SAFE_METHODS' in DRF (`GET`, `HEAD`, `OPTIONS`)?
+# 2. What are `SAFE_METHODS` in DRF (`GET`, `HEAD`, `OPTIONS`)?
 #
-# 3. Why should object-level permissions allow read access for safe methods while restricting write access to the object's owner or staff?
+# 3. How does `IsOwnerOrReadOnly` allow public reads while restricting writes to the creator?
 
 
 # ============================================================
@@ -52,11 +52,10 @@ def run_test():
     other = {"id": 20, "is_staff": False}
     staff = {"id": 99, "is_staff": True}
     obj = {"id": 101, "owner_id": 10}
-    
-    p1 = has_object_permission(other, obj, "GET")    # True (safe method)
-    p2 = has_object_permission(other, obj, "DELETE") # False (not owner)
-    p3 = has_object_permission(owner, obj, "PUT")    # True (is owner)
-    p4 = has_object_permission(staff, obj, "DELETE") # True (is staff)
+    p1 = has_object_permission(other, obj, "GET")
+    p2 = has_object_permission(other, obj, "DELETE")
+    p3 = has_object_permission(owner, obj, "PUT")
+    p4 = has_object_permission(staff, obj, "DELETE")
     if p1 is None:
         print("[!] Function `has_object_permission` is not yet implemented.")
         return

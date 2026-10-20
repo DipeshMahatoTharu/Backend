@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 36 REVISION SESSION (~10–15 MINUTES)
-Topic: Concurrency Anomalies, Row Locking & SQL Subqueries
+Topic: OOP Classes, __init__, Single & Multiple Inheritance
 ============================================================
 
-Verified Prerequisites: Days 1–35 (Day 35 Concurrency & ACID, Day 31 SQL Subqueries)
+Verified Prerequisites: Days 13–15 (Day 13 Classes & Objects, Day 14 Single Inheritance, Day 15 Multiple Inheritance)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,25 +22,26 @@ Verified Prerequisites: Days 1–35 (Day 35 Concurrency & ACID, Day 31 SQL Subqu
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is a 'Lost Update' anomaly and how does `SELECT ... FOR UPDATE` prevent it?
+# 1. What is the purpose of `self` in Python instance methods and what does `__init__` do?
 #
-# 2. What are the four ACID properties, and which one guarantees that intermediate states are never visible?
+# 2. What does `super().__init__(...)` do when initializing a derived subclass?
 #
-# 3. Why is an atomic conditional update like `UPDATE accounts SET balance = balance - 50 WHERE id = 1 AND balance >= 50;` safer than reading first and writing later?
+# 3. In multiple inheritance, what is Python's Method Resolution Order (MRO)?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `atomic_deduct_stock(conn, product_id, qty)` executing: `UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?`. Return True if rowcount > 0, False otherwise.
+# Implement a base class `Employee(name: str, salary: float)` and a subclass `Developer(name: str, salary: float, language: str)`. Subclass must have `get_profile() -> str` returning: `'{name} codes in {language} for ${salary}'`.
 
-def atomic_deduct_stock(conn, product_id: int, qty: int) -> bool:
-    """
-    Executes conditional atomic update.
-    Returns True if stock was deducted, False if insufficient stock or product not found.
-    """
-    # WRITE YOUR CODE HERE:
+class Employee:
+    def __init__(self, name: str, salary: float):
+        self.name = name
+        self.salary = salary
+
+class Developer(Employee):
+    # Complete Developer class inheriting from Employee:
     pass
 
 
@@ -48,29 +49,19 @@ def atomic_deduct_stock(conn, product_id: int, qty: int) -> bool:
 # VERIFICATION RUNNER (Executes your code without revealing solutions)
 # ============================================================
 def run_test():
-    import sqlite3
-    conn = sqlite3.connect(":memory:")
-    cur = conn.cursor()
-    cur.execute("CREATE TABLE products (id INTEGER PRIMARY KEY, stock INTEGER);")
-    cur.execute("INSERT INTO products VALUES (1, 15);")
-    conn.commit()
-
     print("--- Running Day 36 Revision Challenge ---")
-    r1 = atomic_deduct_stock(conn, 1, 10)
-    if r1 is None:
-        print("[!] Function `atomic_deduct_stock` is not yet implemented.")
-        conn.close()
-        return
-
-    r2 = atomic_deduct_stock(conn, 1, 10) # should fail (only 5 left)
-    cur.execute("SELECT stock FROM products WHERE id = 1;")
-    remaining = cur.fetchone()[0]
-
-    if r1 is True and r2 is False and remaining == 5:
-        print("[+] Test Passed: Atomic conditional update handled correctly.")
-    else:
-        print(f"[-] Test Failed: r1={r1}, r2={r2}, remaining={remaining}")
-    conn.close()
+    try:
+        dev = Developer("Alice", 75000.0, "Python")
+        if not hasattr(dev, "get_profile"):
+            print("[!] Method `get_profile` is not yet implemented.")
+            return
+        msg = dev.get_profile()
+        if msg == "Alice codes in Python for $75000.0" and isinstance(dev, Employee):
+            print("[+] Test Passed: OOP Inheritance and method dispatch verified.")
+        else:
+            print(f"[-] Test Failed: Got '{msg}'")
+    except Exception as e:
+        print(f"[!] Test error: {e}")
 
 if __name__ == "__main__":
     run_test()
@@ -79,18 +70,25 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Run the parameterized UPDATE statement and check `cur.rowcount`.
-# Hint 2: If `cur.rowcount > 0`: `conn.commit()` and return True; else return False.
+# Hint 1: In `Developer.__init__`, call `super().__init__(name, salary)` and set `self.language = language`.
+# Hint 2: In `get_profile`, return `f'{self.name} codes in {self.language} for ${self.salary}'`.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-def _reference_solution(conn, product_id: int, qty: int) -> bool:
-    cur = conn.cursor()
-    cur.execute("UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?;", (qty, product_id, qty))
-    conn.commit()
-    return cur.rowcount > 0
+class _RefEmployee:
+    def __init__(self, name: str, salary: float):
+        self.name = name
+        self.salary = salary
+
+class _RefDeveloper(_RefEmployee):
+    def __init__(self, name: str, salary: float, language: str):
+        super().__init__(name, salary)
+        self.language = language
+
+    def get_profile(self) -> str:
+        return f"{self.name} codes in {self.language} for ${self.salary}"
 
 
 # ============================================================

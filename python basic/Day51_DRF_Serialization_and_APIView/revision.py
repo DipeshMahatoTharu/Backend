@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 51 REVISION SESSION (~10–15 MINUTES)
-Topic: Django ORM QuerySet Optimization & REST JSON Responses
+Topic: Signals, Custom Managers & Service Layer Patterns
 ============================================================
 
-Verified Prerequisites: Days 1–50 (Day 45 ORM Prefetching, Day 37/39 HTTP JSON Responses)
+Verified Prerequisites: Day 50 (Django Signals, Managers & Overrides)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–50 (Day 45 ORM Prefetching, Day 37/39 HTTP JSON
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is the difference between serialization (Python object -> JSON/dict) and deserialization (JSON/dict -> Python object)?
+# 1. Why should critical business logic live in explicit service functions rather than implicit Django signals?
 #
-# 2. Why does `only('id', 'name')` or `values('id', 'name')` improve query performance over fetching complete model instances when building lightweight API responses?
+# 2. What is a custom Django `models.Manager` and how does `get_queryset()` allow encapsulating common filters?
 #
-# 3. What HTTP status code and response structure should be returned when an incoming JSON payload fails validation?
+# 3. When is overriding a model's `save()` method appropriate versus using a service layer?
 
 
 # ============================================================

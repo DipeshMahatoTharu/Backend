@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 59 REVISION SESSION (~10–15 MINUTES)
-Topic: API Testing with Postman, Assertions & Status Codes
+Topic: Manual Testing with Postman, Assertions & Status Codes
 ============================================================
 
-Verified Prerequisites: Days 1–58 (Day 58 Manual Testing, Day 38 Status Codes, Day 23 Assertions)
+Verified Prerequisites: Day 58 (API Testing via Postman & cURL)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–58 (Day 58 Manual Testing, Day 38 Status Codes,
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. How does automated testing in Postman using JavaScript assertions (`pm.response.to.have.status(200)`) differ from Python unit testing?
+# 1. How do you test an authenticated endpoint using a cURL command with an `Authorization: Bearer <token>` header?
 #
 # 2. Why should backend tests assert both the HTTP status code AND the JSON response body structure?
 #
-# 3. What is Python's `assert` statement and why is it the foundation of unit testing frameworks?
+# 3. What is an API response contract?
 
 
 # ============================================================
@@ -51,7 +51,6 @@ def run_test():
     resp_ok = {"id": 1, "name": "Book", "price": 19.99}
     resp_missing = {"id": 2, "name": "Pencil"}
     resp_null = {"id": 3, "name": None, "price": 5.0}
-    
     r1 = assert_response_contract(resp_ok, ["id", "name", "price"])
     r2 = assert_response_contract(resp_missing, ["id", "name", "price"])
     r3 = assert_response_contract(resp_null, ["id", "name", "price"])

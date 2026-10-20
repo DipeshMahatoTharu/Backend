@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 64 REVISION SESSION (~10–15 MINUTES)
-Topic: Service Layer Pattern & Query Latency
+Topic: Service Layer Pattern & Backend Architecture
 ============================================================
 
-Verified Prerequisites: Days 1–63 (Day 63 Service Layers, Day 33 Indexing Latency, Day 45 ORM Optimization)
+Verified Prerequisites: Day 63 (Service Layers & Project Architecture)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,23 +22,23 @@ Verified Prerequisites: Days 1–63 (Day 63 Service Layers, Day 33 Indexing Late
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is the Service Layer pattern and why does it keep business logic out of views and models?
+# 1. What is the Service Layer pattern in Django projects and why does it keep business logic out of views and models?
 #
-# 2. Why can an unindexed database query take hundreds of milliseconds on large tables while an indexed query takes under 5 milliseconds?
+# 2. Why does separating domain logic into a service layer make automated unit testing faster and simpler?
 #
-# 3. How do you measure database query latency in development using tools like Django Debug Toolbar or `EXPLAIN ANALYZE`?
+# 3. How does database query latency impact overall API response time?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Implement a service function `calculate_order_totals_service(items: list[dict], discount_pct: float = 0.0) -> dict` returning `{'subtotal': float, 'discount': float, 'total': float}` with all values rounded to 2 decimals.
+# Implement `calculate_order_totals_service(items: list[dict], discount_pct: float = 0.0) -> dict` returning `{'subtotal': float, 'discount': float, 'total': float}` with all values rounded to 2 decimals.
 
 def calculate_order_totals_service(items: list[dict], discount_pct: float = 0.0) -> dict:
     """
     Each item in items: {'price': float, 'qty': int}
-    discount_pct is a float between 0.0 and 1.0 (e.g. 0.15 for 15% off).
+    discount_pct is a float between 0.0 and 1.0 (e.g. 0.10 for 10% off).
     """
     # WRITE YOUR CODE HERE:
     pass
@@ -49,7 +49,7 @@ def calculate_order_totals_service(items: list[dict], discount_pct: float = 0.0)
 # ============================================================
 def run_test():
     print("--- Running Day 64 Revision Challenge ---")
-    items = [{"price": 20.0, "qty": 2}, {"price": 10.0, "qty": 1}] # subtotal = 50.0
+    items = [{"price": 20.0, "qty": 2}, {"price": 10.0, "qty": 1}]
     res = calculate_order_totals_service(items, discount_pct=0.10)
     if res is None:
         print("[!] Function `calculate_order_totals_service` is not yet implemented.")

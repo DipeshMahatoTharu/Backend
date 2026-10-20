@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 53 REVISION SESSION (~10–15 MINUTES)
-Topic: Writable Nested Serializers & HTTP Methods
+Topic: DRF Writable Nested Serializers & Transactions
 ============================================================
 
-Verified Prerequisites: Days 1–52 (Day 52 Nested Serializers, Day 38 HTTP Methods, Day 41 CBVs)
+Verified Prerequisites: Day 52 (DRF Writable Nested Serializers)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–52 (Day 52 Nested Serializers, Day 38 HTTP Meth
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. Why does DRF require custom `create()` and `update()` overrides when handling writable nested serializers?
+# 1. Why does DRF require overriding `create()` and `update()` on serializers with writable nested relationships?
 #
-# 2. What HTTP method should be used for full resource replacement (`PUT`) vs partial updates (`PATCH`)?
+# 2. How do you handle database atomicity (`transaction.atomic()`) when creating parent and child records in a nested serializer?
 #
-# 3. In DRF Class-Based Views, how does `get_serializer_class()` allow using different serializers for list vs detail views?
+# 3. What is the difference between `validate_<field>()` and `validate()` in DRF?
 
 
 # ============================================================

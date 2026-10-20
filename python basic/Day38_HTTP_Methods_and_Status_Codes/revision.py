@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 38 REVISION SESSION (~10–15 MINUTES)
-Topic: HTTP Request-Response Anatomy, Headers & Git Conflicts
+Topic: Properties, OOP Checkpoint & Advanced Data Structures
 ============================================================
 
-Verified Prerequisites: Days 1–37 (Day 37 HTTP Anatomy, Day 33 Indexing, Day 26 Git Collaboration)
+Verified Prerequisites: Days 19–21 (Day 19 Properties & Abstraction, Day 20 OOP Checkpoint, Day 21 Data Structures)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,24 +22,26 @@ Verified Prerequisites: Days 1–37 (Day 37 HTTP Anatomy, Day 33 Indexing, Day 2
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What are the three main components of an HTTP Request message (start line, headers, body)?
+# 1. How does `@property` enable getter access while hiding direct field mutation?
 #
-# 2. Why are HTTP header names considered case-insensitive according to RFC specifications (e.g., `Content-Type` vs `content-type`)?
+# 2. What is the difference between a Python `set` (unique elements, fast hashing) and a `list`?
 #
-# 3. In Git, what markers (`<<<<<<<`, `=======`, `>>>>>>>`) appear in a file during a merge conflict?
+# 3. How do you define a setter using `@<property_name>.setter` in Python?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `get_header_value(headers: dict, target_header: str) -> str | None` which retrieves the value of a header regardless of whether it was stored in lowercase, uppercase, or mixed case.
+# Implement `BankAccount` with protected `_balance: float`. Implement `@property def balance` and `@balance.setter` which raises `ValueError('Deposit must be non-negative')` if new balance < 0.
 
-def get_header_value(headers: dict, target_header: str) -> str | None:
-    """
-    Retrieves the value of target_header from headers dictionary in a case-insensitive way.
-    """
-    # WRITE YOUR CODE HERE:
+class BankAccount:
+    def __init__(self, initial_balance: float = 0.0):
+        if initial_balance < 0:
+            raise ValueError("Initial balance cannot be negative")
+        self._balance = initial_balance
+
+    # Implement balance property and setter below:
     pass
 
 
@@ -48,17 +50,25 @@ def get_header_value(headers: dict, target_header: str) -> str | None:
 # ============================================================
 def run_test():
     print("--- Running Day 38 Revision Challenge ---")
-    headers = {"Content-Type": "application/json", "Authorization": "Bearer token123"}
-    v1 = get_header_value(headers, "content-type")
-    v2 = get_header_value(headers, "AUTHORIZATION")
-    v3 = get_header_value(headers, "Accept")
-    if v1 is None and v2 is None:
-        print("[!] Function `get_header_value` is not yet implemented.")
-        return
-    if v1 == "application/json" and v2 == "Bearer token123" and v3 is None:
-        print("[+] Test Passed: Case-insensitive header lookup succeeded.")
-    else:
-        print(f"[-] Test Failed: v1={v1}, v2={v2}, v3={v3}")
+    try:
+        acc = BankAccount(100.0)
+        if not hasattr(acc, "balance"):
+            print("[!] Property `balance` is not yet implemented.")
+            return
+        if acc.balance != 100.0:
+            print("[-] Test Failed: Getter returned unexpected value.")
+            return
+        acc.balance = 150.0
+        try:
+            acc.balance = -50.0
+            print("[-] Test Failed: Setter did not raise ValueError on negative balance.")
+            return
+        except ValueError:
+            pass
+        if acc.balance == 150.0:
+            print("[+] Test Passed: BankAccount property encapsulation verified.")
+    except Exception as e:
+        print(f"[!] Test error: {e}")
 
 if __name__ == "__main__":
     run_test()
@@ -67,19 +77,28 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Compare lowercased keys with `target_header.lower()`.
-# Hint 2: Iterate through `headers.items()`: `for k, v in headers.items(): if k.lower() == target_header.lower(): return v`.
+# Hint 1: Decorate getter with `@property def balance(self): return self._balance`.
+# Hint 2: Decorate setter with `@balance.setter def balance(self, val): if val < 0: raise ValueError(...) else: self._balance = val`.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-def _reference_solution(headers: dict, target_header: str) -> str | None:
-    target = target_header.lower()
-    for k, v in headers.items():
-        if k.lower() == target:
-            return v
-    return None
+class _RefBankAccount:
+    def __init__(self, initial_balance: float = 0.0):
+        if initial_balance < 0:
+            raise ValueError("Initial balance cannot be negative")
+        self._balance = initial_balance
+
+    @property
+    def balance(self) -> float:
+        return self._balance
+
+    @balance.setter
+    def balance(self, val: float):
+        if val < 0:
+            raise ValueError("Deposit must be non-negative")
+        self._balance = val
 
 
 # ============================================================

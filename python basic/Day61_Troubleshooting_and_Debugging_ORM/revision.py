@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 61 REVISION SESSION (~10–15 MINUTES)
-Topic: Model Factories (factory_boy) & Python Exception Hierarchies
+Topic: Test Fixtures, Model Factories (factory_boy) & Coverage
 ============================================================
 
-Verified Prerequisites: Days 1–60 (Day 60 Test Factories & Fixtures, Day 23 Exception Handling)
+Verified Prerequisites: Day 60 (Test Fixtures, Factories & Coverage)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–60 (Day 60 Test Factories & Fixtures, Day 23 Ex
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. Why are model factories (`factory_boy`) preferred over hardcoded fixtures (JSON/YAML) in production test suites?
+# 1. Why are model factories (`factory_boy`) more maintainable than hardcoded JSON/YAML fixtures in test suites?
 #
-# 2. In Python, why should you catch specific exception classes (e.g. `ObjectDoesNotExist`, `IntegrityError`) rather than catching bare `Exception`?
+# 2. What does test coverage measure, and why is testing critical business logic more important than achieving 100% line coverage?
 #
-# 3. What is the purpose of raising a custom domain exception (e.g. `InsufficientInventoryError`) in a backend service?
+# 3. In pytest, what is a fixture and how does it promote clean test setup and teardown?
 
 
 # ============================================================

@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 63 REVISION SESSION (~10–15 MINUTES)
-Topic: SOLID Principles & Clean Code Architecture
+Topic: Clean Code, SOLID Principles & Refactoring
 ============================================================
 
-Verified Prerequisites: Days 1–62 (Day 62 Clean Code & SOLID, Days 51–57 DRF Architecture)
+Verified Prerequisites: Day 62 (Clean Code & SOLID Refactoring)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,18 +22,18 @@ Verified Prerequisites: Days 1–62 (Day 62 Clean Code & SOLID, Days 51–57 DRF
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is the Single Responsibility Principle (SRP) and how does it prevent bloated classes and 'god functions'?
+# 1. What is the Single Responsibility Principle (SRP) in software engineering?
 #
 # 2. What is the Open/Closed Principle (open for extension, closed for modification)?
 #
-# 3. How does Dependency Inversion allow business services to depend on abstractions rather than concrete database or external API implementations?
+# 3. Why is eliminating 'fat views' by moving business logic into helper services essential for clean code?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Refactor a monolithic billing function into decoupled single-responsibility functions: `calculate_tax(subtotal: float, rate: float) -> float` and `calculate_invoice_total(subtotal: float, tax_rate: float) -> dict` returning `{'subtotal': ..., 'tax': ..., 'total': ...}` rounded to 2 decimals.
+# Refactor billing functions: `calculate_tax(subtotal: float, rate: float = 0.10) -> float` and `calculate_invoice_total(subtotal: float, tax_rate: float = 0.10) -> dict` returning `{'subtotal': float, 'tax': float, 'total': float}` with all values rounded to 2 decimals.
 
 def calculate_tax(subtotal: float, rate: float = 0.10) -> float:
     # WRITE CODE HERE:

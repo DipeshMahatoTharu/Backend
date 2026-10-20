@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 65 REVISION SESSION (~10–15 MINUTES)
-Topic: Cache-Aside Pattern, Redis & Blocking vs Non-Blocking I/O
+Topic: Caching Systems, Redis & Cache-Aside Pattern
 ============================================================
 
-Verified Prerequisites: Days 1–64 (Day 64 Redis Caching Layer, Day 37 HTTP I/O, Day 63 Service Layer)
+Verified Prerequisites: Day 64 (Caching Systems & Redis)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–64 (Day 64 Redis Caching Layer, Day 37 HTTP I/O
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is the Cache-Aside pattern (application checks cache; on miss, reads from DB and writes to cache)?
+# 1. What is the Cache-Aside pattern (read-through caching)?
 #
-# 2. What is the difference between an in-memory datastore like Redis and a disk-backed relational database like PostgreSQL?
+# 2. What is Cache Invalidation, and why is setting a Time-To-Live (TTL) essential?
 #
-# 3. Why is caching user sessions or read-heavy catalog data beneficial for backend throughput?
+# 3. Why is Redis faster than disk-backed PostgreSQL for read-heavy operations?
 
 
 # ============================================================

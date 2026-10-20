@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 71 REVISION SESSION (~10–15 MINUTES)
-Topic: Docker Images, Non-Root Users & DB URL Configuration
+Topic: Dockerizing Backend Applications & Dockerfiles
 ============================================================
 
-Verified Prerequisites: Days 1–70 (Day 70 Docker Intro, Day 32 PostgreSQL Configurations, Day 40 Settings)
+Verified Prerequisites: Day 70 (Dockerizing Application Environments)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–70 (Day 70 Docker Intro, Day 32 PostgreSQL Conf
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is a multi-stage Docker build and why does it keep production image sizes minimal?
+# 1. What is a Docker container versus a virtual machine?
 #
-# 2. Why should production Docker containers run under a dedicated non-root user (`USER appuser`) rather than root?
+# 2. Why should production Docker containers run as a non-root user (`USER appuser`)?
 #
-# 3. How does `DATABASE_URL` consolidate user, password, host, port, and database name into a single standardized connection string?
+# 3. What is the role of `.dockerignore` in keeping image build context small and secure?
 
 
 # ============================================================

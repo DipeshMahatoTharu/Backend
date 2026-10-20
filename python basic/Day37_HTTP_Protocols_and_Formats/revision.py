@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 37 REVISION SESSION (~10–15 MINUTES)
-Topic: JSONB vs Relational Schemas, SQL Joins & List Comprehensions
+Topic: Encapsulation, Polymorphism & Abstract Base Classes
 ============================================================
 
-Verified Prerequisites: Days 1–36 (Day 36 PostgreSQL Data Types, Day 30 Joins, Day 8 List Comprehensions)
+Verified Prerequisites: Days 16–18 (Day 16 Encapsulation, Day 17 Polymorphism, Day 18 Abstraction & ABC)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,24 +22,32 @@ Verified Prerequisites: Days 1–36 (Day 36 PostgreSQL Data Types, Day 30 Joins,
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. When is storing data in a JSON/JSONB column appropriate versus normalizing into separate relational tables?
+# 1. What is the convention for protected attributes (`_name`) vs private attributes (`__name` with name mangling)?
 #
-# 2. What is the difference between a LEFT JOIN and an INNER JOIN when querying orders with optional discount codes?
+# 2. What is polymorphism in Python (treating different objects via the same interface)?
 #
-# 3. How does a Python list comprehension offer cleaner, more readable filtering compared to an explicit for-loop?
+# 3. Why cannot an Abstract Base Class (inheriting `abc.ABC` with `@abstractmethod`) be instantiated directly?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Given a list of user dictionaries representing parsed JSON records, write `get_active_admin_emails(users_data: list[dict]) -> list[str]` using a list comprehension.
+# Implement abstract class `Notification(ABC)` with `@abstractmethod def send(recipient: str, msg: str) -> str`. Implement concrete subclasses `EmailNotification` returning `'Email to {recipient}: {msg}'` and `SMSNotification` returning `'SMS to {recipient}: {msg}'`.
 
-def get_active_admin_emails(users_data: list[dict]) -> list[str]:
-    """
-    Returns a list of emails for users who have role == 'ADMIN' and is_active is True.
-    """
-    # WRITE YOUR CODE HERE:
+from abc import ABC, abstractmethod
+
+class Notification(ABC):
+    @abstractmethod
+    def send(self, recipient: str, msg: str) -> str:
+        pass
+
+class EmailNotification(Notification):
+    # WRITE CODE HERE:
+    pass
+
+class SMSNotification(Notification):
+    # WRITE CODE HERE:
     pass
 
 
@@ -48,20 +56,20 @@ def get_active_admin_emails(users_data: list[dict]) -> list[str]:
 # ============================================================
 def run_test():
     print("--- Running Day 37 Revision Challenge ---")
-    users = [
-        {"email": "alice@admin.com", "role": "ADMIN", "is_active": True},
-        {"email": "bob@dev.com", "role": "STAFF", "is_active": True},
-        {"email": "carol@admin.com", "role": "ADMIN", "is_active": False},
-        {"email": "dave@admin.com", "role": "ADMIN", "is_active": True},
-    ]
-    res = get_active_admin_emails(users)
-    if res is None:
-        print("[!] Function `get_active_admin_emails` is not yet implemented.")
-        return
-    if res == ["alice@admin.com", "dave@admin.com"]:
-        print("[+] Test Passed: Active admin emails filtered correctly.")
-    else:
-        print(f"[-] Test Failed: Got {res}")
+    try:
+        e = EmailNotification()
+        s = SMSNotification()
+        r1 = e.send("alice@mail.com", "Hello")
+        r2 = s.send("9841000000", "OTP 1234")
+        if r1 is None or r2 is None:
+            print("[!] Methods are not yet implemented.")
+            return
+        if r1 == "Email to alice@mail.com: Hello" and r2 == "SMS to 9841000000: OTP 1234":
+            print("[+] Test Passed: Polymorphic Notification subclasses confirmed.")
+        else:
+            print(f"[-] Test Failed: r1='{r1}', r2='{r2}'")
+    except Exception as e:
+        print(f"[!] Test error: {e}")
 
 if __name__ == "__main__":
     run_test()
@@ -70,15 +78,27 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Filter each dictionary `u` where `u.get('role') == 'ADMIN'` and `u.get('is_active') is True`.
-# Hint 2: Use `[u['email'] for u in users_data if u.get('role') == 'ADMIN' and u.get('is_active')]`.
+# Hint 1: Each subclass overrides `send(self, recipient: str, msg: str) -> str`.
+# Hint 2: EmailNotification returns `f'Email to {recipient}: {msg}'`; SMSNotification returns `f'SMS to {recipient}: {msg}'`.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-def _reference_solution(users_data: list[dict]) -> list[str]:
-    return [u["email"] for u in users_data if u.get("role") == "ADMIN" and u.get("is_active")]
+from abc import ABC, abstractmethod
+
+class _RefNotification(ABC):
+    @abstractmethod
+    def send(self, recipient: str, msg: str) -> str:
+        pass
+
+class _RefEmail(_RefNotification):
+    def send(self, recipient: str, msg: str) -> str:
+        return f"Email to {recipient}: {msg}"
+
+class _RefSMS(_RefNotification):
+    def send(self, recipient: str, msg: str) -> str:
+        return f"SMS to {recipient}: {msg}"
 
 
 # ============================================================

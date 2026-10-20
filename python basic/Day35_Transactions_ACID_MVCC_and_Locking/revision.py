@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 35 REVISION SESSION (~10–15 MINUTES)
-Topic: Database Normalization, Foreign Keys & Encapsulation
+Topic: Tuples, Exception Handling & File Safety
 ============================================================
 
-Verified Prerequisites: Days 1–34 (Day 34 Normalization & FKs, Day 19 @property Encapsulation)
+Verified Prerequisites: Days 10–12 (Day 10 Revision, Day 11 Tuples, Day 12 Exceptions & Files)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,27 +22,25 @@ Verified Prerequisites: Days 1–34 (Day 34 Normalization & FKs, Day 19 @propert
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is 1NF (atomic columns) vs 2NF (removing partial dependencies) vs 3NF (removing transitive dependencies)?
+# 1. Why are tuples immutable while lists are mutable, and why does this allow tuples to be used as dictionary keys?
 #
-# 2. What happens when you delete a parent row if the foreign key specifies `ON DELETE CASCADE` vs `ON DELETE RESTRICT`?
+# 2. What is the difference between catching a specific exception (e.g. `except ValueError:`) versus bare `except:`?
 #
-# 3. Why do we use `@property` and a setter in Python instead of allowing direct public attribute mutation?
+# 3. What does a `finally` block guarantee in Python exception handling?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Implement a `Product` class with a protected attribute `_stock`. Use `@property` for `stock`, and in `@stock.setter`, raise `ValueError` if the new stock is negative.
+# Write `safe_parse_record(raw_record: tuple) -> tuple[bool, dict | str]` that takes a tuple `(id_val, name_val, age_val)`. Ensure tuple length is 3 and convert `id` and `age` to `int`. Return `(True, {'id': int, 'name': str, 'age': int})` or `(False, 'Parsing failed')` if any error occurs.
 
-class Product:
-    def __init__(self, name: str, initial_stock: int):
-        self.name = name
-        if initial_stock < 0:
-            raise ValueError("Stock cannot be negative")
-        self._stock = initial_stock
-
-    # Implement @property stock and @stock.setter below:
+def safe_parse_record(raw_record: tuple) -> tuple[bool, dict | str]:
+    """
+    Safely parses (id_val, name_val, age_val).
+    Returns (True, dict) or (False, "Parsing failed").
+    """
+    # WRITE YOUR CODE HERE:
     pass
 
 
@@ -51,26 +49,17 @@ class Product:
 # ============================================================
 def run_test():
     print("--- Running Day 35 Revision Challenge ---")
-    try:
-        p = Product("Laptop", 10)
-        if not hasattr(p, "stock"):
-            print("[!] Property `stock` is not yet implemented.")
-            return
-        if p.stock != 10:
-            print("[-] Test Failed: Initial stock mismatch.")
-            return
-        p.stock = 5
-        if p.stock != 5:
-            print("[-] Test Failed: Setter did not update stock.")
-            return
-        try:
-            p.stock = -2
-            print("[-] Test Failed: Setter did not raise ValueError on negative stock.")
-            return
-        except ValueError:
-            print("[+] Test Passed: Negative stock correctly raised ValueError.")
-    except Exception as e:
-        print(f"[-] Test error: {e}")
+    res1 = safe_parse_record(("101", "Alice", "24"))
+    if res1 is None:
+        print("[!] Function `safe_parse_record` is not yet implemented.")
+        return
+    ok1, val1 = res1
+    ok2, val2 = safe_parse_record(("bad_id", "Bob", "30"))
+    ok3, val3 = safe_parse_record(("102", "Carol")) # wrong length
+    if ok1 is True and val1 == {"id": 101, "name": "Alice", "age": 24} and ok2 is False and ok3 is False:
+        print("[+] Test Passed: Safe record parsing with exception handling confirmed.")
+    else:
+        print(f"[-] Test Failed: r1={res1}, ok2={ok2}, ok3={ok3}")
 
 if __name__ == "__main__":
     run_test()
@@ -79,29 +68,24 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Define a getter method decorated with `@property` and a setter decorated with `@stock.setter`.
-# Hint 2: In setter: `if val < 0: raise ValueError(...)` else `self._stock = val`.
+# Hint 1: Check `if not isinstance(raw_record, tuple) or len(raw_record) != 3: return False, 'Parsing failed'`.
+# Hint 2: Wrap conversions `int(raw_record[0])` and `int(raw_record[2])` in a `try...except (ValueError, TypeError):` block.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-class _ReferenceProduct:
-    def __init__(self, name: str, initial_stock: int):
-        self.name = name
-        if initial_stock < 0:
-            raise ValueError("Stock cannot be negative")
-        self._stock = initial_stock
-
-    @property
-    def stock(self) -> int:
-        return self._stock
-
-    @stock.setter
-    def stock(self, val: int):
-        if val < 0:
-            raise ValueError("Stock cannot be negative")
-        self._stock = val
+def _reference_solution(raw_record: tuple) -> tuple[bool, dict | str]:
+    if not isinstance(raw_record, tuple) or len(raw_record) != 3:
+        return False, "Parsing failed"
+    try:
+        return True, {
+            "id": int(raw_record[0]),
+            "name": str(raw_record[1]),
+            "age": int(raw_record[2])
+        }
+    except (ValueError, TypeError):
+        return False, "Parsing failed"
 
 
 # ============================================================

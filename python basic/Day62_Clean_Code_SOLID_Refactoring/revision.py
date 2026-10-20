@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 62 REVISION SESSION (~10–15 MINUTES)
-Topic: Python Logging Levels & Eliminating Fat Views
+Topic: Troubleshooting, Debugging ORM & Python Logging
 ============================================================
 
-Verified Prerequisites: Days 1–61 (Day 61 Logging & Debugging, Day 50 Clean Views vs Services)
+Verified Prerequisites: Day 61 (Troubleshooting & Debugging ORM)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–61 (Day 61 Logging & Debugging, Day 50 Clean Vi
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What are the five standard Python logging levels in order of severity (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`)?
+# 1. What are the 5 standard Python logging levels (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`)?
 #
-# 2. Why is `logger.error('Failed to charge card', exc_info=True)` superior to `print()` in production web servers?
+# 2. How do you use `breakpoint()` in Python to pause execution and inspect variables in the terminal?
 #
-# 3. Why should API views only handle HTTP request parsing and response formatting, delegating business logic to service functions?
+# 3. How do you identify duplicate or slow SQL queries in development using Django Debug Toolbar?
 
 
 # ============================================================

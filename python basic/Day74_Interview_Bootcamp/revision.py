@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 74 REVISION SESSION (~10–15 MINUTES)
-Topic: SQL Joins & Subqueries, N+1 Queries & Python Data Aggregation
+Topic: Junior Backend System Design & Scaling
 ============================================================
 
-Verified Prerequisites: Days 1–73 (Days 30-31 SQL, Day 45 ORM Optimization, Days 14-19 OOP)
+Verified Prerequisites: Day 73 (Junior Backend System Design)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–73 (Days 30-31 SQL, Day 45 ORM Optimization, Da
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. How would you explain the N+1 query problem and its solution to a junior developer in an interview?
+# 1. What is the difference between vertical scaling (scale up) and horizontal scaling (scale out)?
 #
-# 2. What is the difference between an indexed lookup and a full table scan in terms of algorithmic time complexity?
+# 2. When would you recommend adding a Redis cache versus optimizing an SQL query and adding an index?
 #
-# 3. In Python, how does using a dictionary or `collections.defaultdict` enable O(n) data aggregation over lists of records?
+# 3. How do database connection pools and read replicas improve backend throughput?
 
 
 # ============================================================

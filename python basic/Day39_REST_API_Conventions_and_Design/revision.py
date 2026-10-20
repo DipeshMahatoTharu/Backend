@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 39 REVISION SESSION (~10–15 MINUTES)
-Topic: HTTP Idempotency, HTTP Status Codes & Rollback
+Topic: Functions, Scope, Closures, Exception Defensiveness & Context Managers
 ============================================================
 
-Verified Prerequisites: Days 1–38 (Day 38 HTTP Methods & Status Codes, Day 31/35 Transactions)
+Verified Prerequisites: Days 22–24 (Day 22 Scope & Decorators, Day 23 Exception Handling, Day 24 Context Managers)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,27 +22,24 @@ Verified Prerequisites: Days 1–38 (Day 38 HTTP Methods & Status Codes, Day 31/
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What does it mean for an HTTP method to be 'idempotent', and why is `GET` and `PUT` idempotent while `POST` is not?
+# 1. What is the LEGB rule for Python variable resolution (Local, Enclosing, Global, Built-in)?
 #
-# 2. What are the standard HTTP status codes for: Success (`200`), Resource Created (`201`), Bad Request (`400`), Unauthorized (`401`), Forbidden (`403`), and Not Found (`404`)?
+# 2. What do the `__enter__` and `__exit__` magic methods do when using a `with` statement?
 #
-# 3. If a transaction raises an exception midway, why must `conn.rollback()` be invoked before releasing or reusing the connection?
+# 3. How does a Python decorator use closures to wrap another function?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `determine_status_code(method: str, resource_found: bool, is_valid_payload: bool) -> int` that maps request parameters to the standard REST status code.
+# Write a decorator `retry_on_failure(max_retries: int = 2)` that catches exceptions and retries calling the wrapped function up to `max_retries` additional times before re-raising the exception.
 
-def determine_status_code(method: str, resource_found: bool, is_valid_payload: bool) -> int:
+import functools
+
+def retry_on_failure(max_retries: int = 2):
     """
-    Rules:
-    - If payload is invalid: return 400
-    - If method is 'GET' or 'DELETE' and resource not found: return 404
-    - If method is 'POST' and valid: return 201
-    - If method is 'GET' or 'PUT' and found and valid: return 200
-    - Default fallback: 200
+    Decorator that retries the wrapped function upon exception up to max_retries times.
     """
     # WRITE YOUR CODE HERE:
     pass
@@ -53,17 +50,27 @@ def determine_status_code(method: str, resource_found: bool, is_valid_payload: b
 # ============================================================
 def run_test():
     print("--- Running Day 39 Revision Challenge ---")
-    c1 = determine_status_code("POST", True, True)    # 201
-    c2 = determine_status_code("GET", False, True)    # 404
-    c3 = determine_status_code("POST", True, False)   # 400
-    c4 = determine_status_code("GET", True, True)     # 200
-    if c1 is None:
-        print("[!] Function `determine_status_code` is not yet implemented.")
+    dec = retry_on_failure(max_retries=2)
+    if dec is None:
+        print("[!] Decorator `retry_on_failure` is not yet implemented.")
         return
-    if (c1, c2, c3, c4) == (201, 404, 400, 200):
-        print("[+] Test Passed: Status codes correctly resolved.")
-    else:
-        print(f"[-] Test Failed: Got {(c1, c2, c3, c4)}")
+
+    attempts = [0]
+    @dec
+    def flaky():
+        attempts[0] += 1
+        if attempts[0] < 3:
+            raise ValueError("Temporary network glitch")
+        return "SUCCESS"
+
+    try:
+        res = flaky()
+        if res == "SUCCESS" and attempts[0] == 3:
+            print("[+] Test Passed: Decorator retried and succeeded on third attempt.")
+        else:
+            print(f"[-] Test Failed: res={res}, attempts={attempts[0]}")
+    except Exception as e:
+        print(f"[!] Decorator failed or not implemented: {e}")
 
 if __name__ == "__main__":
     run_test()
@@ -72,21 +79,27 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Handle the failure cases first (invalid payload -> 400, not found on GET/DELETE -> 404).
-# Hint 2: Check `if not is_valid_payload: return 400`, then `if not resource_found and method in ('GET', 'DELETE'): return 404`, then `if method == 'POST': return 201`.
+# Hint 1: Define decorator returning an inner wrapper taking `*args, **kwargs`.
+# Hint 2: Loop for `max_retries + 1` times: inside `try: return func(*args, **kwargs)` except `Exception: if attempt == max_retries: raise`.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-def _reference_solution(method: str, resource_found: bool, is_valid_payload: bool) -> int:
-    if not is_valid_payload:
-        return 400
-    if not resource_found and method.upper() in ("GET", "DELETE"):
-        return 404
-    if method.upper() == "POST":
-        return 201
-    return 200
+import functools
+
+def _reference_solution(max_retries: int = 2):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            for i in range(max_retries + 1):
+                try:
+                    return func(*args, **kwargs)
+                except Exception:
+                    if i == max_retries:
+                        raise
+        return wrapper
+    return decorator
 
 
 # ============================================================

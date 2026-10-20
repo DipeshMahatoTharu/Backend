@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 72 REVISION SESSION (~10–15 MINUTES)
-Topic: Docker Compose Orchestration, GitHub Actions & Pull Requests
+Topic: Docker Compose Multi-Container Orchestration
 ============================================================
 
-Verified Prerequisites: Days 1–71 (Day 71 Docker Compose, Day 26 Git Collaboration, Day 59 Pytest)
+Verified Prerequisites: Day 71 (Multi-Container Docker Compose)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–71 (Day 71 Docker Compose, Day 26 Git Collabora
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. In Docker Compose, how does container networking allow the `web` container to reach the database using service name `db` instead of an IP address?
+# 1. In Docker Compose, how do containers communicate over the internal network using service names (e.g. `db`, `redis`)?
 #
-# 2. What is the purpose of a CI workflow (GitHub Actions) running linters and tests automatically on every Pull Request?
+# 2. What is the purpose of volume mounts (`volumes:`) for database persistence in Docker Compose?
 #
-# 3. Why should database migrations be run as part of deployment rather than being baked into image builds?
+# 3. What does `depends_on` control in a `docker-compose.yml` file?
 
 
 # ============================================================

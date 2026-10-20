@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 49 REVISION SESSION (~10–15 MINUTES)
-Topic: Session Security, Cookies & @login_required
+Topic: Django Authentication, Sessions & Password Security
 ============================================================
 
-Verified Prerequisites: Days 1–48 (Day 48 Authentication & Sessions, Day 15 OOP Inheritance)
+Verified Prerequisites: Day 48 (Django Authentication & Sessions)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–48 (Day 48 Authentication & Sessions, Day 15 OO
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. How does Django session authentication use a session cookie (`sessionid`) to identify the user on subsequent requests?
+# 1. How does Django session authentication use cookies (`sessionid`) to maintain user state?
 #
-# 2. Why should session cookies be configured with `HttpOnly` and `Secure` flags in production?
+# 2. Why must session cookies have `HttpOnly` and `Secure` flags in production deployments?
 #
-# 3. What does the `@login_required` decorator do when an unauthenticated user visits a protected view?
+# 3. What does the `@login_required` decorator do when an unauthenticated user accesses a protected view?
 
 
 # ============================================================

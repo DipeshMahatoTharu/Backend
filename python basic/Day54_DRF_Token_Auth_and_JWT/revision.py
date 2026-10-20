@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 54 REVISION SESSION (~10–15 MINUTES)
-Topic: ModelViewSet Routing, Session Auth vs Token Auth
+Topic: DRF ModelViewSets, Generic Views & Routers
 ============================================================
 
-Verified Prerequisites: Days 1–53 (Day 53 ViewSets & Routers, Day 48 Session Auth, Day 37 Auth Headers)
+Verified Prerequisites: Day 53 (DRF ModelViewSets & Generic Views)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–53 (Day 53 ViewSets & Routers, Day 48 Session A
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What standard actions (`list`, `create`, `retrieve`, `update`, `partial_update`, `destroy`) does DRF's `ModelViewSet` provide automatically?
+# 1. What standard HTTP actions (`list`, `create`, `retrieve`, `update`, `partial_update`, `destroy`) does `ModelViewSet` provide automatically?
 #
-# 2. What is the difference between session authentication (cookie-based, stateful on server) and token authentication (header-based, bearer token)?
+# 2. How does DRF's `DefaultRouter` generate RESTful URL patterns for a registered ViewSet?
 #
-# 3. How does DRF's `DefaultRouter` generate RESTful URL patterns for a registered ViewSet?
+# 3. When should you use the `@action(detail=True)` decorator in a ViewSet?
 
 
 # ============================================================

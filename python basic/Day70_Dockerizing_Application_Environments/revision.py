@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 70 REVISION SESSION (~10–15 MINUTES)
-Topic: Linux CLI Basics, Process Management & Virtual Environments
+Topic: Linux CLI, Production WSGI & Gunicorn Deployment
 ============================================================
 
-Verified Prerequisites: Days 1–69 (Day 69 Gunicorn & Deployment, Day 40 Venvs, Day 26 Git)
+Verified Prerequisites: Day 69 (Production WSGI & Gunicorn)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–69 (Day 69 Gunicorn & Deployment, Day 40 Venvs,
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is the difference between a process running in the foreground versus a daemonized background process managed by systemd or Docker?
+# 1. What is the difference between a development server (`runserver`) and a production WSGI server (`gunicorn`)?
 #
-# 2. What do Linux file permission modes (e.g. `chmod 755` vs `chmod 600`) control for owner, group, and others?
+# 2. What are workers and threads in Gunicorn and how do you calculate optimal worker counts (`2 * CPU + 1`)?
 #
-# 3. Why should environment variables in a `.env` file never be hardcoded into container image layers?
+# 3. Why should production Django applications always run with `DEBUG = False` and defined `ALLOWED_HOSTS`?
 
 
 # ============================================================
@@ -52,7 +52,6 @@ def run_test():
     # Database config
     DB_NAME=production_db
     DB_PORT="5432"
-    
     DEBUG=False
     """
     res = parse_env_file_string(sample)
@@ -72,7 +71,7 @@ if __name__ == "__main__":
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
 # Hint 1: Split into lines, strip each line, and ignore lines starting with '#' or empty lines.
-# Hint 2: Split on the first '=' with `line.split('=', 1)`. Strip quotes using `val.strip('"\'')`.
+# Hint 2: Split on the first '=' with `line.split('=', 1)`. Strip quotes using `val.strip('"').strip("'")`.
 
 
 # ============================================================

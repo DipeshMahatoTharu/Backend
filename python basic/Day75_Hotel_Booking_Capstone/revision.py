@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 75 REVISION SESSION (~10–15 MINUTES)
-Topic: Architecture Defense, Relational Design & Portfolio Packaging
+Topic: Technical Interview Bootcamp & Capstone Defense
 ============================================================
 
-Verified Prerequisites: Days 1–74 (Day 63 Architecture, Day 34 Relational Design, Day 72 CI/CD)
+Verified Prerequisites: Day 74 (Technical Interview Bootcamp)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–74 (Day 63 Architecture, Day 34 Relational Desi
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. How do you explain the architectural decision of using PostgreSQL for bookings while using Redis for caching and Celery for emails?
+# 1. How do you explain the architectural flow of a request from client to Nginx to Gunicorn to Django to PostgreSQL?
 #
-# 2. What are the three most critical sections in a backend GitHub project README for a technical recruiter or hiring engineer?
+# 2. What are the three most critical sections in a GitHub project README for hiring engineers?
 #
-# 3. How do automated tests and CI/CD pipelines demonstrate professional engineering maturity on a portfolio project?
+# 3. How do automated tests and CI/CD prove technical competence during junior developer interviews?
 
 
 # ============================================================
@@ -59,7 +59,6 @@ def run_test():
     }
     partial_portfolio = dict(complete_portfolio)
     partial_portfolio["automated_tests_passing"] = False
-    
     res1 = verify_portfolio_readiness(complete_portfolio)
     if res1 is None:
         print("[!] Function `verify_portfolio_readiness` is not yet implemented.")

@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 67 REVISION SESSION (~10–15 MINUTES)
-Topic: Background Task Retries & WebSockets vs HTTP
+Topic: Celery Retries, Exponential Backoff & Celery Beat
 ============================================================
 
-Verified Prerequisites: Days 1–66 (Day 66 Celery Retries, Day 37 HTTP Anatomy, Day 64/65 Redis)
+Verified Prerequisites: Day 66 (Advanced Celery Retries & Beat)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–66 (Day 66 Celery Retries, Day 37 HTTP Anatomy,
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is exponential backoff with jitter and why is it essential when retrying failed API or background tasks?
+# 1. What is exponential backoff and why is it used when retrying network operations?
 #
-# 2. What is the architectural difference between a short-lived HTTP request-response cycle and a persistent full-duplex WebSocket connection?
+# 2. What does Celery Beat do for scheduled/periodic tasks (cron jobs)?
 #
-# 3. What role does Redis play as a channel layer broker in real-time Django Channels applications?
+# 3. Why must background tasks be idempotent so retrying them does not cause duplicate side effects?
 
 
 # ============================================================
@@ -48,9 +48,9 @@ def calculate_exponential_backoff(attempt: int, base_delay: int = 2, max_delay: 
 # ============================================================
 def run_test():
     print("--- Running Day 67 Revision Challenge ---")
-    d1 = calculate_exponential_backoff(1, base_delay=2, max_delay=60) # 2
-    d2 = calculate_exponential_backoff(3, base_delay=2, max_delay=60) # 8
-    d3 = calculate_exponential_backoff(8, base_delay=2, max_delay=60) # 60 (capped)
+    d1 = calculate_exponential_backoff(1, base_delay=2, max_delay=60)
+    d2 = calculate_exponential_backoff(3, base_delay=2, max_delay=60)
+    d3 = calculate_exponential_backoff(8, base_delay=2, max_delay=60)
     if d1 is None:
         print("[!] Function `calculate_exponential_backoff` is not yet implemented.")
         return

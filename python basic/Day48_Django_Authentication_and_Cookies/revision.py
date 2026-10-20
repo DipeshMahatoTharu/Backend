@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 48 REVISION SESSION (~10–15 MINUTES)
-Topic: Django Form Validation, cleaned_data & Constraints
+Topic: Django Forms, clean_* Validations & Error Handling
 ============================================================
 
-Verified Prerequisites: Days 1–47 (Day 47 Django Forms & clean_* Validation, Day 34 Database Constraints)
+Verified Prerequisites: Day 47 (Django Forms & Clean Validations)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,18 +22,18 @@ Verified Prerequisites: Days 1–47 (Day 47 Django Forms & clean_* Validation, D
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. In Django forms, what is the purpose of the `clean_<fieldname>()` and `clean()` methods?
+# 1. How does Django form validation execute field `clean_<field>()` methods before form `clean()`?
 #
-# 2. What dictionary does Django populate after running form validation, and what happens if validation fails?
+# 2. What dictionary holds validated, type-coerced form fields in Django (`form.cleaned_data`)?
 #
-# 3. Why must validation happen both at the form/serializer level and at the database constraint level?
+# 3. Why should validation happen at both the form layer and the database constraint layer?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `clean_date_range(cleaned_data: dict) -> tuple[bool, str]` ensuring `start_day` < `end_day` where values are integers.
+# Write `clean_date_range(cleaned_data: dict) -> tuple[bool, str]` validating that `start_day` < `end_day`.
 
 def clean_date_range(cleaned_data: dict) -> tuple[bool, str]:
     """

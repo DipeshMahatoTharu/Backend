@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 58 REVISION SESSION (~10–15 MINUTES)
-Topic: OpenAPI / Swagger Documentation & API Envelopes
+Topic: OpenAPI / Swagger Documentation & API Contracts
 ============================================================
 
-Verified Prerequisites: Days 1–57 (Day 57 OpenAPI & Swagger, Day 37/54 Auth Headers)
+Verified Prerequisites: Day 57 (DRF OpenAPI / Swagger Documentation)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -24,16 +24,16 @@ Verified Prerequisites: Days 1–57 (Day 57 OpenAPI & Swagger, Day 37/54 Auth He
 # ============================================================
 # 1. Why is an auto-generated OpenAPI (Swagger) schema valuable when collaborating with frontend engineers?
 #
-# 2. What information does OpenAPI capture for each endpoint (parameters, request body, response codes, auth requirements)?
+# 2. What information does OpenAPI capture for each endpoint (parameters, request body, response codes, auth)?
 #
-# 3. How do you test an authenticated endpoint using a cURL command with an `Authorization: Bearer <token>` header?
+# 3. What is the benefit of standardized response envelopes across all endpoints?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `build_api_response(data: list, status_code: int = 200, message: str = 'Success') -> dict` producing a standardized REST response envelope.
+# Write `build_api_response(data: list, status_code: int = 200, message: str = 'Success') -> dict` producing a standardized REST response envelope with `status`, `message`, `count`, and `data`.
 
 def build_api_response(data: list, status_code: int = 200, message: str = 'Success') -> dict:
     """

@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 60 REVISION SESSION (~10–15 MINUTES)
-Topic: pytest-django Basics, Test DB Rollback & Assertion Best Practices
+Topic: Automated Unit Testing & Django Test Client
 ============================================================
 
-Verified Prerequisites: Days 1–59 (Day 59 Automated Testing & Pytest, Day 43 DB Rollbacks)
+Verified Prerequisites: Day 59 (Automated API Unit Testing)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–59 (Day 59 Automated Testing & Pytest, Day 43 D
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. Why does `pytest-django` use an isolated test database and roll back transactions after every test?
+# 1. Why does Django's `TestCase` wrap each test in a database transaction and roll it back after execution?
 #
-# 2. What is the difference between testing 'happy paths' (valid inputs return 200/201) and 'error paths' (invalid inputs return 400/403/404)?
+# 2. What is the difference between unit testing an isolated service function versus integration testing an API endpoint?
 #
-# 3. Why should test assertions be specific (e.g. `assert response.data['count'] == 3`) rather than generic (`assert response.status_code == 200`)?
+# 3. Why should automated tests assert both HTTP status codes AND specific JSON response values?
 
 
 # ============================================================

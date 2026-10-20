@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 73 REVISION SESSION (~10–15 MINUTES)
-Topic: Junior Backend System Design, Caching & Queues
+Topic: CI/CD Pipelines & GitHub Actions Workflows
 ============================================================
 
-Verified Prerequisites: Days 1–72 (Day 64 Caching, Day 33 Indexing, Day 65 Queues)
+Verified Prerequisites: Day 72 (CI/CD Pipelines & GitHub Actions)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–72 (Day 64 Caching, Day 33 Indexing, Day 65 Que
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. In a backend system design interview, how do you explain when to add Redis caching versus optimizing an SQL index?
+# 1. What is Continuous Integration (CI) and why should linters and automated tests run on every pull request?
 #
-# 2. What are the trade-offs of horizontal scaling (adding more web servers behind a load balancer) versus vertical scaling (upgrading server RAM/CPU)?
+# 2. What are GitHub Actions workflows, jobs, and steps?
 #
-# 3. How does a message queue prevent backend web servers from becoming unresponsive during high-traffic spikes?
+# 3. Why should database migrations be executed as an automated deployment step?
 
 
 # ============================================================

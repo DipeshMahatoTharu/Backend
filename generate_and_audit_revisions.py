@@ -1,70 +1,472 @@
 """
 generate_and_audit_revisions.py
 -------------------------------
-Updates all revision.py files for Days 33–75 with:
-- 3 targeted recall questions strictly from past material.
-- 1 practical, self-contained Python backend challenge with ASCII test runner.
-- Hint 1 (conceptual clue) AND Hint 2 (direct hint/pointer).
-- Hidden reference solution.
-- Self-assessment checklist (4 honest outcomes).
-- 15-minute attempt rule.
-- Windows cp1252 / ASCII safe outputs.
+Regenerates all revision.py files for Days 32–75 starting from Day 1:
+- Day 32: Days 1, 2, 3
+- Day 33: Days 4, 5, 6
+- Day 34: Days 7, 8, 9
+- Day 35: Days 10, 11, 12
+- Day 36: Days 13, 14, 15
+- Day 37: Days 16, 17, 18
+- Day 38: Days 19, 20, 21
+- Day 39: Days 22, 23, 24
+- Day 40: Days 25, 26, 27
+- Day 41: Days 28, 29, 30
+- Day 42: Days 31, 32, 33
+- Day 43: Days 34, 35, 36
+- Day 44: Days 37, 38, 39
+- Day 45: Days 40, 41, 42
+- Day 46: Days 43, 44
+- Day 47: Days 45, 46
+- Day 48: Day 47
+- Day 49: Day 48
+- Day 50 to 75: Days 49 to 74 (1 curriculum day per revision day)
+
+All 44 revision.py files include:
+- 3 recall questions
+- 1 targeted coding challenge
+- Safe test runner (run_test()) with graceful unimplemented check
+- Hint 1 (conceptual clue) & Hint 2 (direct hint/pointer)
+- Hidden reference solution
+- Self-assessment checklist (4 honest outcomes)
+- 15-minute attempt rule
 """
 
 import os
 import re
 
 DAYS_DATA = {
+    32: {
+        "topic": "Python Variables, Conditionals, Loops & Pattern Printing",
+        "prereqs": "Days 1–3 (Day 1 Variables & Conditionals, Day 2 Loops, Day 3 Pattern Printing)",
+        "q1": "What is the difference between '=' (assignment) and '==' (equality check), and why does `if 10:` evaluate to True in Python?",
+        "q2": "What is the difference between `break` (terminates the enclosing loop) and `continue` (skips directly to the next iteration)?",
+        "q3": "In pattern printing with nested loops, what role does the outer loop play versus the inner loop?",
+        "desc": "Write `generate_number_triangle(n: int) -> list[str]` which returns a list of strings representing a number triangle from 1 up to n.\\n# Example: generate_number_triangle(4) -> ['1', '12', '123', '1234']",
+        "stub": '''def generate_number_triangle(n: int) -> list[str]:
+    """
+    Returns a list of strings representing a number triangle from 1 to n.
+    Example: n = 4 -> ['1', '12', '123', '1234']
+    """
+    # WRITE YOUR CODE HERE:
+    pass''',
+        "runner": '''def run_test():
+    print("--- Running Day 32 Revision Challenge ---")
+    res1 = generate_number_triangle(4)
+    if res1 is None:
+        print("[!] Function `generate_number_triangle` is not yet implemented.")
+        return
+    res2 = generate_number_triangle(1)
+    if res1 == ["1", "12", "123", "1234"] and res2 == ["1"]:
+        print("[+] Test Passed: Number triangle generated successfully.")
+    else:
+        print(f"[-] Test Failed: res1={res1}, res2={res2}")''',
+        "hint1": "Use an outer loop iterating `i` from 1 to `n` (inclusive).",
+        "hint2": "Build each row using `''.join(str(x) for x in range(1, i + 1))` and append to your results list.",
+        "sol": '''def _reference_solution(n: int) -> list[str]:
+    return ["".join(str(x) for x in range(1, i + 1)) for i in range(1, n + 1)]'''
+    },
     33: {
-        "topic": "Parameterized Queries, SQL Aggregations & Context Managers",
-        "prereqs": "Days 1–32 (Day 32 Drivers, Day 29 Aggregations, Day 24 Context Managers)",
-        "q1": "Why is passing `%s` or `?` with a tuple to cursor.execute() safe against SQL injection, while Python f-strings are not?",
-        "q2": "What is the difference between WHERE and HAVING in SQL aggregation queries?",
-        "q3": "What does Python's `with` statement guarantee when handling database connections or transactions?",
-        "desc": "Fix the SQL injection vulnerability in `search_users(conn, email_prefix)`. Replace string concatenation with parameterized execution.",
-        "stub": '''def search_users(conn, email_prefix: str) -> list:
+        "topic": "Function Basics, Default Arguments, *args, **kwargs & Loop Practice",
+        "prereqs": "Days 4–6 (Day 4 Functions, Day 5 Advanced Functions, Day 6 Function/Loop Practice)",
+        "q1": "What value does a Python function return by default if no explicit `return` statement is executed?",
+        "q2": "In Python function parameters, what is the difference between `*args` (tuple of variable positional args) and `**kwargs` (dict of keyword args)?",
+        "q3": "Why is using a mutable default argument like `def add_item(item, items=[]):` considered a dangerous bug in Python?",
+        "desc": "Write `format_user_summary(name: str, *tags, **metadata) -> dict` returning a summary dictionary with keys: 'name', 'tags' (list), 'metadata' (dict), and 'tag_count' (int).",
+        "stub": '''def format_user_summary(name: str, *tags, **metadata) -> dict:
     """
-    VULNERABLE CODE TO FIX:
-    cur = conn.cursor()
-    cur.execute("SELECT id, email FROM users WHERE email LIKE '" + email_prefix + "%';")
-    return cur.fetchall()
+    Formats user summary dictionary.
+    Returns: {'name': name, 'tags': list(tags), 'metadata': metadata, 'tag_count': len(tags)}
     """
-    # WRITE YOUR FIXED CODE HERE:
+    # WRITE YOUR CODE HERE:
+    pass''',
+        "runner": '''def run_test():
+    print("--- Running Day 33 Revision Challenge ---")
+    res = format_user_summary("Alice", "python", "backend", role="developer", level="junior")
+    if res is None:
+        print("[!] Function `format_user_summary` is not yet implemented.")
+        return
+    if (res.get("name") == "Alice" and res.get("tags") == ["python", "backend"] and
+        res.get("tag_count") == 2 and res.get("metadata") == {"role": "developer", "level": "junior"}):
+        print("[+] Test Passed: Function signature *args and **kwargs handled cleanly.")
+    else:
+        print(f"[-] Test Failed: Got {res}")''',
+        "hint1": "`*tags` arrives as a tuple. Convert it to a list using `list(tags)`.",
+        "hint2": "Construct and return the dictionary: `{'name': name, 'tags': list(tags), 'metadata': metadata, 'tag_count': len(tags)}`.",
+        "sol": '''def _reference_solution(name: str, *tags, **metadata) -> dict:
+    return {"name": name, "tags": list(tags), "metadata": metadata, "tag_count": len(tags)}'''
+    },
+    34: {
+        "topic": "Lists, List Conditions, Slicing & Dictionaries",
+        "prereqs": "Days 7–9 (Day 7 Lists, Day 8 List Operations, Day 9 Dictionaries)",
+        "q1": "What is the algorithmic time complexity of checking if a key exists in a Python dict (O(1)) vs an item in an unsorted list (O(n))?",
+        "q2": "How does Python list slice step syntax `items[::-1]` reverse a sequence?",
+        "q3": "Why is `dict.get(key, default)` preferred over direct bracket indexing `dict[key]` when keys may be absent?",
+        "desc": "Write `count_word_frequencies(words: list[str]) -> dict[str, int]` that normalizes all words to lowercase and counts the occurrence of each word in a dictionary.",
+        "stub": '''def count_word_frequencies(words: list[str]) -> dict[str, int]:
+    """
+    Counts frequency of each word normalized to lowercase.
+    Example: ['Python', 'Django', 'python'] -> {'python': 2, 'django': 1}
+    """
+    # WRITE YOUR CODE HERE:
+    pass''',
+        "runner": '''def run_test():
+    print("--- Running Day 34 Revision Challenge ---")
+    words = ["Python", "Django", "python", "API", "api", "Python"]
+    res = count_word_frequencies(words)
+    if res is None:
+        print("[!] Function `count_word_frequencies` is not yet implemented.")
+        return
+    if res.get("python") == 3 and res.get("django") == 1 and res.get("api") == 2:
+        print("[+] Test Passed: Word frequency dictionary correctly aggregated.")
+    else:
+        print(f"[-] Test Failed: Got {res}")''',
+        "hint1": "Iterate through words, calling `.lower()` on each word.",
+        "hint2": "Use `counts[w] = counts.get(w, 0) + 1` to accumulate counts in a loop.",
+        "sol": '''def _reference_solution(words: list[str]) -> dict[str, int]:
+    counts = {}
+    for w in words:
+        lw = w.lower()
+        counts[lw] = counts.get(lw, 0) + 1
+    return counts'''
+    },
+    35: {
+        "topic": "Tuples, Exception Handling & File Safety",
+        "prereqs": "Days 10–12 (Day 10 Revision, Day 11 Tuples, Day 12 Exceptions & Files)",
+        "q1": "Why are tuples immutable while lists are mutable, and why does this allow tuples to be used as dictionary keys?",
+        "q2": "What is the difference between catching a specific exception (e.g. `except ValueError:`) versus bare `except:`?",
+        "q3": "What does a `finally` block guarantee in Python exception handling?",
+        "desc": "Write `safe_parse_record(raw_record: tuple) -> tuple[bool, dict | str]` that takes a tuple `(id_val, name_val, age_val)`. Ensure tuple length is 3 and convert `id` and `age` to `int`. Return `(True, {'id': int, 'name': str, 'age': int})` or `(False, 'Parsing failed')` if any error occurs.",
+        "stub": '''def safe_parse_record(raw_record: tuple) -> tuple[bool, dict | str]:
+    """
+    Safely parses (id_val, name_val, age_val).
+    Returns (True, dict) or (False, "Parsing failed").
+    """
+    # WRITE YOUR CODE HERE:
+    pass''',
+        "runner": '''def run_test():
+    print("--- Running Day 35 Revision Challenge ---")
+    res1 = safe_parse_record(("101", "Alice", "24"))
+    if res1 is None:
+        print("[!] Function `safe_parse_record` is not yet implemented.")
+        return
+    ok1, val1 = res1
+    ok2, val2 = safe_parse_record(("bad_id", "Bob", "30"))
+    ok3, val3 = safe_parse_record(("102", "Carol")) # wrong length
+    if ok1 is True and val1 == {"id": 101, "name": "Alice", "age": 24} and ok2 is False and ok3 is False:
+        print("[+] Test Passed: Safe record parsing with exception handling confirmed.")
+    else:
+        print(f"[-] Test Failed: r1={res1}, ok2={ok2}, ok3={ok3}")''',
+        "hint1": "Check `if not isinstance(raw_record, tuple) or len(raw_record) != 3: return False, 'Parsing failed'`.",
+        "hint2": "Wrap conversions `int(raw_record[0])` and `int(raw_record[2])` in a `try...except (ValueError, TypeError):` block.",
+        "sol": '''def _reference_solution(raw_record: tuple) -> tuple[bool, dict | str]:
+    if not isinstance(raw_record, tuple) or len(raw_record) != 3:
+        return False, "Parsing failed"
+    try:
+        return True, {
+            "id": int(raw_record[0]),
+            "name": str(raw_record[1]),
+            "age": int(raw_record[2])
+        }
+    except (ValueError, TypeError):
+        return False, "Parsing failed"'''
+    },
+    36: {
+        "topic": "OOP Classes, __init__, Single & Multiple Inheritance",
+        "prereqs": "Days 13–15 (Day 13 Classes & Objects, Day 14 Single Inheritance, Day 15 Multiple Inheritance)",
+        "q1": "What is the purpose of `self` in Python instance methods and what does `__init__` do?",
+        "q2": "What does `super().__init__(...)` do when initializing a derived subclass?",
+        "q3": "In multiple inheritance, what is Python's Method Resolution Order (MRO)?",
+        "desc": "Implement a base class `Employee(name: str, salary: float)` and a subclass `Developer(name: str, salary: float, language: str)`. Subclass must have `get_profile() -> str` returning: `'{name} codes in {language} for ${salary}'`.",
+        "stub": '''class Employee:
+    def __init__(self, name: str, salary: float):
+        self.name = name
+        self.salary = salary
+
+class Developer(Employee):
+    # Complete Developer class inheriting from Employee:
+    pass''',
+        "runner": '''def run_test():
+    print("--- Running Day 36 Revision Challenge ---")
+    try:
+        dev = Developer("Alice", 75000.0, "Python")
+        if not hasattr(dev, "get_profile"):
+            print("[!] Method `get_profile` is not yet implemented.")
+            return
+        msg = dev.get_profile()
+        if msg == "Alice codes in Python for $75000.0" and isinstance(dev, Employee):
+            print("[+] Test Passed: OOP Inheritance and method dispatch verified.")
+        else:
+            print(f"[-] Test Failed: Got '{msg}'")
+    except Exception as e:
+        print(f"[!] Test error: {e}")''',
+        "hint1": "In `Developer.__init__`, call `super().__init__(name, salary)` and set `self.language = language`.",
+        "hint2": "In `get_profile`, return `f'{self.name} codes in {self.language} for ${self.salary}'`.",
+        "sol": '''class _RefEmployee:
+    def __init__(self, name: str, salary: float):
+        self.name = name
+        self.salary = salary
+
+class _RefDeveloper(_RefEmployee):
+    def __init__(self, name: str, salary: float, language: str):
+        super().__init__(name, salary)
+        self.language = language
+
+    def get_profile(self) -> str:
+        return f"{self.name} codes in {self.language} for ${self.salary}"'''
+    },
+    37: {
+        "topic": "Encapsulation, Polymorphism & Abstract Base Classes",
+        "prereqs": "Days 16–18 (Day 16 Encapsulation, Day 17 Polymorphism, Day 18 Abstraction & ABC)",
+        "q1": "What is the convention for protected attributes (`_name`) vs private attributes (`__name` with name mangling)?",
+        "q2": "What is polymorphism in Python (treating different objects via the same interface)?",
+        "q3": "Why cannot an Abstract Base Class (inheriting `abc.ABC` with `@abstractmethod`) be instantiated directly?",
+        "desc": "Implement abstract class `Notification(ABC)` with `@abstractmethod def send(recipient: str, msg: str) -> str`. Implement concrete subclasses `EmailNotification` returning `'Email to {recipient}: {msg}'` and `SMSNotification` returning `'SMS to {recipient}: {msg}'`.",
+        "stub": '''from abc import ABC, abstractmethod
+
+class Notification(ABC):
+    @abstractmethod
+    def send(self, recipient: str, msg: str) -> str:
+        pass
+
+class EmailNotification(Notification):
+    # WRITE CODE HERE:
+    pass
+
+class SMSNotification(Notification):
+    # WRITE CODE HERE:
+    pass''',
+        "runner": '''def run_test():
+    print("--- Running Day 37 Revision Challenge ---")
+    try:
+        e = EmailNotification()
+        s = SMSNotification()
+        r1 = e.send("alice@mail.com", "Hello")
+        r2 = s.send("9841000000", "OTP 1234")
+        if r1 is None or r2 is None:
+            print("[!] Methods are not yet implemented.")
+            return
+        if r1 == "Email to alice@mail.com: Hello" and r2 == "SMS to 9841000000: OTP 1234":
+            print("[+] Test Passed: Polymorphic Notification subclasses confirmed.")
+        else:
+            print(f"[-] Test Failed: r1='{r1}', r2='{r2}'")
+    except Exception as e:
+        print(f"[!] Test error: {e}")''',
+        "hint1": "Each subclass overrides `send(self, recipient: str, msg: str) -> str`.",
+        "hint2": "EmailNotification returns `f'Email to {recipient}: {msg}'`; SMSNotification returns `f'SMS to {recipient}: {msg}'`.",
+        "sol": '''from abc import ABC, abstractmethod
+
+class _RefNotification(ABC):
+    @abstractmethod
+    def send(self, recipient: str, msg: str) -> str:
+        pass
+
+class _RefEmail(_RefNotification):
+    def send(self, recipient: str, msg: str) -> str:
+        return f"Email to {recipient}: {msg}"
+
+class _RefSMS(_RefNotification):
+    def send(self, recipient: str, msg: str) -> str:
+        return f"SMS to {recipient}: {msg}"'''
+    },
+    38: {
+        "topic": "Properties, OOP Checkpoint & Advanced Data Structures",
+        "prereqs": "Days 19–21 (Day 19 Properties & Abstraction, Day 20 OOP Checkpoint, Day 21 Data Structures)",
+        "q1": "How does `@property` enable getter access while hiding direct field mutation?",
+        "q2": "What is the difference between a Python `set` (unique elements, fast hashing) and a `list`?",
+        "q3": "How do you define a setter using `@<property_name>.setter` in Python?",
+        "desc": "Implement `BankAccount` with protected `_balance: float`. Implement `@property def balance` and `@balance.setter` which raises `ValueError('Deposit must be non-negative')` if new balance < 0.",
+        "stub": '''class BankAccount:
+    def __init__(self, initial_balance: float = 0.0):
+        if initial_balance < 0:
+            raise ValueError("Initial balance cannot be negative")
+        self._balance = initial_balance
+
+    # Implement balance property and setter below:
+    pass''',
+        "runner": '''def run_test():
+    print("--- Running Day 38 Revision Challenge ---")
+    try:
+        acc = BankAccount(100.0)
+        if not hasattr(acc, "balance"):
+            print("[!] Property `balance` is not yet implemented.")
+            return
+        if acc.balance != 100.0:
+            print("[-] Test Failed: Getter returned unexpected value.")
+            return
+        acc.balance = 150.0
+        try:
+            acc.balance = -50.0
+            print("[-] Test Failed: Setter did not raise ValueError on negative balance.")
+            return
+        except ValueError:
+            pass
+        if acc.balance == 150.0:
+            print("[+] Test Passed: BankAccount property encapsulation verified.")
+    except Exception as e:
+        print(f"[!] Test error: {e}")''',
+        "hint1": "Decorate getter with `@property def balance(self): return self._balance`.",
+        "hint2": "Decorate setter with `@balance.setter def balance(self, val): if val < 0: raise ValueError(...) else: self._balance = val`.",
+        "sol": '''class _RefBankAccount:
+    def __init__(self, initial_balance: float = 0.0):
+        if initial_balance < 0:
+            raise ValueError("Initial balance cannot be negative")
+        self._balance = initial_balance
+
+    @property
+    def balance(self) -> float:
+        return self._balance
+
+    @balance.setter
+    def balance(self, val: float):
+        if val < 0:
+            raise ValueError("Deposit must be non-negative")
+        self._balance = val'''
+    },
+    39: {
+        "topic": "Functions, Scope, Closures, Exception Defensiveness & Context Managers",
+        "prereqs": "Days 22–24 (Day 22 Scope & Decorators, Day 23 Exception Handling, Day 24 Context Managers)",
+        "q1": "What is the LEGB rule for Python variable resolution (Local, Enclosing, Global, Built-in)?",
+        "q2": "What do the `__enter__` and `__exit__` magic methods do when using a `with` statement?",
+        "q3": "How does a Python decorator use closures to wrap another function?",
+        "desc": "Write a decorator `retry_on_failure(max_retries: int = 2)` that catches exceptions and retries calling the wrapped function up to `max_retries` additional times before re-raising the exception.",
+        "stub": '''import functools
+
+def retry_on_failure(max_retries: int = 2):
+    """
+    Decorator that retries the wrapped function upon exception up to max_retries times.
+    """
+    # WRITE YOUR CODE HERE:
+    pass''',
+        "runner": '''def run_test():
+    print("--- Running Day 39 Revision Challenge ---")
+    dec = retry_on_failure(max_retries=2)
+    if dec is None:
+        print("[!] Decorator `retry_on_failure` is not yet implemented.")
+        return
+
+    attempts = [0]
+    @dec
+    def flaky():
+        attempts[0] += 1
+        if attempts[0] < 3:
+            raise ValueError("Temporary network glitch")
+        return "SUCCESS"
+
+    try:
+        res = flaky()
+        if res == "SUCCESS" and attempts[0] == 3:
+            print("[+] Test Passed: Decorator retried and succeeded on third attempt.")
+        else:
+            print(f"[-] Test Failed: res={res}, attempts={attempts[0]}")
+    except Exception as e:
+        print(f"[!] Decorator failed or not implemented: {e}")''',
+        "hint1": "Define decorator returning an inner wrapper taking `*args, **kwargs`.",
+        "hint2": "Loop for `max_retries + 1` times: inside `try: return func(*args, **kwargs)` except `Exception: if attempt == max_retries: raise`.",
+        "sol": '''import functools
+
+def _reference_solution(max_retries: int = 2):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            for i in range(max_retries + 1):
+                try:
+                    return func(*args, **kwargs)
+                except Exception:
+                    if i == max_retries:
+                        raise
+        return wrapper
+    return decorator'''
+    },
+    40: {
+        "topic": "Type Hints, PEP 8, Git Workflows & SQL Fundamentals",
+        "prereqs": "Days 25–27 (Day 25 Type Hints, Day 26 Git Collaboration, Day 27 SQL Fundamentals)",
+        "q1": "What are type hints in Python and why do they enhance developer tooling without causing runtime overhead?",
+        "q2": "What are the stages of Git tracking: Working Directory -> Staging Area -> Local Repo -> Remote Repo?",
+        "q3": "What SQL keyword creates a table and defines primary key constraints?",
+        "desc": "Write `generate_create_table_sql(table_name: str, schema: dict[str, str]) -> str` generating an SQL CREATE TABLE statement. E.g. `schema = {'id': 'INTEGER PRIMARY KEY', 'name': 'TEXT NOT NULL'}` -> `CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT NOT NULL);`.",
+        "stub": '''def generate_create_table_sql(table_name: str, schema: dict[str, str]) -> str:
+    """
+    Generates CREATE TABLE statement from schema dictionary.
+    """
+    # WRITE YOUR CODE HERE:
+    pass''',
+        "runner": '''def run_test():
+    print("--- Running Day 40 Revision Challenge ---")
+    s = {"id": "INTEGER PRIMARY KEY", "email": "TEXT NOT NULL"}
+    sql = generate_create_table_sql("users", s)
+    if sql is None:
+        print("[!] Function `generate_create_table_sql` is not yet implemented.")
+        return
+    expected = "CREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT NOT NULL);"
+    if sql.strip() == expected:
+        print("[+] Test Passed: DDL SQL string accurately generated.")
+    else:
+        print(f"[-] Test Failed: Got '{sql}'")''',
+        "hint1": "Format each column definition as `f'{col} {col_type}'`.",
+        "hint2": "Join column definitions with `', '` and return `f'CREATE TABLE {table_name} ({cols});'`.",
+        "sol": '''def _reference_solution(table_name: str, schema: dict[str, str]) -> str:
+    cols = ", ".join(f"{col} {ctype}" for col, ctype in schema.items())
+    return f"CREATE TABLE {table_name} ({cols});"'''
+    },
+    41: {
+        "topic": "SQL CRUD Operations, Aggregations & Table Joins",
+        "prereqs": "Days 28–30 (Day 28 SQL CRUD, Day 29 Aggregation & Grouping, Day 30 Table Joins)",
+        "q1": "What is the difference between an INNER JOIN and a LEFT JOIN in SQL?",
+        "q2": "Why must all non-aggregated SELECT columns appear in the GROUP BY clause?",
+        "q3": "What is the difference between WHERE (row filter) and HAVING (group filter)?",
+        "desc": "Write `calculate_customer_totals(conn) -> list[tuple[str, float]]` querying an in-memory SQLite database to compute total order amount per customer using an INNER JOIN and SUM(amount) GROUP BY customer name, sorted by total descending.",
+        "stub": '''import sqlite3
+
+def calculate_customer_totals(conn: sqlite3.Connection) -> list[tuple[str, float]]:
+    """
+    Executes SELECT c.name, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.name ORDER BY 2 DESC;
+    """
+    # WRITE YOUR CODE HERE:
     pass''',
         "runner": '''def run_test():
     import sqlite3
     conn = sqlite3.connect(":memory:")
     cur = conn.cursor()
-    cur.execute("CREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT);")
-    cur.execute("INSERT INTO users VALUES (1, 'dipesh@example.com'), (2, 'dev@example.com');")
+    cur.execute("CREATE TABLE customers (id INTEGER PRIMARY KEY, name TEXT);")
+    cur.execute("CREATE TABLE orders (id INTEGER PRIMARY KEY, customer_id INTEGER, amount REAL);")
+    cur.execute("INSERT INTO customers VALUES (1, 'Alice'), (2, 'Bob');")
+    cur.execute("INSERT INTO orders VALUES (101, 1, 50.0), (102, 1, 75.0), (103, 2, 20.0);")
     conn.commit()
 
-    print("--- Running Day 33 Revision Challenge ---")
-    res = search_users(conn, "dipesh")
+    print("--- Running Day 41 Revision Challenge ---")
+    res = calculate_customer_totals(conn)
     if res is None:
-        print("[!] Function `search_users` is not yet implemented. Complete the exercise above and re-run!")
+        print("[!] Function `calculate_customer_totals` is not yet implemented.")
         conn.close()
         return
-
-    if len(res) == 1 and res[0][1] == 'dipesh@example.com':
-        print("[+] Test Passed: Parameterized search returned expected record.")
+    if res == [("Alice", 125.0), ("Bob", 20.0)]:
+        print("[+] Test Passed: SQL JOIN and GROUP BY aggregation calculated accurately.")
     else:
-        print(f"[-] Test Failed: Unexpected return: {res}")
+        print(f"[-] Test Failed: Got {res}")
     conn.close()''',
-        "hint1": "The database driver escapes characters when you pass a query template with a placeholder alongside a tuple of arguments.",
-        "hint2": "Use `LIKE ?` in SQLite (or `%s` in PostgreSQL) and pass `(f'{email_prefix}%',)` as the parameter tuple.",
-        "sol": '''def _reference_solution(conn, email_prefix: str) -> list:
+        "hint1": "Write query: `SELECT c.name, SUM(o.amount) FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.name ORDER BY SUM(o.amount) DESC`.",
+        "hint2": "Execute query with `conn.cursor()`, run `.fetchall()`, and return the list of tuples.",
+        "sol": '''import sqlite3
+
+def _reference_solution(conn: sqlite3.Connection) -> list[tuple[str, float]]:
     cur = conn.cursor()
-    cur.execute("SELECT id, email FROM users WHERE email LIKE ?;", (f"{email_prefix}%",))
+    cur.execute("""
+        SELECT c.name, SUM(o.amount)
+        FROM customers c
+        JOIN orders o ON c.id = o.customer_id
+        GROUP BY c.name
+        ORDER BY SUM(o.amount) DESC;
+    """)
     return cur.fetchall()'''
     },
-    34: {
-        "topic": "B-Tree Indexes, Composite Index Rules & Dict Operations",
-        "prereqs": "Days 1–33 (Day 33 B-Tree Indexing, Day 9 Dictionaries)",
-        "q1": "Why does a B-Tree index allow O(log n) lookups instead of O(n) table scans?",
-        "q2": "In a composite index on `(status, created_at)`, why can a query filter on `status` alone use the index, but a query on `created_at` alone cannot?",
-        "q3": "What is the difference between `dict.get('key')` and `dict['key']` when the key is missing?",
-        "desc": "Write `is_using_index(plan_steps: list[str]) -> bool` which inspects a list of EXPLAIN plan step strings and returns True if any step uses an index and False if it only does sequential scans.",
+    42: {
+        "topic": "SQL Subqueries, Transactions, Connection Pooling & B-Tree Indexes",
+        "prereqs": "Days 31–33 (Day 31 Subqueries & Transactions, Day 32 Drivers & Pooling, Day 33 Indexing)",
+        "q1": "What are the four ACID properties in database transaction management?",
+        "q2": "Why must SQL queries always use parameterized placeholders (`%s` or `?`) instead of f-string formatting?",
+        "q3": "Why does a B-Tree index offer O(log n) lookups instead of O(n) table scans?",
+        "desc": "Write `is_using_index(plan_steps: list[str]) -> bool` which inspects a list of EXPLAIN plan step strings and returns True if any step uses an index scan and False if it only does sequential scans.",
         "stub": '''def is_using_index(plan_steps: list[str]) -> bool:
     """
     Returns True if any step in plan_steps contains 'INDEX' (case-insensitive),
@@ -73,92 +475,33 @@ DAYS_DATA = {
     # WRITE YOUR CODE HERE:
     pass''',
         "runner": '''def run_test():
-    print("--- Running Day 34 Revision Challenge ---")
-    plan1 = ["Seq Scan on users (cost=0.00..35.50 rows=2550 width=36)"]
-    plan2 = ["Bitmap Index Scan on idx_users_email (cost=0.00..4.30 rows=10 width=0)"]
-    
-    r1 = is_using_index(plan1)
-    r2 = is_using_index(plan2)
+    print("--- Running Day 42 Revision Challenge ---")
+    p1 = ["Seq Scan on users (cost=0.00..35.50 rows=2550 width=36)"]
+    p2 = ["Bitmap Index Scan on idx_users_email (cost=0.00..4.30 rows=10 width=0)"]
+    r1 = is_using_index(p1)
+    r2 = is_using_index(p2)
     if r1 is None or r2 is None:
         print("[!] Function `is_using_index` is not yet implemented.")
         return
     if r1 is False and r2 is True:
-        print("[+] Test Passed: Correctly identified Sequential Scan vs Index Scan.")
+        print("[+] Test Passed: B-Tree index scan correctly detected.")
     else:
         print(f"[-] Test Failed: r1={r1}, r2={r2}")''',
         "hint1": "Iterate through each step string and check for the substring 'INDEX'.",
-        "hint2": "Use `any('INDEX' in step.upper() for step in plan_steps)`.",
+        "hint2": "Use `return any('INDEX' in step.upper() for step in plan_steps)`.",
         "sol": '''def _reference_solution(plan_steps: list[str]) -> bool:
     return any("INDEX" in step.upper() for step in plan_steps)'''
     },
-    35: {
-        "topic": "Database Normalization, Foreign Keys & Encapsulation",
-        "prereqs": "Days 1–34 (Day 34 Normalization & FKs, Day 19 @property Encapsulation)",
-        "q1": "What is 1NF (atomic columns) vs 2NF (removing partial dependencies) vs 3NF (removing transitive dependencies)?",
-        "q2": "What happens when you delete a parent row if the foreign key specifies `ON DELETE CASCADE` vs `ON DELETE RESTRICT`?",
-        "q3": "Why do we use `@property` and a setter in Python instead of allowing direct public attribute mutation?",
-        "desc": "Implement a `Product` class with a protected attribute `_stock`. Use `@property` for `stock`, and in `@stock.setter`, raise `ValueError` if the new stock is negative.",
-        "stub": '''class Product:
-    def __init__(self, name: str, initial_stock: int):
-        self.name = name
-        if initial_stock < 0:
-            raise ValueError("Stock cannot be negative")
-        self._stock = initial_stock
-
-    # Implement @property stock and @stock.setter below:
-    pass''',
-        "runner": '''def run_test():
-    print("--- Running Day 35 Revision Challenge ---")
-    try:
-        p = Product("Laptop", 10)
-        if not hasattr(p, "stock"):
-            print("[!] Property `stock` is not yet implemented.")
-            return
-        if p.stock != 10:
-            print("[-] Test Failed: Initial stock mismatch.")
-            return
-        p.stock = 5
-        if p.stock != 5:
-            print("[-] Test Failed: Setter did not update stock.")
-            return
-        try:
-            p.stock = -2
-            print("[-] Test Failed: Setter did not raise ValueError on negative stock.")
-            return
-        except ValueError:
-            print("[+] Test Passed: Negative stock correctly raised ValueError.")
-    except Exception as e:
-        print(f"[-] Test error: {e}")''',
-        "hint1": "Define a getter method decorated with `@property` and a setter decorated with `@stock.setter`.",
-        "hint2": "In setter: `if val < 0: raise ValueError(...)` else `self._stock = val`.",
-        "sol": '''class _ReferenceProduct:
-    def __init__(self, name: str, initial_stock: int):
-        self.name = name
-        if initial_stock < 0:
-            raise ValueError("Stock cannot be negative")
-        self._stock = initial_stock
-
-    @property
-    def stock(self) -> int:
-        return self._stock
-
-    @stock.setter
-    def stock(self, val: int):
-        if val < 0:
-            raise ValueError("Stock cannot be negative")
-        self._stock = val'''
-    },
-    36: {
-        "topic": "Concurrency Anomalies, Row Locking & SQL Subqueries",
-        "prereqs": "Days 1–35 (Day 35 Concurrency & ACID, Day 31 SQL Subqueries)",
-        "q1": "What is a 'Lost Update' anomaly and how does `SELECT ... FOR UPDATE` prevent it?",
-        "q2": "What are the four ACID properties, and which one guarantees that intermediate states are never visible?",
-        "q3": "Why is an atomic conditional update like `UPDATE accounts SET balance = balance - 50 WHERE id = 1 AND balance >= 50;` safer than reading first and writing later?",
-        "desc": "Write `atomic_deduct_stock(conn, product_id, qty)` executing: `UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?`. Return True if rowcount > 0, False otherwise.",
+    43: {
+        "topic": "Database Normalization, ACID/MVCC Concurrency & Advanced Data Types",
+        "prereqs": "Days 34–36 (Day 34 Normalization, Day 35 Locking & MVCC, Day 36 PostgreSQL JSONB)",
+        "q1": "What is the difference between 1NF, 2NF, and 3NF database normalization?",
+        "q2": "How does `SELECT ... FOR UPDATE` row locking prevent concurrent lost update anomalies?",
+        "q3": "When is storing data in a PostgreSQL `JSONB` column appropriate versus normalized relational tables?",
+        "desc": "Write `atomic_deduct_stock(conn, product_id: int, qty: int) -> bool` executing conditional atomic update: `UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?;`. Commit and return True if `cur.rowcount > 0`, otherwise rollback and return False.",
         "stub": '''def atomic_deduct_stock(conn, product_id: int, qty: int) -> bool:
     """
-    Executes conditional atomic update.
-    Returns True if stock was deducted, False if insufficient stock or product not found.
+    Conditional atomic update. Returns True if stock deducted, False if insufficient stock.
     """
     # WRITE YOUR CODE HERE:
     pass''',
@@ -170,106 +513,38 @@ DAYS_DATA = {
     cur.execute("INSERT INTO products VALUES (1, 15);")
     conn.commit()
 
-    print("--- Running Day 36 Revision Challenge ---")
+    print("--- Running Day 43 Revision Challenge ---")
     r1 = atomic_deduct_stock(conn, 1, 10)
     if r1 is None:
         print("[!] Function `atomic_deduct_stock` is not yet implemented.")
         conn.close()
         return
-
-    r2 = atomic_deduct_stock(conn, 1, 10) # should fail (only 5 left)
+    r2 = atomic_deduct_stock(conn, 1, 10) # should fail (only 5 remaining)
     cur.execute("SELECT stock FROM products WHERE id = 1;")
-    remaining = cur.fetchone()[0]
-
-    if r1 is True and r2 is False and remaining == 5:
-        print("[+] Test Passed: Atomic conditional update handled correctly.")
+    rem = cur.fetchone()[0]
+    if r1 is True and r2 is False and rem == 5:
+        print("[+] Test Passed: Concurrency-safe atomic deduction verified.")
     else:
-        print(f"[-] Test Failed: r1={r1}, r2={r2}, remaining={remaining}")
+        print(f"[-] Test Failed: r1={r1}, r2={r2}, rem={rem}")
     conn.close()''',
-        "hint1": "Run the parameterized UPDATE statement and check `cur.rowcount`.",
-        "hint2": "If `cur.rowcount > 0`: `conn.commit()` and return True; else return False.",
+        "hint1": "Execute the parameterized UPDATE statement and inspect `cur.rowcount`.",
+        "hint2": "If `cur.rowcount > 0`: `conn.commit()` and return True; else `conn.rollback()` and return False.",
         "sol": '''def _reference_solution(conn, product_id: int, qty: int) -> bool:
     cur = conn.cursor()
     cur.execute("UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?;", (qty, product_id, qty))
-    conn.commit()
-    return cur.rowcount > 0'''
+    if cur.rowcount > 0:
+        conn.commit()
+        return True
+    conn.rollback()
+    return False'''
     },
-    37: {
-        "topic": "JSONB vs Relational Schemas, SQL Joins & List Comprehensions",
-        "prereqs": "Days 1–36 (Day 36 PostgreSQL Data Types, Day 30 Joins, Day 8 List Comprehensions)",
-        "q1": "When is storing data in a JSON/JSONB column appropriate versus normalizing into separate relational tables?",
-        "q2": "What is the difference between a LEFT JOIN and an INNER JOIN when querying orders with optional discount codes?",
-        "q3": "How does a Python list comprehension offer cleaner, more readable filtering compared to an explicit for-loop?",
-        "desc": "Given a list of user dictionaries representing parsed JSON records, write `get_active_admin_emails(users_data: list[dict]) -> list[str]` using a list comprehension.",
-        "stub": '''def get_active_admin_emails(users_data: list[dict]) -> list[str]:
-    """
-    Returns a list of emails for users who have role == 'ADMIN' and is_active is True.
-    """
-    # WRITE YOUR CODE HERE:
-    pass''',
-        "runner": '''def run_test():
-    print("--- Running Day 37 Revision Challenge ---")
-    users = [
-        {"email": "alice@admin.com", "role": "ADMIN", "is_active": True},
-        {"email": "bob@dev.com", "role": "STAFF", "is_active": True},
-        {"email": "carol@admin.com", "role": "ADMIN", "is_active": False},
-        {"email": "dave@admin.com", "role": "ADMIN", "is_active": True},
-    ]
-    res = get_active_admin_emails(users)
-    if res is None:
-        print("[!] Function `get_active_admin_emails` is not yet implemented.")
-        return
-    if res == ["alice@admin.com", "dave@admin.com"]:
-        print("[+] Test Passed: Active admin emails filtered correctly.")
-    else:
-        print(f"[-] Test Failed: Got {res}")''',
-        "hint1": "Filter each dictionary `u` where `u.get('role') == 'ADMIN'` and `u.get('is_active') is True`.",
-        "hint2": "Use `[u['email'] for u in users_data if u.get('role') == 'ADMIN' and u.get('is_active')]`.",
-        "sol": '''def _reference_solution(users_data: list[dict]) -> list[str]:
-    return [u["email"] for u in users_data if u.get("role") == "ADMIN" and u.get("is_active")]'''
-    },
-    38: {
-        "topic": "HTTP Request-Response Anatomy, Headers & Git Conflicts",
-        "prereqs": "Days 1–37 (Day 37 HTTP Anatomy, Day 33 Indexing, Day 26 Git Collaboration)",
-        "q1": "What are the three main components of an HTTP Request message (start line, headers, body)?",
-        "q2": "Why are HTTP header names considered case-insensitive according to RFC specifications (e.g., `Content-Type` vs `content-type`)?",
-        "q3": "In Git, what markers (`<<<<<<<`, `=======`, `>>>>>>>`) appear in a file during a merge conflict?",
-        "desc": "Write `get_header_value(headers: dict, target_header: str) -> str | None` which retrieves the value of a header regardless of whether it was stored in lowercase, uppercase, or mixed case.",
-        "stub": '''def get_header_value(headers: dict, target_header: str) -> str | None:
-    """
-    Retrieves the value of target_header from headers dictionary in a case-insensitive way.
-    """
-    # WRITE YOUR CODE HERE:
-    pass''',
-        "runner": '''def run_test():
-    print("--- Running Day 38 Revision Challenge ---")
-    headers = {"Content-Type": "application/json", "Authorization": "Bearer token123"}
-    v1 = get_header_value(headers, "content-type")
-    v2 = get_header_value(headers, "AUTHORIZATION")
-    v3 = get_header_value(headers, "Accept")
-    if v1 is None and v2 is None:
-        print("[!] Function `get_header_value` is not yet implemented.")
-        return
-    if v1 == "application/json" and v2 == "Bearer token123" and v3 is None:
-        print("[+] Test Passed: Case-insensitive header lookup succeeded.")
-    else:
-        print(f"[-] Test Failed: v1={v1}, v2={v2}, v3={v3}")''',
-        "hint1": "Compare lowercased keys with `target_header.lower()`.",
-        "hint2": "Iterate through `headers.items()`: `for k, v in headers.items(): if k.lower() == target_header.lower(): return v`.",
-        "sol": '''def _reference_solution(headers: dict, target_header: str) -> str | None:
-    target = target_header.lower()
-    for k, v in headers.items():
-        if k.lower() == target:
-            return v
-    return None'''
-    },
-    39: {
-        "topic": "HTTP Idempotency, HTTP Status Codes & Rollback",
-        "prereqs": "Days 1–38 (Day 38 HTTP Methods & Status Codes, Day 31/35 Transactions)",
-        "q1": "What does it mean for an HTTP method to be 'idempotent', and why is `GET` and `PUT` idempotent while `POST` is not?",
-        "q2": "What are the standard HTTP status codes for: Success (`200`), Resource Created (`201`), Bad Request (`400`), Unauthorized (`401`), Forbidden (`403`), and Not Found (`404`)?",
-        "q3": "If a transaction raises an exception midway, why must `conn.rollback()` be invoked before releasing or reusing the connection?",
-        "desc": "Write `determine_status_code(method: str, resource_found: bool, is_valid_payload: bool) -> int` that maps request parameters to the standard REST status code.",
+    44: {
+        "topic": "HTTP Protocols, Methods, Status Codes & RESTful Conventions",
+        "prereqs": "Days 37–39 (Day 37 HTTP Anatomy, Day 38 Methods & Codes, Day 39 REST Conventions)",
+        "q1": "What is HTTP method idempotency, and why are GET and PUT idempotent while POST is not?",
+        "q2": "What are the standard status codes: Success (200), Created (201), Bad Request (400), Not Found (404)?",
+        "q3": "Why do RESTful API conventions use plural nouns for URIs rather than action verbs?",
+        "desc": "Write `determine_status_code(method: str, resource_found: bool, is_valid_payload: bool) -> int` mapping request context to standard HTTP status codes.",
         "stub": '''def determine_status_code(method: str, resource_found: bool, is_valid_payload: bool) -> int:
     """
     Rules:
@@ -282,20 +557,20 @@ DAYS_DATA = {
     # WRITE YOUR CODE HERE:
     pass''',
         "runner": '''def run_test():
-    print("--- Running Day 39 Revision Challenge ---")
-    c1 = determine_status_code("POST", True, True)    # 201
-    c2 = determine_status_code("GET", False, True)    # 404
-    c3 = determine_status_code("POST", True, False)   # 400
-    c4 = determine_status_code("GET", True, True)     # 200
+    print("--- Running Day 44 Revision Challenge ---")
+    c1 = determine_status_code("POST", True, True)
+    c2 = determine_status_code("GET", False, True)
+    c3 = determine_status_code("POST", True, False)
+    c4 = determine_status_code("GET", True, True)
     if c1 is None:
         print("[!] Function `determine_status_code` is not yet implemented.")
         return
     if (c1, c2, c3, c4) == (201, 404, 400, 200):
-        print("[+] Test Passed: Status codes correctly resolved.")
+        print("[+] Test Passed: REST HTTP status codes verified.")
     else:
         print(f"[-] Test Failed: Got {(c1, c2, c3, c4)}")''',
-        "hint1": "Handle the failure cases first (invalid payload -> 400, not found on GET/DELETE -> 404).",
-        "hint2": "Check `if not is_valid_payload: return 400`, then `if not resource_found and method in ('GET', 'DELETE'): return 404`, then `if method == 'POST': return 201`.",
+        "hint1": "Handle errors first (if not valid -> 400, if not found on GET/DELETE -> 404).",
+        "hint2": "If method == 'POST': return 201; else return 200.",
         "sol": '''def _reference_solution(method: str, resource_found: bool, is_valid_payload: bool) -> int:
     if not is_valid_payload:
         return 400
@@ -305,89 +580,13 @@ DAYS_DATA = {
         return 201
     return 200'''
     },
-    40: {
-        "topic": "RESTful URI Conventions, HTTP Methods & Virtual Environments",
-        "prereqs": "Days 1–39 (Day 39 REST URI Conventions, Day 38 HTTP Methods, Day 24 Venvs)",
-        "q1": "Why do RESTful APIs use plural nouns for URIs (e.g. `/api/v1/orders/`) rather than verbs (e.g. `/api/v1/getOrders`)?",
-        "q2": "How does HTTP method choice (`GET`, `POST`, `PUT`, `PATCH`, `DELETE`) express the intended action without embedding verbs in the URL path?",
-        "q3": "Why is it vital to keep `.venv/` in `.gitignore` rather than committing it to Git?",
-        "desc": "Write `is_restful_uri(path: str) -> bool` returning False if the path contains action verbs like 'get', 'create', 'delete', or 'update', and True if it adheres to noun-based REST conventions.",
-        "stub": '''def is_restful_uri(path: str) -> bool:
-    """
-    Returns False if any path segment contains 'get', 'create', 'delete', or 'update' (case-insensitive),
-    True otherwise.
-    """
-    # WRITE YOUR CODE HERE:
-    pass''',
-        "runner": '''def run_test():
-    print("--- Running Day 40 Revision Challenge ---")
-    bad = is_restful_uri("/api/v1/users/create")
-    good = is_restful_uri("/api/v1/users/123")
-    if bad is None or good is None:
-        print("[!] Function `is_restful_uri` is not yet implemented.")
-        return
-    if bad is False and good is True:
-        print("[+] Test Passed: RESTful URI pattern detected cleanly.")
-    else:
-        print(f"[-] Test Failed: bad={bad}, good={good}")''',
-        "hint1": "Split the path by '/' and check if any forbidden verb is present in lowercased segments.",
-        "hint2": "Use `verbs = {'get', 'create', 'delete', 'update'}` and `any(v in segment.lower() for v in verbs for segment in path.split('/'))`.",
-        "sol": '''def _reference_solution(path: str) -> bool:
-    verbs = {"get", "create", "delete", "update"}
-    segments = [s.lower() for s in path.strip("/").split("/")]
-    return not any(any(v in s for v in verbs) for s in segments)'''
-    },
-    41: {
-        "topic": "Django MVT Pattern, Environment Variables & Python Decorators",
-        "prereqs": "Days 1–40 (Day 40 Django Intro & Settings, Day 22 Decorators)",
-        "q1": "What are the distinct responsibilities of Model, View, and Template in Django's MVT pattern?",
-        "q2": "Why must SECRET_KEY and DB credentials be read from environment variables rather than hardcoded in `settings.py`?",
-        "q3": "How does a Python decorator wrap and modify the execution of an underlying view function?",
-        "desc": "Write a decorator `require_auth` that inspects a simulated `request` dict. If `request.get('is_authenticated')` is True, it calls the function; otherwise, it returns `{'error': 'Unauthorized', 'status': 401}`.",
-        "stub": '''import functools
-
-def require_auth(func):
-    """
-    Decorator that checks if request['is_authenticated'] is True.
-    """
-    # WRITE YOUR CODE HERE:
-    pass''',
-        "runner": '''def run_test():
-    print("--- Running Day 41 Revision Challenge ---")
-    wrapper = require_auth(lambda r: {"status": 200})
-    if wrapper is None:
-        print("[!] Decorator `require_auth` is not yet implemented.")
-        return
-
-    @require_auth
-    def profile_view(request):
-        return {"data": f"Welcome user {request.get('user_id')}", "status": 200}
-
-    r_anon = profile_view({"is_authenticated": False})
-    r_user = profile_view({"is_authenticated": True, "user_id": 42})
-    if r_anon.get("status") == 401 and r_user.get("status") == 200:
-        print("[+] Test Passed: require_auth decorator enforced access control.")
-    else:
-        print(f"[-] Test Failed: anon={r_anon}, user={r_user}")''',
-        "hint1": "Use `functools.wraps(func)` and define an inner wrapper that accepts `request, *args, **kwargs`.",
-        "hint2": "Inside wrapper: `if not request.get('is_authenticated'): return {'error': 'Unauthorized', 'status': 401}` else return `func(request, *args, **kwargs)`.",
-        "sol": '''import functools
-
-def _reference_solution(func):
-    @functools.wraps(func)
-    def wrapper(request, *args, **kwargs):
-        if not request.get("is_authenticated"):
-            return {"error": "Unauthorized", "status": 401}
-        return func(request, *args, **kwargs)
-    return wrapper'''
-    },
-    42: {
-        "topic": "URL Converters, FBVs vs CBVs & SQL Aggregations",
-        "prereqs": "Days 1–41 (Day 41 URL Routing & Views, Day 29 SQL Aggregations)",
-        "q1": "In Django `path('posts/<int:post_id>/', ...)`, what does the `<int:...>` path converter do?",
-        "q2": "When is a Function-Based View (FBV) preferred over a Class-Based View (CBV) for beginners?",
-        "q3": "In SQL, what is the role of `GROUP BY` when computing summary statistics like `AVG(price)` per category?",
-        "desc": "Write `extract_id_from_path(path: str) -> int | None` that simulates Django's `<int:pk>` path converter for URLs formatted like `/api/v1/items/<id>/`.",
+    45: {
+        "topic": "Django Architecture, Settings, URL Routing & Views",
+        "prereqs": "Days 40–42 (Day 40 Django Setup, Day 41 URLs & Views, Day 42 Templates)",
+        "q1": "What are the roles of Model, View, and Template in Django's MVT pattern?",
+        "q2": "Why must SECRET_KEY and database credentials be read from environment variables rather than committed in settings.py?",
+        "q3": "In Django URL routing, how does `<int:pk>` convert and pass path parameters to view functions?",
+        "desc": "Write `extract_id_from_path(path: str) -> int | None` simulating Django's `<int:pk>` path converter for URLs formatted like `/api/v1/items/<id>/`.",
         "stub": '''import re
 
 def extract_id_from_path(path: str) -> int | None:
@@ -397,110 +596,30 @@ def extract_id_from_path(path: str) -> int | None:
     # WRITE YOUR CODE HERE:
     pass''',
         "runner": '''def run_test():
-    print("--- Running Day 42 Revision Challenge ---")
+    print("--- Running Day 45 Revision Challenge ---")
     i1 = extract_id_from_path("/api/v1/items/456/")
     i2 = extract_id_from_path("/api/v1/items/invalid/")
     if i1 is None and i2 is None:
         print("[!] Function `extract_id_from_path` is not yet implemented.")
         return
     if i1 == 456 and i2 is None:
-        print("[+] Test Passed: Path integer converter simulated correctly.")
+        print("[+] Test Passed: Path converter simulation confirmed.")
     else:
         print(f"[-] Test Failed: i1={i1}, i2={i2}")''',
-        "hint1": "Use `re.search(r'/items/(\\d+)/', path)` or parse path segments.",
-        "hint2": "Match `re.search(r'/items/(\\d+)', path)`: if match, return `int(match.group(1))` else None.",
+        "hint1": "Use regex `re.search(r'/items/(\\d+)/?', path)`.",
+        "hint2": "If matched, return `int(m.group(1))` else `None`.",
         "sol": '''import re
 
 def _reference_solution(path: str) -> int | None:
     m = re.search(r'/items/(\\d+)/?', path)
     return int(m.group(1)) if m else None'''
     },
-    43: {
-        "topic": "Relational Schemas, Model Fields & OOP Inheritance",
-        "prereqs": "Days 1–42 (Day 42 Templates, Day 34 Relational Schemas, Day 14 OOP Inheritance)",
-        "q1": "How does Django translate Python model class attributes into SQL column definitions?",
-        "q2": "What is the difference between `null=True` (database level) and `blank=True` (form validation level)?",
-        "q3": "How does class inheritance in `class Product(models.Model)` allow Django models to inherit database behavior?",
-        "desc": "Write `validate_model_price(price: float) -> tuple[bool, str]` that ensures a price is a positive number, does not exceed 100000.0, and has at most 2 decimal places.",
-        "stub": '''def validate_model_price(price: float) -> tuple[bool, str]:
-    """
-    Validates model price field:
-    - price > 0
-    - price <= 100000.0
-    - at most 2 decimal places
-    Returns (True, "Valid") or (False, "Error message")
-    """
-    # WRITE YOUR CODE HERE:
-    pass''',
-        "runner": '''def run_test():
-    print("--- Running Day 43 Revision Challenge ---")
-    res1 = validate_model_price(49.99)
-    if res1 is None:
-        print("[!] Function `validate_model_price` is not yet implemented.")
-        return
-    v1, _ = res1
-    v2, _ = validate_model_price(-5.0)
-    v3, _ = validate_model_price(19.999)
-    if v1 is True and v2 is False and v3 is False:
-        print("[+] Test Passed: Model field price constraints validated.")
-    else:
-        print(f"[-] Test Failed: v1={v1}, v2={v2}, v3={v3}")''',
-        "hint1": "Check price range first, then check decimals via string representation or `round(price, 2) == price`.",
-        "hint2": "Use `if price <= 0 or price > 100000: return False, ...` and `if round(price, 2) != price: return False, ...`.",
-        "sol": '''def _reference_solution(price: float) -> tuple[bool, str]:
-    if price <= 0:
-        return False, "Price must be strictly positive"
-    if price > 100000.0:
-        return False, "Price exceeds maximum threshold"
-    if round(price, 2) != price:
-        return False, "Price cannot have more than 2 decimal places"
-    return True, "Valid"'''
-    },
-    44: {
-        "topic": "Django Migrations, SQL DDL & Database Constraints",
-        "prereqs": "Days 1–43 (Day 43 Django Models & Migrations, Day 34 Database Constraints)",
-        "q1": "What is the difference between `makemigrations` (creates Python migration file) and `migrate` (executes SQL DDL against the DB)?",
-        "q2": "Why should you never manually alter production database tables using raw SQL when using Django migrations?",
-        "q3": "What does a `UNIQUE` constraint prevent at the database level?",
-        "desc": "Write `validate_field_constraints(data: dict, schema: dict) -> tuple[bool, list[str]]` that checks if all required schema fields are present and non-null in data.",
-        "stub": '''def validate_field_constraints(data: dict, schema: dict) -> tuple[bool, list[str]]:
-    """
-    schema format: {'fields': {'title': {'required': True}, 'slug': {'required': True}}}
-    Returns (is_valid, list_of_missing_fields)
-    """
-    # WRITE YOUR CODE HERE:
-    pass''',
-        "runner": '''def run_test():
-    print("--- Running Day 44 Revision Challenge ---")
-    schema = {"fields": {"title": {"required": True}, "slug": {"required": True}, "desc": {"required": False}}}
-    valid_data = {"title": "Post 1", "slug": "post-1"}
-    invalid_data = {"title": "Post 2"}
-    
-    res1 = validate_field_constraints(valid_data, schema)
-    if res1 is None:
-        print("[!] Function `validate_field_constraints` is not yet implemented.")
-        return
-    r1, m1 = res1
-    r2, m2 = validate_field_constraints(invalid_data, schema)
-    if r1 is True and r2 is False and "slug" in m2:
-        print("[+] Test Passed: Schema constraint validator succeeded.")
-    else:
-        print(f"[-] Test Failed: r1={r1}, r2={r2}, m2={m2}")''',
-        "hint1": "Iterate through `schema['fields']` and check if `conf.get('required')` is True.",
-        "hint2": "If field not in data or data[field] is None: append field name to missing list.",
-        "sol": '''def _reference_solution(data: dict, schema: dict) -> tuple[bool, list[str]]:
-    missing = []
-    for f, conf in schema.get("fields", {}).items():
-        if conf.get("required") and (f not in data or data[f] is None):
-            missing.append(f)
-    return (len(missing) == 0, missing)'''
-    },
-    45: {
-        "topic": "QuerySet Lazy Evaluation, Q Objects & SQL Joins",
-        "prereqs": "Days 1–44 (Day 44 ORM Queries & Q Objects, Day 30 SQL Joins)",
-        "q1": "What does 'lazy evaluation' mean for Django QuerySets, and what triggers an actual SQL execution (iteration, slicing, len)?",
-        "q2": "How do Django `Q` objects allow OR queries (e.g. `Q(status='A') | Q(status='B')`)?",
-        "q3": "Why is filtering in the database using QuerySets vastly more efficient than fetching all records and filtering in Python?",
+    46: {
+        "topic": "Django Database Models, Migrations & ORM Queries",
+        "prereqs": "Days 43–44 (Day 43 Models & Migrations, Day 44 ORM Queries & Q Objects)",
+        "q1": "What is the difference between `makemigrations` (generates migration code) and `migrate` (executes SQL DDL)?",
+        "q2": "What does 'lazy evaluation' mean for Django QuerySets and what actions trigger database execution?",
+        "q3": "How do Django `Q` objects allow constructing queries with `OR` logic?",
         "desc": "Write `simulate_q_filter(items: list[dict], cat: str = None, min_price: float = None) -> list[dict]` matching items where category matches OR price >= min_price.",
         "stub": '''def simulate_q_filter(items: list[dict], cat: str = None, min_price: float = None) -> list[dict]:
     """
@@ -509,7 +628,7 @@ def _reference_solution(path: str) -> int | None:
     # WRITE YOUR CODE HERE:
     pass''',
         "runner": '''def run_test():
-    print("--- Running Day 45 Revision Challenge ---")
+    print("--- Running Day 46 Revision Challenge ---")
     data = [
         {"name": "A", "category": "books", "price": 10},
         {"name": "B", "category": "tech", "price": 100},
@@ -524,7 +643,7 @@ def _reference_solution(path: str) -> int | None:
         print("[+] Test Passed: Disjunctive OR filter simulation succeeded.")
     else:
         print(f"[-] Test Failed: Got names={names}")''',
-        "hint1": "For each item, test if it matches condition 1 OR condition 2.",
+        "hint1": "Check if an item matches `cat` OR meets `min_price`.",
         "hint2": "Use `[i for i in items if (cat and i.get('category') == cat) or (min_price is not None and i.get('price', 0) >= min_price)]`.",
         "sol": '''def _reference_solution(items: list[dict], cat: str = None, min_price: float = None) -> list[dict]:
     return [
@@ -532,29 +651,29 @@ def _reference_solution(path: str) -> int | None:
         if (cat and i.get("category") == cat) or (min_price is not None and i.get("price", 0) >= min_price)
     ]'''
     },
-    46: {
-        "topic": "N+1 Query Problem, select_related & B-Tree Index Traversal",
-        "prereqs": "Days 1–45 (Day 45 Prefetching & ForeignKeys, Day 33 Indexing)",
+    47: {
+        "topic": "ForeignKeys, select_related, Prefetching & CRUD Views",
+        "prereqs": "Days 45–46 (Day 45 ForeignKeys & N+1 Problem, Day 46 CRUD Application)",
         "q1": "What is the N+1 query problem in ORMs, and how does `select_related` fix it using an SQL JOIN?",
-        "q2": "What is the difference between `select_related` (single-valued FKs/OneToOne) and `prefetch_related` (ManyToMany/reverse FKs)?",
-        "q3": "How does an indexed foreign key column speed up JOIN lookups in PostgreSQL?",
-        "desc": "Write `count_simulated_queries(item_count: int, use_select_related: bool) -> int` returning the number of database queries executed when accessing a foreign key attribute for N items.",
+        "q2": "What is the difference between `select_related` (single-valued FK) and `prefetch_related` (many-to-many / reverse FK)?",
+        "q3": "What does `related_name` in a `ForeignKey` field define on the reverse model?",
+        "desc": "Write `count_simulated_queries(item_count: int, use_select_related: bool) -> int` returning query count: 1 query if select_related is True, 1 + item_count queries if False.",
         "stub": '''def count_simulated_queries(item_count: int, use_select_related: bool) -> int:
     """
-    If use_select_related is True: executes exactly 1 query (with SQL JOIN).
+    If use_select_related is True: executes 1 query (with SQL JOIN).
     If False: executes 1 initial query + 1 query per item (1 + N queries).
     """
     # WRITE YOUR CODE HERE:
     pass''',
         "runner": '''def run_test():
-    print("--- Running Day 46 Revision Challenge ---")
+    print("--- Running Day 47 Revision Challenge ---")
     q_opt = count_simulated_queries(50, True)
     q_naive = count_simulated_queries(50, False)
     if q_opt is None:
         print("[!] Function `count_simulated_queries` is not yet implemented.")
         return
     if q_opt == 1 and q_naive == 51:
-        print("[+] Test Passed: N+1 query count calculation verified.")
+        print("[+] Test Passed: N+1 query optimization verified.")
     else:
         print(f"[-] Test Failed: q_opt={q_opt}, q_naive={q_naive}")''',
         "hint1": "If select_related is enabled, only 1 SQL JOIN query is sent.",
@@ -562,47 +681,13 @@ def _reference_solution(path: str) -> int | None:
         "sol": '''def _reference_solution(item_count: int, use_select_related: bool) -> int:
     return 1 if use_select_related else item_count + 1'''
     },
-    47: {
-        "topic": "Django Relationships, related_name & String Validation",
-        "prereqs": "Days 1–46 (Day 46 CRUD Application & Relationships, Day 23 String Processing)",
-        "q1": "What does the `related_name` argument in a `ForeignKey` define on the reverse model?",
-        "q2": "If model `Author` has many `Books`, how do you access the books from an author instance if `related_name='books'`?",
-        "q3": "Why is regular expression pattern matching useful for validating standardized strings like SKUs or phone numbers?",
-        "desc": "Write `validate_sku(sku: str) -> bool` that verifies an SKU follows the format: 3 uppercase letters, a hyphen, and 3 digits (e.g. 'ABC-123').",
-        "stub": '''import re
-
-def validate_sku(sku: str) -> bool:
-    """
-    Returns True if sku matches ^[A-Z]{3}-\\d{3}$, False otherwise.
-    """
-    # WRITE YOUR CODE HERE:
-    pass''',
-        "runner": '''def run_test():
-    print("--- Running Day 47 Revision Challenge ---")
-    v1 = validate_sku("PRD-404")
-    v2 = validate_sku("prd-404")
-    v3 = validate_sku("PRD404")
-    if v1 is None:
-        print("[!] Function `validate_sku` is not yet implemented.")
-        return
-    if v1 is True and v2 is False and v3 is False:
-        print("[+] Test Passed: SKU pattern validator succeeded.")
-    else:
-        print(f"[-] Test Failed: v1={v1}, v2={v2}, v3={v3}")''',
-        "hint1": "Use `re.fullmatch(r'^[A-Z]{3}-\\d{3}$', sku)`.",
-        "hint2": "Return `bool(re.fullmatch(r'^[A-Z]{3}-\\d{3}$', sku))`.",
-        "sol": '''import re
-
-def _reference_solution(sku: str) -> bool:
-    return bool(re.fullmatch(r'^[A-Z]{3}-\\d{3}$', sku))'''
-    },
     48: {
-        "topic": "Django Form Validation, cleaned_data & Constraints",
-        "prereqs": "Days 1–47 (Day 47 Django Forms & clean_* Validation, Day 34 Database Constraints)",
-        "q1": "In Django forms, what is the purpose of the `clean_<fieldname>()` and `clean()` methods?",
-        "q2": "What dictionary does Django populate after running form validation, and what happens if validation fails?",
-        "q3": "Why must validation happen both at the form/serializer level and at the database constraint level?",
-        "desc": "Write `clean_date_range(cleaned_data: dict) -> tuple[bool, str]` ensuring `start_day` < `end_day` where values are integers.",
+        "topic": "Django Forms, clean_* Validations & Error Handling",
+        "prereqs": "Day 47 (Django Forms & Clean Validations)",
+        "q1": "How does Django form validation execute field `clean_<field>()` methods before form `clean()`?",
+        "q2": "What dictionary holds validated, type-coerced form fields in Django (`form.cleaned_data`)?",
+        "q3": "Why should validation happen at both the form layer and the database constraint layer?",
+        "desc": "Write `clean_date_range(cleaned_data: dict) -> tuple[bool, str]` validating that `start_day` < `end_day`.",
         "stub": '''def clean_date_range(cleaned_data: dict) -> tuple[bool, str]:
     """
     Validates that cleaned_data['start_day'] < cleaned_data['end_day'].
@@ -632,11 +717,11 @@ def _reference_solution(sku: str) -> bool:
     return True, "Valid"'''
     },
     49: {
-        "topic": "Session Security, Cookies & @login_required",
-        "prereqs": "Days 1–48 (Day 48 Authentication & Sessions, Day 15 OOP Inheritance)",
-        "q1": "How does Django session authentication use a session cookie (`sessionid`) to identify the user on subsequent requests?",
-        "q2": "Why should session cookies be configured with `HttpOnly` and `Secure` flags in production?",
-        "q3": "What does the `@login_required` decorator do when an unauthenticated user visits a protected view?",
+        "topic": "Django Authentication, Sessions & Password Security",
+        "prereqs": "Day 48 (Django Authentication & Sessions)",
+        "q1": "How does Django session authentication use cookies (`sessionid`) to maintain user state?",
+        "q2": "Why must session cookies have `HttpOnly` and `Secure` flags in production deployments?",
+        "q3": "What does the `@login_required` decorator do when an unauthenticated user accesses a protected view?",
         "desc": "Write `validate_session(session_data: dict) -> bool` returning True if `user_id` exists and `is_active` is True.",
         "stub": '''def validate_session(session_data: dict) -> bool:
     """
@@ -662,11 +747,11 @@ def _reference_solution(sku: str) -> bool:
     return bool(session_data.get("user_id") and session_data.get("is_active"))'''
     },
     50: {
-        "topic": "Custom User Models, Form Validation & SQL Joins",
-        "prereqs": "Days 1–49 (Day 49 Authorization & Custom User Models, Day 47 Forms, Day 30 Joins)",
-        "q1": "Why does the official Django documentation recommend creating a custom user model (extending `AbstractBaseUser` or `AbstractUser`) at the start of a project?",
-        "q2": "Why should critical business logic be placed in explicit service functions or model methods rather than in Django signals?",
-        "q3": "In SQL, what is the effect of an `INNER JOIN` when an employee record has no matching department?",
+        "topic": "Custom User Models & Authorization Architecture",
+        "prereqs": "Day 49 (Authorization & Custom User Models)",
+        "q1": "Why does the official Django documentation recommend creating a custom user model at the start of a project?",
+        "q2": "What is the difference between authentication ('who you are') and authorization ('what you are permitted to do')?",
+        "q3": "How do Django permissions and groups enforce access control?",
         "desc": "Write `filter_active_users(records: list[dict]) -> list[dict]` filtering out any user dictionary where `is_deleted` is True.",
         "stub": '''def filter_active_users(records: list[dict]) -> list[dict]:
     """
@@ -696,11 +781,11 @@ def _reference_solution(sku: str) -> bool:
     return [r for r in records if not r.get("is_deleted", False)]'''
     },
     51: {
-        "topic": "Django ORM QuerySet Optimization & REST JSON Responses",
-        "prereqs": "Days 1–50 (Day 45 ORM Prefetching, Day 37/39 HTTP JSON Responses)",
-        "q1": "What is the difference between serialization (Python object -> JSON/dict) and deserialization (JSON/dict -> Python object)?",
-        "q2": "Why does `only('id', 'name')` or `values('id', 'name')` improve query performance over fetching complete model instances when building lightweight API responses?",
-        "q3": "What HTTP status code and response structure should be returned when an incoming JSON payload fails validation?",
+        "topic": "Signals, Custom Managers & Service Layer Patterns",
+        "prereqs": "Day 50 (Django Signals, Managers & Overrides)",
+        "q1": "Why should critical business logic live in explicit service functions rather than implicit Django signals?",
+        "q2": "What is a custom Django `models.Manager` and how does `get_queryset()` allow encapsulating common filters?",
+        "q3": "When is overriding a model's `save()` method appropriate versus using a service layer?",
         "desc": "Write `serialize_order_summary(order_dict: dict) -> dict` that converts an internal DB record (price in cents, raw ISO timestamp) into a clean REST API JSON structure with price formatted as dollars (float) and status uppercased.",
         "stub": '''def serialize_order_summary(order_dict: dict) -> dict:
     """
@@ -731,11 +816,11 @@ def _reference_solution(sku: str) -> bool:
     }'''
     },
     52: {
-        "topic": "DRF ModelSerializer & Field Validation",
-        "prereqs": "Days 1–51 (Day 51 DRF Serialization, Day 31/35 Transactions)",
-        "q1": "In DRF, how does `ModelSerializer` automatically generate serializer fields from model definitions?",
-        "q2": "What is the difference between serializer field-level validation (`validate_<field>`) and object-level validation (`validate`)?",
-        "q3": "Why is `transaction.atomic()` important when a serializer's `create()` method writes to multiple related database tables?",
+        "topic": "DRF Serialization, Serializer Fields & APIView",
+        "prereqs": "Day 51 (DRF Serialization & APIView)",
+        "q1": "What is the role of a DRF Serializer in converting complex QuerySets to Python datatypes (JSON)?",
+        "q2": "How does `ModelSerializer` differ from a regular `Serializer` in DRF?",
+        "q3": "What is the difference between `APIView` and Django's standard `View`?",
         "desc": "Write `validate_product_serializer(payload: dict) -> tuple[bool, dict]` that validates `title` (required, min 3 chars) and `price` (required, float > 0). Returns `(True, {})` or `(False, errors_dict)`.",
         "stub": '''def validate_product_serializer(payload: dict) -> tuple[bool, dict]:
     """
@@ -769,11 +854,11 @@ def _reference_solution(sku: str) -> bool:
     return (len(errors) == 0, errors)'''
     },
     53: {
-        "topic": "Writable Nested Serializers & HTTP Methods",
-        "prereqs": "Days 1–52 (Day 52 Nested Serializers, Day 38 HTTP Methods, Day 41 CBVs)",
-        "q1": "Why does DRF require custom `create()` and `update()` overrides when handling writable nested serializers?",
-        "q2": "What HTTP method should be used for full resource replacement (`PUT`) vs partial updates (`PATCH`)?",
-        "q3": "In DRF Class-Based Views, how does `get_serializer_class()` allow using different serializers for list vs detail views?",
+        "topic": "DRF Writable Nested Serializers & Transactions",
+        "prereqs": "Day 52 (DRF Writable Nested Serializers)",
+        "q1": "Why does DRF require overriding `create()` and `update()` on serializers with writable nested relationships?",
+        "q2": "How do you handle database atomicity (`transaction.atomic()`) when creating parent and child records in a nested serializer?",
+        "q3": "What is the difference between `validate_<field>()` and `validate()` in DRF?",
         "desc": "Write `flatten_nested_payload(payload: dict) -> dict` that extracts a nested `address` dict into top-level keys `address_city` and `address_zip`.",
         "stub": '''def flatten_nested_payload(payload: dict) -> dict:
     """
@@ -803,11 +888,11 @@ def _reference_solution(sku: str) -> bool:
     return out'''
     },
     54: {
-        "topic": "ModelViewSet Routing, Session Auth vs Token Auth",
-        "prereqs": "Days 1–53 (Day 53 ViewSets & Routers, Day 48 Session Auth, Day 37 Auth Headers)",
-        "q1": "What standard actions (`list`, `create`, `retrieve`, `update`, `partial_update`, `destroy`) does DRF's `ModelViewSet` provide automatically?",
-        "q2": "What is the difference between session authentication (cookie-based, stateful on server) and token authentication (header-based, bearer token)?",
-        "q3": "How does DRF's `DefaultRouter` generate RESTful URL patterns for a registered ViewSet?",
+        "topic": "DRF ModelViewSets, Generic Views & Routers",
+        "prereqs": "Day 53 (DRF ModelViewSets & Generic Views)",
+        "q1": "What standard HTTP actions (`list`, `create`, `retrieve`, `update`, `partial_update`, `destroy`) does `ModelViewSet` provide automatically?",
+        "q2": "How does DRF's `DefaultRouter` generate RESTful URL patterns for a registered ViewSet?",
+        "q3": "When should you use the `@action(detail=True)` decorator in a ViewSet?",
         "desc": "Write `parse_auth_header(auth_header: str) -> tuple[str, str] | None` which parses an `Authorization` header value formatted as `Bearer <token>` or `Token <key>` into `(scheme, credential)`.",
         "stub": '''def parse_auth_header(auth_header: str) -> tuple[str, str] | None:
     """
@@ -837,11 +922,11 @@ def _reference_solution(sku: str) -> bool:
     return None'''
     },
     55: {
-        "topic": "JWT Access vs Refresh Tokens & Role-Based Access Control",
-        "prereqs": "Days 1–54 (Day 54 JWT Auth, Day 49 Authorization & Roles)",
-        "q1": "What is the role of an Access Token (short-lived, sent with every request) versus a Refresh Token (long-lived, used to acquire new access tokens)?",
-        "q2": "Why is storing JWT access tokens in browser local storage vulnerable to XSS attacks?",
-        "q3": "In Role-Based Access Control (RBAC), how do roles (e.g. `admin`, `staff`, `customer`) simplify permission management?",
+        "topic": "DRF Token Authentication & JWT (SimpleJWT)",
+        "prereqs": "Day 54 (DRF Token Auth & JWT)",
+        "q1": "What is the difference between an Access Token (short-lived) and a Refresh Token (long-lived) in JWT?",
+        "q2": "What are the three parts of a JSON Web Token (Header, Payload, Signature)?",
+        "q3": "Why should JWT access tokens never be stored in browser `localStorage` due to XSS risks?",
         "desc": "Write `check_role_permission(role: str, action: str) -> bool` enforcing: 'admin' can perform any action; 'staff' can perform 'read' and 'update'; 'customer' can only perform 'read'.",
         "stub": '''def check_role_permission(role: str, action: str) -> bool:
     """
@@ -874,11 +959,11 @@ def _reference_solution(sku: str) -> bool:
     return action in perms.get(role, set())'''
     },
     56: {
-        "topic": "Custom Permissions (BasePermission) & Query Filtering",
-        "prereqs": "Days 1–55 (Day 55 Object Permissions, Day 39 REST Query Params)",
-        "q1": "In DRF `BasePermission`, what is the difference between `has_permission(request, view)` and `has_object_permission(request, view, obj)`?",
-        "q2": "What are the HTTP 'SAFE_METHODS' in DRF (`GET`, `HEAD`, `OPTIONS`)?",
-        "q3": "Why should object-level permissions allow read access for safe methods while restricting write access to the object's owner or staff?",
+        "topic": "DRF Object-Level Permissions & Custom BasePermission",
+        "prereqs": "Day 55 (DRF Object-Level Permissions)",
+        "q1": "In DRF `BasePermission`, what is the difference between `has_permission()` and `has_object_permission()`?",
+        "q2": "What are `SAFE_METHODS` in DRF (`GET`, `HEAD`, `OPTIONS`)?",
+        "q3": "How does `IsOwnerOrReadOnly` allow public reads while restricting writes to the creator?",
         "desc": "Write `has_object_permission(user: dict, obj: dict, http_method: str) -> bool` allowing safe methods ('GET', 'HEAD') for everyone, and write methods only if `user['id'] == obj['owner_id']` or `user['is_staff']` is True.",
         "stub": '''def has_object_permission(user: dict, obj: dict, http_method: str) -> bool:
     """
@@ -892,11 +977,10 @@ def _reference_solution(sku: str) -> bool:
     other = {"id": 20, "is_staff": False}
     staff = {"id": 99, "is_staff": True}
     obj = {"id": 101, "owner_id": 10}
-    
-    p1 = has_object_permission(other, obj, "GET")    # True (safe method)
-    p2 = has_object_permission(other, obj, "DELETE") # False (not owner)
-    p3 = has_object_permission(owner, obj, "PUT")    # True (is owner)
-    p4 = has_object_permission(staff, obj, "DELETE") # True (is staff)
+    p1 = has_object_permission(other, obj, "GET")
+    p2 = has_object_permission(other, obj, "DELETE")
+    p3 = has_object_permission(owner, obj, "PUT")
+    p4 = has_object_permission(staff, obj, "DELETE")
     if p1 is None:
         print("[!] Function `has_object_permission` is not yet implemented.")
         return
@@ -912,11 +996,11 @@ def _reference_solution(sku: str) -> bool:
     return user.get("id") == obj.get("owner_id") or user.get("is_staff") is True'''
     },
     57: {
-        "topic": "django-filter, Pagination & API Error Codes",
-        "prereqs": "Days 1–56 (Day 56 Filtering & Pagination, Day 38 Error Codes)",
-        "q1": "How does `django-filter` simplify URL filtering without writing manual `filter()` queries for every parameter in the view?",
-        "q2": "What are the advantages of PageNumberPagination vs CursorPagination when working with large datasets?",
-        "q3": "Why is returning structured error dictionaries (e.g. `{'detail': 'Not found'}`) critical for frontend API clients?",
+        "topic": "DRF Filtering, Ordering & Pagination",
+        "prereqs": "Day 56 (DRF Searching & Pagination)",
+        "q1": "What are the benefits of `django-filter` over writing manual `.filter()` code for every query parameter?",
+        "q2": "What is the difference between `PageNumberPagination` and `CursorPagination`?",
+        "q3": "Why is database indexing critical on columns used in `OrderingFilter` (e.g. `created_at`)?",
         "desc": "Write `filter_and_paginate(items: list[dict], category: str = None, page: int = 1, page_size: int = 2) -> dict` returning a paginated API response with `count`, `results`, and `total_pages`.",
         "stub": '''def filter_and_paginate(items: list[dict], category: str = None, page: int = 1, page_size: int = 2) -> dict:
     """
@@ -954,12 +1038,12 @@ def _reference_solution(items: list[dict], category: str = None, page: int = 1, 
     return {"count": count, "total_pages": total_pages, "results": results}'''
     },
     58: {
-        "topic": "OpenAPI / Swagger Documentation & API Envelopes",
-        "prereqs": "Days 1–57 (Day 57 OpenAPI & Swagger, Day 37/54 Auth Headers)",
+        "topic": "OpenAPI / Swagger Documentation & API Contracts",
+        "prereqs": "Day 57 (DRF OpenAPI / Swagger Documentation)",
         "q1": "Why is an auto-generated OpenAPI (Swagger) schema valuable when collaborating with frontend engineers?",
-        "q2": "What information does OpenAPI capture for each endpoint (parameters, request body, response codes, auth requirements)?",
-        "q3": "How do you test an authenticated endpoint using a cURL command with an `Authorization: Bearer <token>` header?",
-        "desc": "Write `build_api_response(data: list, status_code: int = 200, message: str = 'Success') -> dict` producing a standardized REST response envelope.",
+        "q2": "What information does OpenAPI capture for each endpoint (parameters, request body, response codes, auth)?",
+        "q3": "What is the benefit of standardized response envelopes across all endpoints?",
+        "desc": "Write `build_api_response(data: list, status_code: int = 200, message: str = 'Success') -> dict` producing a standardized REST response envelope with `status`, `message`, `count`, and `data`.",
         "stub": '''def build_api_response(data: list, status_code: int = 200, message: str = 'Success') -> dict:
     """
     Standard envelope: {'status': status_code, 'message': message, 'count': len(data), 'data': data}
@@ -982,11 +1066,11 @@ def _reference_solution(items: list[dict], category: str = None, page: int = 1, 
     return {"status": status_code, "message": message, "count": len(data), "data": data}'''
     },
     59: {
-        "topic": "API Testing with Postman, Assertions & Status Codes",
-        "prereqs": "Days 1–58 (Day 58 Manual Testing, Day 38 Status Codes, Day 23 Assertions)",
-        "q1": "How does automated testing in Postman using JavaScript assertions (`pm.response.to.have.status(200)`) differ from Python unit testing?",
+        "topic": "Manual Testing with Postman, Assertions & Status Codes",
+        "prereqs": "Day 58 (API Testing via Postman & cURL)",
+        "q1": "How do you test an authenticated endpoint using a cURL command with an `Authorization: Bearer <token>` header?",
         "q2": "Why should backend tests assert both the HTTP status code AND the JSON response body structure?",
-        "q3": "What is Python's `assert` statement and why is it the foundation of unit testing frameworks?",
+        "q3": "What is an API response contract?",
         "desc": "Write `assert_response_contract(response: dict, required_keys: list[str]) -> bool` that verifies a response dictionary contains all required keys and none of their values are None.",
         "stub": '''def assert_response_contract(response: dict, required_keys: list[str]) -> bool:
     """
@@ -999,7 +1083,6 @@ def _reference_solution(items: list[dict], category: str = None, page: int = 1, 
     resp_ok = {"id": 1, "name": "Book", "price": 19.99}
     resp_missing = {"id": 2, "name": "Pencil"}
     resp_null = {"id": 3, "name": None, "price": 5.0}
-    
     r1 = assert_response_contract(resp_ok, ["id", "name", "price"])
     r2 = assert_response_contract(resp_missing, ["id", "name", "price"])
     r3 = assert_response_contract(resp_null, ["id", "name", "price"])
@@ -1016,11 +1099,11 @@ def _reference_solution(items: list[dict], category: str = None, page: int = 1, 
     return all(k in response and response[k] is not None for k in required_keys)'''
     },
     60: {
-        "topic": "pytest-django Basics, Test DB Rollback & Assertion Best Practices",
-        "prereqs": "Days 1–59 (Day 59 Automated Testing & Pytest, Day 43 DB Rollbacks)",
-        "q1": "Why does `pytest-django` use an isolated test database and roll back transactions after every test?",
-        "q2": "What is the difference between testing 'happy paths' (valid inputs return 200/201) and 'error paths' (invalid inputs return 400/403/404)?",
-        "q3": "Why should test assertions be specific (e.g. `assert response.data['count'] == 3`) rather than generic (`assert response.status_code == 200`)?",
+        "topic": "Automated Unit Testing & Django Test Client",
+        "prereqs": "Day 59 (Automated API Unit Testing)",
+        "q1": "Why does Django's `TestCase` wrap each test in a database transaction and roll it back after execution?",
+        "q2": "What is the difference between unit testing an isolated service function versus integration testing an API endpoint?",
+        "q3": "Why should automated tests assert both HTTP status codes AND specific JSON response values?",
         "desc": "Write `validate_registration_payload(payload: dict) -> tuple[bool, str]` testing email format (`@` present) and password strength (min 8 chars, at least 1 digit).",
         "stub": '''def validate_registration_payload(payload: dict) -> tuple[bool, str]:
     """
@@ -1059,11 +1142,11 @@ def _reference_solution(items: list[dict], category: str = None, page: int = 1, 
     return True, "Valid"'''
     },
     61: {
-        "topic": "Model Factories (factory_boy) & Python Exception Hierarchies",
-        "prereqs": "Days 1–60 (Day 60 Test Factories & Fixtures, Day 23 Exception Handling)",
-        "q1": "Why are model factories (`factory_boy`) preferred over hardcoded fixtures (JSON/YAML) in production test suites?",
-        "q2": "In Python, why should you catch specific exception classes (e.g. `ObjectDoesNotExist`, `IntegrityError`) rather than catching bare `Exception`?",
-        "q3": "What is the purpose of raising a custom domain exception (e.g. `InsufficientInventoryError`) in a backend service?",
+        "topic": "Test Fixtures, Model Factories (factory_boy) & Coverage",
+        "prereqs": "Day 60 (Test Fixtures, Factories & Coverage)",
+        "q1": "Why are model factories (`factory_boy`) more maintainable than hardcoded JSON/YAML fixtures in test suites?",
+        "q2": "What does test coverage measure, and why is testing critical business logic more important than achieving 100% line coverage?",
+        "q3": "In pytest, what is a fixture and how does it promote clean test setup and teardown?",
         "desc": "Write a factory function `create_mock_user(custom_attrs: dict = None) -> dict` that generates a default user dictionary (`{'id': 1, 'username': 'testuser', 'is_active': True, 'role': 'USER'}`) and cleanly overrides defaults with `custom_attrs`.",
         "stub": '''def create_mock_user(custom_attrs: dict = None) -> dict:
     """
@@ -1091,11 +1174,11 @@ def _reference_solution(items: list[dict], category: str = None, page: int = 1, 
     return defaults'''
     },
     62: {
-        "topic": "Python Logging Levels & Eliminating Fat Views",
-        "prereqs": "Days 1–61 (Day 61 Logging & Debugging, Day 50 Clean Views vs Services)",
-        "q1": "What are the five standard Python logging levels in order of severity (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`)?",
-        "q2": "Why is `logger.error('Failed to charge card', exc_info=True)` superior to `print()` in production web servers?",
-        "q3": "Why should API views only handle HTTP request parsing and response formatting, delegating business logic to service functions?",
+        "topic": "Troubleshooting, Debugging ORM & Python Logging",
+        "prereqs": "Day 61 (Troubleshooting & Debugging ORM)",
+        "q1": "What are the 5 standard Python logging levels (`DEBUG`, `INFO`, `WARNING`, `ERROR`, `CRITICAL`)?",
+        "q2": "How do you use `breakpoint()` in Python to pause execution and inspect variables in the terminal?",
+        "q3": "How do you identify duplicate or slow SQL queries in development using Django Debug Toolbar?",
         "desc": "Write `format_log_entry(level: str, event: str, **context) -> str` which formats a structured log entry string: `[LEVEL] event | key1=val1 key2=val2` with sorted context keys.",
         "stub": '''def format_log_entry(level: str, event: str, **context) -> str:
     """
@@ -1125,12 +1208,12 @@ def _reference_solution(items: list[dict], category: str = None, page: int = 1, 
     return f"{level_str} | {' '.join(ctx_parts)}"'''
     },
     63: {
-        "topic": "SOLID Principles & Clean Code Architecture",
-        "prereqs": "Days 1–62 (Day 62 Clean Code & SOLID, Days 51–57 DRF Architecture)",
-        "q1": "What is the Single Responsibility Principle (SRP) and how does it prevent bloated classes and 'god functions'?",
+        "topic": "Clean Code, SOLID Principles & Refactoring",
+        "prereqs": "Day 62 (Clean Code & SOLID Refactoring)",
+        "q1": "What is the Single Responsibility Principle (SRP) in software engineering?",
         "q2": "What is the Open/Closed Principle (open for extension, closed for modification)?",
-        "q3": "How does Dependency Inversion allow business services to depend on abstractions rather than concrete database or external API implementations?",
-        "desc": "Refactor a monolithic billing function into decoupled single-responsibility functions: `calculate_tax(subtotal: float, rate: float) -> float` and `calculate_invoice_total(subtotal: float, tax_rate: float) -> dict` returning `{'subtotal': ..., 'tax': ..., 'total': ...}` rounded to 2 decimals.",
+        "q3": "Why is eliminating 'fat views' by moving business logic into helper services essential for clean code?",
+        "desc": "Refactor billing functions: `calculate_tax(subtotal: float, rate: float = 0.10) -> float` and `calculate_invoice_total(subtotal: float, tax_rate: float = 0.10) -> dict` returning `{'subtotal': float, 'tax': float, 'total': float}` with all values rounded to 2 decimals.",
         "stub": '''def calculate_tax(subtotal: float, rate: float = 0.10) -> float:
     # WRITE CODE HERE:
     pass
@@ -1159,22 +1242,22 @@ def _reference_solution_invoice(subtotal: float, tax_rate: float = 0.10) -> dict
     return {"subtotal": round(subtotal, 2), "tax": tax, "total": round(subtotal + tax, 2)}'''
     },
     64: {
-        "topic": "Service Layer Pattern & Query Latency",
-        "prereqs": "Days 1–63 (Day 63 Service Layers, Day 33 Indexing Latency, Day 45 ORM Optimization)",
-        "q1": "What is the Service Layer pattern and why does it keep business logic out of views and models?",
-        "q2": "Why can an unindexed database query take hundreds of milliseconds on large tables while an indexed query takes under 5 milliseconds?",
-        "q3": "How do you measure database query latency in development using tools like Django Debug Toolbar or `EXPLAIN ANALYZE`?",
-        "desc": "Implement a service function `calculate_order_totals_service(items: list[dict], discount_pct: float = 0.0) -> dict` returning `{'subtotal': float, 'discount': float, 'total': float}` with all values rounded to 2 decimals.",
+        "topic": "Service Layer Pattern & Backend Architecture",
+        "prereqs": "Day 63 (Service Layers & Project Architecture)",
+        "q1": "What is the Service Layer pattern in Django projects and why does it keep business logic out of views and models?",
+        "q2": "Why does separating domain logic into a service layer make automated unit testing faster and simpler?",
+        "q3": "How does database query latency impact overall API response time?",
+        "desc": "Implement `calculate_order_totals_service(items: list[dict], discount_pct: float = 0.0) -> dict` returning `{'subtotal': float, 'discount': float, 'total': float}` with all values rounded to 2 decimals.",
         "stub": '''def calculate_order_totals_service(items: list[dict], discount_pct: float = 0.0) -> dict:
     """
     Each item in items: {'price': float, 'qty': int}
-    discount_pct is a float between 0.0 and 1.0 (e.g. 0.15 for 15% off).
+    discount_pct is a float between 0.0 and 1.0 (e.g. 0.10 for 10% off).
     """
     # WRITE YOUR CODE HERE:
     pass''',
         "runner": '''def run_test():
     print("--- Running Day 64 Revision Challenge ---")
-    items = [{"price": 20.0, "qty": 2}, {"price": 10.0, "qty": 1}] # subtotal = 50.0
+    items = [{"price": 20.0, "qty": 2}, {"price": 10.0, "qty": 1}]
     res = calculate_order_totals_service(items, discount_pct=0.10)
     if res is None:
         print("[!] Function `calculate_order_totals_service` is not yet implemented.")
@@ -1192,11 +1275,11 @@ def _reference_solution_invoice(subtotal: float, tax_rate: float = 0.10) -> dict
     return {"subtotal": subtotal, "discount": discount, "total": total}'''
     },
     65: {
-        "topic": "Cache-Aside Pattern, Redis & Blocking vs Non-Blocking I/O",
-        "prereqs": "Days 1–64 (Day 64 Redis Caching Layer, Day 37 HTTP I/O, Day 63 Service Layer)",
-        "q1": "What is the Cache-Aside pattern (application checks cache; on miss, reads from DB and writes to cache)?",
-        "q2": "What is the difference between an in-memory datastore like Redis and a disk-backed relational database like PostgreSQL?",
-        "q3": "Why is caching user sessions or read-heavy catalog data beneficial for backend throughput?",
+        "topic": "Caching Systems, Redis & Cache-Aside Pattern",
+        "prereqs": "Day 64 (Caching Systems & Redis)",
+        "q1": "What is the Cache-Aside pattern (read-through caching)?",
+        "q2": "What is Cache Invalidation, and why is setting a Time-To-Live (TTL) essential?",
+        "q3": "Why is Redis faster than disk-backed PostgreSQL for read-heavy operations?",
         "desc": "Write `cache_aside_lookup(cache_dict: dict, db_fetch_fn, key: str) -> tuple[object, str]` that checks `cache_dict[key]`. If present, returns `(value, 'CACHE_HIT')`. If missing, calls `db_fetch_fn(key)`, stores result in `cache_dict`, and returns `(value, 'CACHE_MISS')`.",
         "stub": '''def cache_aside_lookup(cache_dict: dict, db_fetch_fn, key: str) -> tuple[object, str]:
     """
@@ -1232,11 +1315,11 @@ def _reference_solution_invoice(subtotal: float, tax_rate: float = 0.10) -> dict
     return (val, "CACHE_MISS")'''
     },
     66: {
-        "topic": "Celery Architecture (Producer/Broker/Worker) & Network Exceptions",
-        "prereqs": "Days 1–65 (Day 65 Celery & Task Queues, Day 23 Exception Handling)",
-        "q1": "What are the three core roles in a Celery background task system: Producer (Django app), Broker (Redis/RabbitMQ), and Consumer/Worker (Celery process)?",
-        "q2": "Why should email sending, PDF generation, and image resizing never be performed synchronously inside an HTTP request handler?",
-        "q3": "Why must background tasks be idempotent so running them more than once does not cause duplicate side effects?",
+        "topic": "Celery Architecture & Background Task Queues",
+        "prereqs": "Day 65 (Celery Architecture & Task Queues)",
+        "q1": "What are the 3 core components of a background task system (Producer, Broker, Worker)?",
+        "q2": "Why should slow I/O operations (sending emails, processing payments, resizing images) never run synchronously in an HTTP view?",
+        "q3": "What is a task broker (e.g. Redis or RabbitMQ)?",
         "desc": "Write `simulate_task_queue(tasks: list[dict], max_retries: int = 3) -> dict` that processes a list of tasks `[{'id': 1, 'attempts': 2}]`. If `attempts <= max_retries`, mark `'SUCCESS'`, otherwise mark `'DEAD_LETTER_QUEUE'`.",
         "stub": '''def simulate_task_queue(tasks: list[dict], max_retries: int = 3) -> dict:
     """
@@ -1262,11 +1345,11 @@ def _reference_solution_invoice(subtotal: float, tax_rate: float = 0.10) -> dict
     return {"processed": success, "failed": len(tasks) - success}'''
     },
     67: {
-        "topic": "Background Task Retries & WebSockets vs HTTP",
-        "prereqs": "Days 1–66 (Day 66 Celery Retries, Day 37 HTTP Anatomy, Day 64/65 Redis)",
-        "q1": "What is exponential backoff with jitter and why is it essential when retrying failed API or background tasks?",
-        "q2": "What is the architectural difference between a short-lived HTTP request-response cycle and a persistent full-duplex WebSocket connection?",
-        "q3": "What role does Redis play as a channel layer broker in real-time Django Channels applications?",
+        "topic": "Celery Retries, Exponential Backoff & Celery Beat",
+        "prereqs": "Day 66 (Advanced Celery Retries & Beat)",
+        "q1": "What is exponential backoff and why is it used when retrying network operations?",
+        "q2": "What does Celery Beat do for scheduled/periodic tasks (cron jobs)?",
+        "q3": "Why must background tasks be idempotent so retrying them does not cause duplicate side effects?",
         "desc": "Write `calculate_exponential_backoff(attempt: int, base_delay: int = 2, max_delay: int = 60) -> int` returning `min(base_delay ** attempt, max_delay)`.",
         "stub": '''def calculate_exponential_backoff(attempt: int, base_delay: int = 2, max_delay: int = 60) -> int:
     """
@@ -1276,9 +1359,9 @@ def _reference_solution_invoice(subtotal: float, tax_rate: float = 0.10) -> dict
     pass''',
         "runner": '''def run_test():
     print("--- Running Day 67 Revision Challenge ---")
-    d1 = calculate_exponential_backoff(1, base_delay=2, max_delay=60) # 2
-    d2 = calculate_exponential_backoff(3, base_delay=2, max_delay=60) # 8
-    d3 = calculate_exponential_backoff(8, base_delay=2, max_delay=60) # 60 (capped)
+    d1 = calculate_exponential_backoff(1, base_delay=2, max_delay=60)
+    d2 = calculate_exponential_backoff(3, base_delay=2, max_delay=60)
+    d3 = calculate_exponential_backoff(8, base_delay=2, max_delay=60)
     if d1 is None:
         print("[!] Function `calculate_exponential_backoff` is not yet implemented.")
         return
@@ -1292,11 +1375,11 @@ def _reference_solution_invoice(subtotal: float, tax_rate: float = 0.10) -> dict
     return min(base_delay ** attempt, max_delay)'''
     },
     68: {
-        "topic": "WebSockets vs HTTP, Idempotency & Database Rollbacks",
-        "prereqs": "Days 1–67 (Day 67 WebSockets & Real-time, Day 38 Idempotency, Day 31/35 ACID)",
-        "q1": "Why do WebSockets require an initial HTTP 101 Switching Protocols handshake before switching to the binary WebSocket protocol?",
-        "q2": "What is an idempotency key (often passed in `Idempotency-Key` headers) and how does it prevent double-charging credit cards on network timeouts?",
-        "q3": "Why is an atomic database transaction rollback essential if a payment webhook fails after deducting loyalty points?",
+        "topic": "Real-Time WebSockets vs HTTP & Django Channels",
+        "prereqs": "Day 67 (Real-Time WebSockets & Channels)",
+        "q1": "How does a persistent WebSocket connection differ from a standard HTTP request/response cycle?",
+        "q2": "What is the purpose of Django Channels and ASGI (Asynchronous Server Gateway Interface)?",
+        "q3": "What role does Redis play as a channel layer for broadcasting messages across WebSocket connections?",
         "desc": "Write `process_idempotent_event(processed_keys: set, idempotency_key: str, event_data: dict) -> tuple[bool, str]` which checks if `idempotency_key` has already been processed. If yes, returns `(False, 'Duplicate ignored')`. If no, records the key in the set and returns `(True, 'Processed')`.",
         "stub": '''def process_idempotent_event(processed_keys: set, idempotency_key: str, event_data: dict) -> tuple[bool, str]:
     """
@@ -1326,11 +1409,11 @@ def _reference_solution_invoice(subtotal: float, tax_rate: float = 0.10) -> dict
     return True, "Processed"'''
     },
     69: {
-        "topic": "Webhook Verification, Production Settings & Password Security",
-        "prereqs": "Days 1–68 (Day 68 Webhooks & Idempotency, Day 40 Production Settings, Day 48 Password Hashing)",
-        "q1": "Why must webhook endpoints verify the cryptographic HMAC signature sent in headers before trusting the payload body?",
-        "q2": "Why must `DEBUG = False` and strict `ALLOWED_HOSTS` be set in production Django deployments?",
-        "q3": "Why should passwords never be encrypted with reversible encryption, but instead hashed with slow, salted algorithms like PBKDF2, bcrypt, or Argon2?",
+        "topic": "Webhooks, Payment Gateways & Cryptographic Verification",
+        "prereqs": "Day 68 (Webhooks & Payment Gateways)",
+        "q1": "How does an asynchronous webhook notification work from payment providers (Stripe, PayPal)?",
+        "q2": "Why must webhook handlers verify the HMAC signature header before processing the request body?",
+        "q3": "What is an idempotency key and how does it prevent duplicate charges?",
         "desc": "Write `verify_webhook_signature(payload_bytes: bytes, secret: str, signature_header: str) -> bool` using standard library `hmac` and `hashlib.sha256`.",
         "stub": '''import hmac
 import hashlib
@@ -1347,7 +1430,6 @@ def verify_webhook_signature(payload_bytes: bytes, secret: str, signature_header
     secret = "my_webhook_secret_key"
     payload = b'{"event": "payment_succeeded", "amount": 100}'
     expected_sig = hmac.new(secret.encode(), payload, hashlib.sha256).hexdigest()
-    
     v1 = verify_webhook_signature(payload, secret, expected_sig)
     v2 = verify_webhook_signature(payload, secret, "tampered_signature")
     if v1 is None:
@@ -1367,11 +1449,11 @@ def _reference_solution(payload_bytes: bytes, secret: str, signature_header: str
     return hmac.compare_digest(computed, signature_header)'''
     },
     70: {
-        "topic": "Linux CLI Basics, Process Management & Virtual Environments",
-        "prereqs": "Days 1–69 (Day 69 Gunicorn & Deployment, Day 40 Venvs, Day 26 Git)",
-        "q1": "What is the difference between a process running in the foreground versus a daemonized background process managed by systemd or Docker?",
-        "q2": "What do Linux file permission modes (e.g. `chmod 755` vs `chmod 600`) control for owner, group, and others?",
-        "q3": "Why should environment variables in a `.env` file never be hardcoded into container image layers?",
+        "topic": "Linux CLI, Production WSGI & Gunicorn Deployment",
+        "prereqs": "Day 69 (Production WSGI & Gunicorn)",
+        "q1": "What is the difference between a development server (`runserver`) and a production WSGI server (`gunicorn`)?",
+        "q2": "What are workers and threads in Gunicorn and how do you calculate optimal worker counts (`2 * CPU + 1`)?",
+        "q3": "Why should production Django applications always run with `DEBUG = False` and defined `ALLOWED_HOSTS`?",
         "desc": "Write `parse_env_file_string(env_text: str) -> dict[str, str]` which parses a multi-line string in `.env` format, ignoring empty lines and comments (`#`), and stripping surrounding quotes from values.",
         "stub": '''def parse_env_file_string(env_text: str) -> dict[str, str]:
     """
@@ -1385,7 +1467,6 @@ def _reference_solution(payload_bytes: bytes, secret: str, signature_header: str
     # Database config
     DB_NAME=production_db
     DB_PORT="5432"
-    
     DEBUG=False
     """
     res = parse_env_file_string(sample)
@@ -1397,7 +1478,7 @@ def _reference_solution(payload_bytes: bytes, secret: str, signature_header: str
     else:
         print(f"[-] Test Failed: Got {res}")''',
         "hint1": "Split into lines, strip each line, and ignore lines starting with '#' or empty lines.",
-        "hint2": "Split on the first '=' with `line.split('=', 1)`. Strip quotes using `val.strip('\"\\'')`.",
+        "hint2": "Split on the first '=' with `line.split('=', 1)`. Strip quotes using `val.strip('\"').strip(\"'\")`.",
         "sol": '''def _reference_solution(env_text: str) -> dict[str, str]:
     out = {}
     for line in env_text.strip().splitlines():
@@ -1410,11 +1491,11 @@ def _reference_solution(payload_bytes: bytes, secret: str, signature_header: str
     return out'''
     },
     71: {
-        "topic": "Docker Images, Non-Root Users & DB URL Configuration",
-        "prereqs": "Days 1–70 (Day 70 Docker Intro, Day 32 PostgreSQL Configurations, Day 40 Settings)",
-        "q1": "What is a multi-stage Docker build and why does it keep production image sizes minimal?",
-        "q2": "Why should production Docker containers run under a dedicated non-root user (`USER appuser`) rather than root?",
-        "q3": "How does `DATABASE_URL` consolidate user, password, host, port, and database name into a single standardized connection string?",
+        "topic": "Dockerizing Backend Applications & Dockerfiles",
+        "prereqs": "Day 70 (Dockerizing Application Environments)",
+        "q1": "What is a Docker container versus a virtual machine?",
+        "q2": "Why should production Docker containers run as a non-root user (`USER appuser`)?",
+        "q3": "What is the role of `.dockerignore` in keeping image build context small and secure?",
         "desc": "Write `parse_database_url(url: str) -> dict[str, str]` parsing `postgres://user:password@hostname:5432/dbname` into `{'user': ..., 'password': ..., 'host': ..., 'port': ..., 'name': ...}` using `urllib.parse`.",
         "stub": '''import urllib.parse
 
@@ -1451,11 +1532,11 @@ def _reference_solution(url: str) -> dict[str, str]:
     }'''
     },
     72: {
-        "topic": "Docker Compose Orchestration, GitHub Actions & Pull Requests",
-        "prereqs": "Days 1–71 (Day 71 Docker Compose, Day 26 Git Collaboration, Day 59 Pytest)",
-        "q1": "In Docker Compose, how does container networking allow the `web` container to reach the database using service name `db` instead of an IP address?",
-        "q2": "What is the purpose of a CI workflow (GitHub Actions) running linters and tests automatically on every Pull Request?",
-        "q3": "Why should database migrations be run as part of deployment rather than being baked into image builds?",
+        "topic": "Docker Compose Multi-Container Orchestration",
+        "prereqs": "Day 71 (Multi-Container Docker Compose)",
+        "q1": "In Docker Compose, how do containers communicate over the internal network using service names (e.g. `db`, `redis`)?",
+        "q2": "What is the purpose of volume mounts (`volumes:`) for database persistence in Docker Compose?",
+        "q3": "What does `depends_on` control in a `docker-compose.yml` file?",
         "desc": "Write `verify_services_healthy(compose_services: list[dict]) -> tuple[bool, list[str]]` that inspects a list of service status dictionaries and ensures all required services (`web`, `db`, `redis`) have status `'healthy'`.",
         "stub": '''def verify_services_healthy(compose_services: list[dict]) -> tuple[bool, list[str]]:
     """
@@ -1496,11 +1577,11 @@ def _reference_solution(url: str) -> dict[str, str]:
     return (len(unhealthy) == 0, unhealthy)'''
     },
     73: {
-        "topic": "Junior Backend System Design, Caching & Queues",
-        "prereqs": "Days 1–72 (Day 64 Caching, Day 33 Indexing, Day 65 Queues)",
-        "q1": "In a backend system design interview, how do you explain when to add Redis caching versus optimizing an SQL index?",
-        "q2": "What are the trade-offs of horizontal scaling (adding more web servers behind a load balancer) versus vertical scaling (upgrading server RAM/CPU)?",
-        "q3": "How does a message queue prevent backend web servers from becoming unresponsive during high-traffic spikes?",
+        "topic": "CI/CD Pipelines & GitHub Actions Workflows",
+        "prereqs": "Day 72 (CI/CD Pipelines & GitHub Actions)",
+        "q1": "What is Continuous Integration (CI) and why should linters and automated tests run on every pull request?",
+        "q2": "What are GitHub Actions workflows, jobs, and steps?",
+        "q3": "Why should database migrations be executed as an automated deployment step?",
         "desc": "Write `build_cache_key(prefix: str, **params) -> str` which creates a deterministic, sorted Redis cache key (e.g. `build_cache_key('products', cat='shoes', page=1)` -> `'products:cat=shoes:page=1'`).",
         "stub": '''def build_cache_key(prefix: str, **params) -> str:
     """
@@ -1528,11 +1609,11 @@ def _reference_solution(url: str) -> dict[str, str]:
     return ":".join(parts)'''
     },
     74: {
-        "topic": "SQL Joins & Subqueries, N+1 Queries & Python Data Aggregation",
-        "prereqs": "Days 1–73 (Days 30-31 SQL, Day 45 ORM Optimization, Days 14-19 OOP)",
-        "q1": "How would you explain the N+1 query problem and its solution to a junior developer in an interview?",
-        "q2": "What is the difference between an indexed lookup and a full table scan in terms of algorithmic time complexity?",
-        "q3": "In Python, how does using a dictionary or `collections.defaultdict` enable O(n) data aggregation over lists of records?",
+        "topic": "Junior Backend System Design & Scaling",
+        "prereqs": "Day 73 (Junior Backend System Design)",
+        "q1": "What is the difference between vertical scaling (scale up) and horizontal scaling (scale out)?",
+        "q2": "When would you recommend adding a Redis cache versus optimizing an SQL query and adding an index?",
+        "q3": "How do database connection pools and read replicas improve backend throughput?",
         "desc": "Technical interview challenge: Write `top_customers(transactions: list[dict], n: int = 2) -> list[tuple[str, float]]` that aggregates total spending per customer from `transactions` (`[{'customer': 'Alice', 'amount': 150.0}, ...]`) and returns the top `n` customers as sorted `(customer_name, total_spent)` tuples (descending by total).",
         "stub": '''def top_customers(transactions: list[dict], n: int = 2) -> list[tuple[str, float]]:
     """
@@ -1568,11 +1649,11 @@ def _reference_solution(url: str) -> dict[str, str]:
     return sorted_customers[:n]'''
     },
     75: {
-        "topic": "Architecture Defense, Relational Design & Portfolio Packaging",
-        "prereqs": "Days 1–74 (Day 63 Architecture, Day 34 Relational Design, Day 72 CI/CD)",
-        "q1": "How do you explain the architectural decision of using PostgreSQL for bookings while using Redis for caching and Celery for emails?",
-        "q2": "What are the three most critical sections in a backend GitHub project README for a technical recruiter or hiring engineer?",
-        "q3": "How do automated tests and CI/CD pipelines demonstrate professional engineering maturity on a portfolio project?",
+        "topic": "Technical Interview Bootcamp & Capstone Defense",
+        "prereqs": "Day 74 (Technical Interview Bootcamp)",
+        "q1": "How do you explain the architectural flow of a request from client to Nginx to Gunicorn to Django to PostgreSQL?",
+        "q2": "What are the three most critical sections in a GitHub project README for hiring engineers?",
+        "q3": "How do automated tests and CI/CD prove technical competence during junior developer interviews?",
         "desc": "Capstone checklist verifier: Write `verify_portfolio_readiness(checklist: dict[str, bool]) -> tuple[bool, list[str]]` verifying that all 6 required portfolio items (`['clean_git_history', 'automated_tests_passing', 'docker_compose_working', 'readme_with_architecture', 'env_example_provided', 'api_docs_available']`) are marked True.",
         "stub": '''def verify_portfolio_readiness(checklist: dict[str, bool]) -> tuple[bool, list[str]]:
     """
@@ -1593,7 +1674,6 @@ def _reference_solution(url: str) -> dict[str, str]:
     }
     partial_portfolio = dict(complete_portfolio)
     partial_portfolio["automated_tests_passing"] = False
-    
     res1 = verify_portfolio_readiness(complete_portfolio)
     if res1 is None:
         print("[!] Function `verify_portfolio_readiness` is not yet implemented.")
@@ -1712,7 +1792,7 @@ def apply_all():
             f.write(content)
         updated_count += 1
 
-    print(f"[+] Successfully wrote and updated {updated_count} revision.py files (Days 33–75).")
+    print(f"[+] Successfully wrote and updated {updated_count} revision.py files (Days 32–75).")
 
 
 if __name__ == "__main__":

@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 69 REVISION SESSION (~10–15 MINUTES)
-Topic: Webhook Verification, Production Settings & Password Security
+Topic: Webhooks, Payment Gateways & Cryptographic Verification
 ============================================================
 
-Verified Prerequisites: Days 1–68 (Day 68 Webhooks & Idempotency, Day 40 Production Settings, Day 48 Password Hashing)
+Verified Prerequisites: Day 68 (Webhooks & Payment Gateways)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,11 +22,11 @@ Verified Prerequisites: Days 1–68 (Day 68 Webhooks & Idempotency, Day 40 Produ
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. Why must webhook endpoints verify the cryptographic HMAC signature sent in headers before trusting the payload body?
+# 1. How does an asynchronous webhook notification work from payment providers (Stripe, PayPal)?
 #
-# 2. Why must `DEBUG = False` and strict `ALLOWED_HOSTS` be set in production Django deployments?
+# 2. Why must webhook handlers verify the HMAC signature header before processing the request body?
 #
-# 3. Why should passwords never be encrypted with reversible encryption, but instead hashed with slow, salted algorithms like PBKDF2, bcrypt, or Argon2?
+# 3. What is an idempotency key and how does it prevent duplicate charges?
 
 
 # ============================================================
@@ -55,7 +55,6 @@ def run_test():
     secret = "my_webhook_secret_key"
     payload = b'{"event": "payment_succeeded", "amount": 100}'
     expected_sig = hmac.new(secret.encode(), payload, hashlib.sha256).hexdigest()
-    
     v1 = verify_webhook_signature(payload, secret, expected_sig)
     v2 = verify_webhook_signature(payload, secret, "tampered_signature")
     if v1 is None:

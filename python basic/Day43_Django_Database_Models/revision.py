@@ -1,10 +1,10 @@
 """
 ============================================================
 DAY 43 REVISION SESSION (~10–15 MINUTES)
-Topic: Relational Schemas, Model Fields & OOP Inheritance
+Topic: Database Normalization, ACID/MVCC Concurrency & Advanced Data Types
 ============================================================
 
-Verified Prerequisites: Days 1–42 (Day 42 Templates, Day 34 Relational Schemas, Day 14 OOP Inheritance)
+Verified Prerequisites: Days 34–36 (Day 34 Normalization, Day 35 Locking & MVCC, Day 36 PostgreSQL JSONB)
 
 ------------------------------------------------------------
 [!] THE 15-MINUTE ATTEMPT RULE
@@ -22,26 +22,22 @@ Verified Prerequisites: Days 1–42 (Day 42 Templates, Day 34 Relational Schemas
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. How does Django translate Python model class attributes into SQL column definitions?
+# 1. What is the difference between 1NF, 2NF, and 3NF database normalization?
 #
-# 2. What is the difference between `null=True` (database level) and `blank=True` (form validation level)?
+# 2. How does `SELECT ... FOR UPDATE` row locking prevent concurrent lost update anomalies?
 #
-# 3. How does class inheritance in `class Product(models.Model)` allow Django models to inherit database behavior?
+# 3. When is storing data in a PostgreSQL `JSONB` column appropriate versus normalized relational tables?
 
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `validate_model_price(price: float) -> tuple[bool, str]` that ensures a price is a positive number, does not exceed 100000.0, and has at most 2 decimal places.
+# Write `atomic_deduct_stock(conn, product_id: int, qty: int) -> bool` executing conditional atomic update: `UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?;`. Commit and return True if `cur.rowcount > 0`, otherwise rollback and return False.
 
-def validate_model_price(price: float) -> tuple[bool, str]:
+def atomic_deduct_stock(conn, product_id: int, qty: int) -> bool:
     """
-    Validates model price field:
-    - price > 0
-    - price <= 100000.0
-    - at most 2 decimal places
-    Returns (True, "Valid") or (False, "Error message")
+    Conditional atomic update. Returns True if stock deducted, False if insufficient stock.
     """
     # WRITE YOUR CODE HERE:
     pass
@@ -51,18 +47,27 @@ def validate_model_price(price: float) -> tuple[bool, str]:
 # VERIFICATION RUNNER (Executes your code without revealing solutions)
 # ============================================================
 def run_test():
+    import sqlite3
+    conn = sqlite3.connect(":memory:")
+    cur = conn.cursor()
+    cur.execute("CREATE TABLE products (id INTEGER PRIMARY KEY, stock INTEGER);")
+    cur.execute("INSERT INTO products VALUES (1, 15);")
+    conn.commit()
+
     print("--- Running Day 43 Revision Challenge ---")
-    res1 = validate_model_price(49.99)
-    if res1 is None:
-        print("[!] Function `validate_model_price` is not yet implemented.")
+    r1 = atomic_deduct_stock(conn, 1, 10)
+    if r1 is None:
+        print("[!] Function `atomic_deduct_stock` is not yet implemented.")
+        conn.close()
         return
-    v1, _ = res1
-    v2, _ = validate_model_price(-5.0)
-    v3, _ = validate_model_price(19.999)
-    if v1 is True and v2 is False and v3 is False:
-        print("[+] Test Passed: Model field price constraints validated.")
+    r2 = atomic_deduct_stock(conn, 1, 10) # should fail (only 5 remaining)
+    cur.execute("SELECT stock FROM products WHERE id = 1;")
+    rem = cur.fetchone()[0]
+    if r1 is True and r2 is False and rem == 5:
+        print("[+] Test Passed: Concurrency-safe atomic deduction verified.")
     else:
-        print(f"[-] Test Failed: v1={v1}, v2={v2}, v3={v3}")
+        print(f"[-] Test Failed: r1={r1}, r2={r2}, rem={rem}")
+    conn.close()
 
 if __name__ == "__main__":
     run_test()
@@ -71,21 +76,21 @@ if __name__ == "__main__":
 # ============================================================
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
-# Hint 1: Check price range first, then check decimals via string representation or `round(price, 2) == price`.
-# Hint 2: Use `if price <= 0 or price > 100000: return False, ...` and `if round(price, 2) != price: return False, ...`.
+# Hint 1: Execute the parameterized UPDATE statement and inspect `cur.rowcount`.
+# Hint 2: If `cur.rowcount > 0`: `conn.commit()` and return True; else `conn.rollback()` and return False.
 
 
 # ============================================================
 # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
 # ============================================================
-def _reference_solution(price: float) -> tuple[bool, str]:
-    if price <= 0:
-        return False, "Price must be strictly positive"
-    if price > 100000.0:
-        return False, "Price exceeds maximum threshold"
-    if round(price, 2) != price:
-        return False, "Price cannot have more than 2 decimal places"
-    return True, "Valid"
+def _reference_solution(conn, product_id: int, qty: int) -> bool:
+    cur = conn.cursor()
+    cur.execute("UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?;", (qty, product_id, qty))
+    if cur.rowcount > 0:
+        conn.commit()
+        return True
+    conn.rollback()
+    return False
 
 
 # ============================================================
