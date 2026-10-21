@@ -13,10 +13,10 @@
 ## 📚 Core Backend Concepts
 
 ### 1. B-Tree Index Mechanics Under the Hood
-PostgreSQL B-Tree indexes are self-balancing search trees organized into $8\text{KB}$ disk pages (root, internal branches, and leaf pages).
+PostgreSQL B-Tree indexes are self-balancing search trees organized into 8KB disk pages (root, internal branches, and leaf pages).
 - **Time Complexity**: Search, insertion, and deletion are all $O(\log N)$.
 - **Leaf Nodes**: Contain the indexed column value and a `TID` (Tuple ID / pointer: `(block_number, offset)`) pointing to the physical row on the heap.
-- **Double-Linked Leaves**: Leaf pages form a doubly-linked list, making range queries (`WHERE age BETWEEN 20 AND 30`) and ordering (`ORDER BY created_at DESC`) lightning fast.
+- **Double-Linked Leaves**: Leaf pages form a doubly-linked list, making range queries (`WHERE age BETWEEN 20 AND 30`) and ordering (`ORDER BY created_at DESC`) fast.
 
 ### 2. Dissecting `EXPLAIN (ANALYZE, BUFFERS)`
 Never guess why a SQL query is slow. Run:
@@ -25,7 +25,7 @@ EXPLAIN (ANALYZE, BUFFERS, VERBOSE)
 SELECT id, username, email FROM users WHERE email = 'dev@example.com';
 ```
 Key metrics to analyze:
-- **Seq Scan (Sequential Scan)**: Reads every page on disk from start to finish. Good for small tables (<1,000 rows), disastrous for tables with millions of rows.
+- **Seq Scan (Sequential Scan)**: Reads every page on disk from start to finish. Efficient for tiny tables (<1,000 rows), disastrous for tables with millions of rows.
 - **Index Scan**: Traverses the B-Tree index to find the pointer, then accesses the heap table page to retrieve the full row.
 - **Index Only Scan**: Traverses the B-Tree and retrieves ALL requested columns directly from the index without touching the heap table (requires a covering index and up-to-date visibility map).
 - **Bitmap Heap Scan**: Used when multiple index rows match; constructs a memory bitmap of pages to access the heap in sequential disk order.
@@ -53,27 +53,31 @@ CREATE INDEX idx_orders_pending ON orders (created_at) WHERE status = 'PENDING';
 
 ---
 
-## 📅 Today's 3-Hour Structure
+## 📅 Today's Structure & Learning Flow
 
-- **HOUR 1 — LEARN + CONCEPT DRILLS (60 min)**:
-  - 40 min: Study B-Tree mechanics, Scan types, and composite index rules.
-  - 20 min: Complete conceptual analysis in **[`questions.md`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/questions.md)**.
+- **PART 1 — DAILY REVISION (~15 min)**:
+  - Complete the rapid recall and function challenge in [revision.py](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/revision.py).
+  - Track your progress in `revision_tracker.md`.
 
-- **HOUR 2 — INDEXING PRACTICE & DEBUGGING (60 min)**:
-  - 35 min: Implement query profiling and index benchmark scripts in **[`practice.py`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/practice.py)**.
-  - 25 min: Fix index invalidation and slow queries in **[`debugging.py`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/debugging.py)**.
+- **PART 2 — QUERY PROFILING & BENCHMARKS (~50 min)**:
+  - Implement query profiling on unindexed tables in [practice.py](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/practice.py).
+  - Create B-Tree indexes and measure the actual speedup factor.
+  - Demonstrate composite index behavior and the leftmost prefix rule.
 
-- **HOUR 3 — INTERVIEW & PORTFOLIO CHALLENGE (60 min)**:
-  - 20 min: Study Senior PostgreSQL Indexing interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/interview.md)**.
-  - 20 min: Solve the blank-page query tuning challenge on **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/whiteboard.py)**.
-  - 20 min: Build the E-Commerce Query Optimizer Engine in **[`challenge.py`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/challenge.py)**.
+- **PART 3 — DEBUGGING INDEX TRAPS (~40 min)**:
+  - Resolve expression index invalidation with `LOWER()` in [debugging.py](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/debugging.py).
+  - Fix prefix query invalidation (`SUBSTR` vs trailing wildcard).
+  - Explain the PostgreSQL type coercion trap.
+
+- **PART 4 — ARCHITECTURE INTERVIEW & ADVISOR MINI-PROJECT (~75 min)**:
+  - Formulate technical answers to Senior PostgreSQL Indexing interview questions in [interview.md](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/interview.md).
+  - Build the automated query profiler and index recommender engine in [challenge.py](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/challenge.py).
 
 ---
 
 ## 🏁 Completion Checklist
-- [ ] Read B-Tree concepts and answered **[`questions.md`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/questions.md)**
-- [ ] Profiled sequential vs index scans in **[`practice.py`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/practice.py)**
-- [ ] Fixed expression index and composite index bugs in **[`debugging.py`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/debugging.py)**
-- [ ] Solved blank-page index design on **[`whiteboard.py`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/whiteboard.py)**
-- [ ] Passed optimization benchmarks in **[`challenge.py`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/challenge.py)**
-- [ ] Mastered Senior PostgreSQL interview questions in **[`interview.md`](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/interview.md)**
+- [ ] Completed 15-minute recall challenge in [revision.py](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/revision.py)
+- [ ] Profiled sequential vs index scans in [practice.py](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/practice.py)
+- [ ] Fixed expression index and composite index bugs in [debugging.py](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/debugging.py)
+- [ ] Formulated independent answers in [interview.md](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/interview.md)
+- [ ] Implemented and verified `DatabaseIndexAdvisor` in [challenge.py](file:///d:/Backend/python%20basic/Day33_PostgreSQL_Indexing_and_Query_Optimization/challenge.py)

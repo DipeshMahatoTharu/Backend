@@ -13,7 +13,7 @@ Verified Prerequisites: Days 4–6 (Day 4 Functions, Day 5 Advanced Functions, D
 2. Read the recall questions and coding challenge below.
 3. Attempt to solve the challenge using your own reasoning and verified notes.
 4. If stuck after ~10 minutes, scroll to the HINTS section.
-5. If still stuck after ~15 minutes, pause and ask ChatGPT / AI mentor for a targeted clue.
+5. If still stuck after ~15 minutes, pause and ask your AI mentor for a targeted clue.
 6. After receiving help, type out and solve the problem independently.
 7. Record your honest outcome in `revision_tracker.md`!
 """
@@ -33,7 +33,8 @@ Verified Prerequisites: Days 4–6 (Day 4 Functions, Day 5 Advanced Functions, D
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `format_user_summary(name: str, *tags, **metadata) -> dict` returning a summary dictionary with keys: 'name', 'tags' (list), 'metadata' (dict), and 'tag_count' (int).
+# Write `format_user_summary(name: str, *tags, **metadata) -> dict` returning a summary dictionary with keys:
+# 'name' (str), 'tags' (list), 'metadata' (dict), and 'tag_count' (int).
 
 def format_user_summary(name: str, *tags, **metadata) -> dict:
     """
@@ -67,14 +68,8 @@ if __name__ == "__main__":
 # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
 # ============================================================
 # Hint 1: `*tags` arrives as a tuple. Convert it to a list using `list(tags)`.
-# Hint 2: Construct and return the dictionary: `{'name': name, 'tags': list(tags), 'metadata': metadata, 'tag_count': len(tags)}`.
-
-
-# ============================================================
-# [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
-# ============================================================
-def _reference_solution(name: str, *tags, **metadata) -> dict:
-    return {"name": name, "tags": list(tags), "metadata": metadata, "tag_count": len(tags)}
+# Hint 2: `**metadata` is already passed in as a dictionary.
+# Hint 3: Construct and return the dictionary: `{'name': name, 'tags': list(tags), 'metadata': metadata, 'tag_count': len(tags)}`.
 
 
 # ============================================================
