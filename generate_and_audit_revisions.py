@@ -42,7 +42,9 @@ DAYS_DATA = {
         "q1": "What is the difference between '=' (assignment) and '==' (equality check), and why does `if 10:` evaluate to True in Python?",
         "q2": "What is the difference between `break` (terminates the enclosing loop) and `continue` (skips directly to the next iteration)?",
         "q3": "In pattern printing with nested loops, what role does the outer loop play versus the inner loop?",
-        "desc": "Write `generate_number_triangle(n: int) -> list[str]` which returns a list of strings representing a number triangle from 1 up to n.\\n# Example: generate_number_triangle(4) -> ['1', '12', '123', '1234']",
+        "desc": """Write `generate_number_triangle(n: int) -> list[str]` which returns a list of strings
+# representing a number triangle from 1 up to n.
+# Example: generate_number_triangle(4) -> ['1', '12', '123', '1234']""",
         "stub": '''def generate_number_triangle(n: int) -> list[str]:
     """
     Returns a list of strings representing a number triangle from 1 to n.

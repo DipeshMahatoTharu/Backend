@@ -23,17 +23,20 @@ Verified Prerequisites: Days 1–3 (Day 1 Variables & Conditionals, Day 2 Loops,
 # Answer these questions in your head or in comments:
 # ============================================================
 # 1. What is the difference between '=' (assignment) and '==' (equality check), and why does `if 10:` evaluate to True in Python?
-#
+#= is for assigning and == for comparing
 # 2. What is the difference between `break` (terminates the enclosing loop) and `continue` (skips directly to the next iteration)?
-#
+#break means will exit the loop and continue menas skip the if condition meet
 # 3. In pattern printing with nested loops, what role does the outer loop play versus the inner loop?
-
+#Outer loop: controls the rows — how many lines are printed.
+# Inner loop: controls what happens inside each row — how many characters or numbers appear on that line.
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `generate_number_triangle(n: int) -> list[str]` which returns a list of strings representing a number triangle from 1 up to n.\n# Example: generate_number_triangle(4) -> ['1', '12', '123', '1234']
+# Write `generate_number_triangle(n: int) -> list[str]` which returns a list of strings
+# representing a number triangle from 1 up to n.
+# Example: generate_number_triangle(4) -> ['1', '12', '123', '1234']
 
 def generate_number_triangle(n: int) -> list[str]:
     """

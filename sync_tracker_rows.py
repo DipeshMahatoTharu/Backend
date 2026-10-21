@@ -35,3 +35,4 @@ def sync_table():
 
 if __name__ == "__main__":
     sync_table()
+
