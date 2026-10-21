@@ -43,13 +43,24 @@ def generate_number_triangle(n: int) -> list[str]:
     Returns a list of strings representing a number triangle from 1 to n.
     Example: n = 4 -> ['1', '12', '123', '1234']
     """
+    traigle=[]
     # WRITE YOUR CODE HERE:
-    pass
+    for num in range(1,n+1):
+        row=""
+        for num2 in range(1,num+1): 
+            row=row+str(num2)
+
+        
+        traigle.append(row)
+    return traigle
+
+# print(generate_number_triangle(3))
+    
 
 
-# ============================================================
-# VERIFICATION RUNNER (Executes your code without revealing solutions)
-# ============================================================
+# # ============================================================
+# # VERIFICATION RUNNER (Executes your code without revealing solutions)
+# # ============================================================
 def run_test():
     print("--- Running Day 32 Revision Challenge ---")
     res1 = generate_number_triangle(4)
@@ -66,25 +77,26 @@ if __name__ == "__main__":
     run_test()
 
 
-# ============================================================
-# [*] HINTS SECTION (Read only if stuck after ~10 minutes)
-# ============================================================
-# Hint 1: Use an outer loop iterating `i` from 1 to `n` (inclusive).
-# Hint 2: Build each row using `''.join(str(x) for x in range(1, i + 1))` and append to your results list.
+# # ============================================================
+# # [*] HINTS SECTION (Read only if stuck after ~10 minutes)
+# # ============================================================
+# # Hint 1: Use an outer loop iterating `i` from 1 to `n` (inclusive).
+# # Hint 2: Build each row using `''.join(str(x) for x in range(1, i + 1))` and append to your results list.
 
 
-# ============================================================
-# [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
-# ============================================================
-def _reference_solution(n: int) -> list[str]:
-    return ["".join(str(x) for x in range(1, i + 1)) for i in range(1, n + 1)]
+# # ============================================================
+# # [!] SOLUTION SECTION (Do not look until your 15-minute attempt is done!)
+# # ============================================================
+# def _reference_solution(n: int) -> list[str]:
+#     return ["".join(str(x) for x in range(1, i + 1)) for i in range(1, n + 1)]
 
 
-# ============================================================
-# [?] SELF-ASSESSMENT CHECKLIST
-# After completing, mark your result in `revision_tracker.md`:
-# [ ] INDEPENDENT: Solved within 15 minutes with no hints.
-# [ ] HINT NEEDED: Solved after reading Hint 1 or Hint 2.
-# [ ] REFRESHER NEEDED: Needed mentor explanation or reference solution.
-# [ ] NOT ATTEMPTED: Not attempted yet.
-# ============================================================
+# # ============================================================
+# # [?] SELF-ASSESSMENT CHECKLIST
+# # After completing, mark your result in `revision_tracker.md`:
+# # [ ] INDEPENDENT: Solved within 15 minutes with no hints.
+# # [ ] HINT NEEDED: Solved after reading Hint 1 or Hint 2.
+# # [ ] REFRESHER NEEDED: Needed mentor explanation or reference solution.
+# # [ ] NOT ATTEMPTED: Not attempted yet.
+# # ============================================================
+# # 
