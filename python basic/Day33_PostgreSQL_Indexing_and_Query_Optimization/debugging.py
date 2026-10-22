@@ -85,8 +85,12 @@ def fix_case_insensitive_indexing(conn: sqlite3.Connection):
     `CREATE INDEX idx_users_lower_email ON users (LOWER(email));`
     """
     # TODO: Implement the expression index creation and commit to conn
-    pass
-
+    cursor=conn.cursor()
+    cursor.execute("""CREATE INDEX IF NOT EXISTS idex_users_lower_email 
+                   ON users(LOWER(email)); 
+                    
+                   """)
+    conn.commit()
 
 # =====================================================================
 # BUGGY SCENARIO 2: Prefix Search Invalidation (SUBSTR vs Trailing Wildcard)
@@ -119,7 +123,14 @@ def fixed_sku_prefix_search(conn: sqlite3.Connection, prefix: str):
     `sku LIKE ? || '%'` allows the engine to jump directly to the prefix range!
     """
     # TODO: Implement index-friendly prefix search query and return cursor.fetchall()
-    pass
+    cursor=conn.cursor()
+    cursor.execute("""SELECT id ,sku,name
+                   FROM products
+                   WHERE sku LIKE ?
+                   """,(prefix +'%',))
+    
+    return cursor.fetchall()
+
 
 
 # =====================================================================
@@ -132,7 +143,9 @@ def fixed_sku_prefix_search(conn: sqlite3.Connection, prefix: str):
 # QUESTION: Why does PostgreSQL execute a Sequential Scan instead of using the index?
 #
 # YOUR EXPLANATION / NOTES:
-# _____________________________________________________________________
+#The `phone_number` column is stored as `VARCHAR`, but the query passes an integer. 
+# PostgreSQL generally cannot compare these types directly, so the query may raise an operator error.
+# To compare correctly and allow the index to be used, pass the phone number as a string, for example `'9860793587'`.
 # (Hint: Think about which data type takes precedence when casting types)
 
 

@@ -16,7 +16,7 @@ Your challenge is to implement the `DatabaseIndexAdvisor` class:
 5. Quantifies performance speedup.
 """
 
-import sqlite3
+import sqlite3  
 import time
 from typing import List, Tuple, Dict, Any
 
@@ -34,6 +34,18 @@ class DatabaseIndexAdvisor:
         (id, parent, notused, detail). Extract the 'detail' column (index 3).
         """
         # TODO: Execute EXPLAIN QUERY PLAN and return list of detail strings
+        cursor=self.conn.cursor()
+        cursor.execute("""
+                        EXPLAIN QUERY PLAN 
+                       
+                       """+query,params)
+        row=cursor.fetchall()
+        self.conn.commit()
+        return 
+        print(row)
+
+        
+        
         raise NotImplementedError("TODO: Implement inspect_query_plan()")
 
     def has_sequential_scan(self, query: str, params: tuple = ()) -> bool:
