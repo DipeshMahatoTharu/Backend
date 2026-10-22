@@ -39,14 +39,10 @@ class DatabaseIndexAdvisor:
                         EXPLAIN QUERY PLAN 
                        
                        """+query,params)
-        row=cursor.fetchall()
-        self.conn.commit()
-        return 
-        print(row)
+        rows=cursor.fetchall()
+        
+        return [row[3] for row in rows]
 
-        
-        
-        raise NotImplementedError("TODO: Implement inspect_query_plan()")
 
     def has_sequential_scan(self, query: str, params: tuple = ()) -> bool:
         """
@@ -57,7 +53,12 @@ class DatabaseIndexAdvisor:
         Look for steps that contain 'SCAN' while not containing 'USING INDEX'.
         """
         # TODO: Determine if the plan contains an unindexed sequential scan
-        raise NotImplementedError("TODO: Implement has_sequential_scan()")
+        steps=self.inspect_query_plan(query,params)
+        
+        for step in steps:
+            if "SCAN" in step and "USING INDEX" not in step:
+                return True
+        return False
 
     def benchmark_query_ms(self, query: str, params: tuple = (), iterations: int = 5) -> float:
         """
@@ -68,8 +69,16 @@ class DatabaseIndexAdvisor:
         fetch the rows inside the loop, and return the average time multiplied by 1000.
         """
         # TODO: Measure average execution duration in milliseconds
-        raise NotImplementedError("TODO: Implement benchmark_query_ms()")
-
+        
+        cursor=self.conn.cursor()
+        avg=0
+        for _ in range(iterations):
+            start_time=time.perf_counter()
+            cursor.execute(query,params)
+            cursor.fetchall()
+            end_time=time.perf_counter()
+            avg+=((end_time-start_time)*1000)
+        
     def recommend_index(self, table_name: str, columns: List[str], index_name: str) -> None:
         """
         Creates a B-Tree index on the given table and column list, then commits.
@@ -80,7 +89,14 @@ class DatabaseIndexAdvisor:
         Remember to commit using `self.conn.commit()`.
         """
         # TODO: Create the recommended index and commit
-        raise NotImplementedError("TODO: Implement recommend_index()")
+        cursor=self.conn.cursor()
+        cursor.execute("""
+                       CREATE INDEX IF NOT EXISTS{index_name} 
+                       ON {TABLE_name}
+                       ({COLS_STR})
+                       
+                       """)
+        cursor.commit()
 
 
 # =====================================================================
