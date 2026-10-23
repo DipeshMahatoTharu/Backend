@@ -22,8 +22,15 @@ Verified Prerequisites: Days 7–9 (Day 7 Lists, Day 8 List Operations, Day 9 Di
 # PART 1: RAPID RECALL (2–3 MINUTES)
 # Answer these questions in your head or in comments:
 # ============================================================
-# 1. What is the algorithmic time complexity of checking if a key exists in a Python dict (O(1)) vs an item in an unsorted list (O(n))?
-#
+# 1. What is the algorithmic time complexity of checking if a key exists in a Python dict (O(1)) 
+# vs an item in an unsorted list (O(n))?
+
+#Python dictionary key lookup — O(1) (average case): Checking whether a key exists is generally constant time,
+# regardless of how many keys the dictionary contains.
+
+#Unsorted list item lookup — O(n): Python may need to check each item one by one until it finds the target. Here, 
+# n is the number of items.
+
 # 2. How does Python list slice step syntax `items[::-1]` reverse a sequence?
 #
 # 3. Why is `dict.get(key, default)` preferred over direct bracket indexing `dict[key]` when keys may be absent?
@@ -33,7 +40,8 @@ Verified Prerequisites: Days 7–9 (Day 7 Lists, Day 8 List Operations, Day 9 Di
 # PART 2: 10-MINUTE CODING CHALLENGE
 # ============================================================
 # Scenario:
-# Write `count_word_frequencies(words: list[str]) -> dict[str, int]` that normalizes all words to lowercase and counts the occurrence of each word in a dictionary.
+# Write `count_word_frequencies(words: list[str]) -> dict[str, int]`
+# that normalizes all words to lowercase and counts the occurrence of each word in a dictionary.
 
 def count_word_frequencies(words: list[str]) -> dict[str, int]:
     """
@@ -41,8 +49,16 @@ def count_word_frequencies(words: list[str]) -> dict[str, int]:
     Example: ['Python', 'Django', 'python'] -> {'python': 2, 'django': 1}
     """
     # WRITE YOUR CODE HERE:
-    pass
-
+    tolowerdict={}
+    for word in words:
+        lowerword=word.lower()
+        if lowerword in tolowerdict:
+            tolowerdict[lowerword]+=1
+        else:
+            tolowerdict[lowerword]=1
+    return tolowerdict
+            
+    
 
 # ============================================================
 # VERIFICATION RUNNER (Executes your code without revealing solutions)

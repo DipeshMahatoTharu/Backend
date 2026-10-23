@@ -90,13 +90,14 @@ class DatabaseIndexAdvisor:
         """
         # TODO: Create the recommended index and commit
         cursor=self.conn.cursor()
-        cursor.execute("""
-                       CREATE INDEX IF NOT EXISTS{index_name} 
-                       ON {TABLE_name}
-                       ({COLS_STR})
-                       
+        cols_str=",".join(columns)
+        cursor.execute(f"""
+                       CREATE INDEX IF NOT EXISTS {index_name} 
+                       ON {table_name}
+                       ({cols_str})
                        """)
-        cursor.commit()
+        self.conn.commit()
+        
 
 
 # =====================================================================
