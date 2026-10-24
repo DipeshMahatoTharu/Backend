@@ -32,9 +32,10 @@ Verified Prerequisites: Days 7–9 (Day 7 Lists, Day 8 List Operations, Day 9 Di
 # n is the number of items.
 
 # 2. How does Python list slice step syntax `items[::-1]` reverse a sequence?
-#
-# 3. Why is `dict.get(key, default)` preferred over direct bracket indexing `dict[key]` when keys may be absent?
+#items[::-1] reverses a sequence by using slicing with a step of -1, so it reads the items from the end to the beginning.
 
+# 3. Why is `dict.get(key, default)` preferred over direct bracket indexing `dict[key]` when keys may be absent?
+# .get() returns a default value if the key is missing, while dict[key] raises a KeyError.
 
 # ============================================================
 # PART 2: 10-MINUTE CODING CHALLENGE

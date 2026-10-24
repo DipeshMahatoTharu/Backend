@@ -36,14 +36,18 @@ Verified Prerequisites: Days 4–6 (Day 4 Functions, Day 5 Advanced Functions, D
 # Write `format_user_summary(name: str, *tags, **metadata) -> dict` returning a summary dictionary with keys:
 # 'name' (str), 'tags' (list), 'metadata' (dict), and 'tag_count' (int).
 
+dict={}
 def format_user_summary(name: str, *tags, **metadata) -> dict:
     """
     Formats user summary dictionary.
     Returns: {'name': name, 'tags': list(tags), 'metadata': metadata, 'tag_count': len(tags)}
     """
     # WRITE YOUR CODE HERE:
-    pass
-
+    return {"name":name ,
+            "tags":list(tags) ,
+            "metadata":metadata,
+            "tag_count":len(tags)            
+            }
 
 # ============================================================
 # VERIFICATION RUNNER (Executes your code without revealing solutions)
