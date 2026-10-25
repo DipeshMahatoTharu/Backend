@@ -52,6 +52,7 @@ def migrate_to_3nf_schema(conn: sqlite3.Connection):
     """
     cursor = conn.cursor()
     
+    
     # Enable foreign key enforcement in SQLite
     cursor.execute("PRAGMA foreign_keys = ON;")
     
