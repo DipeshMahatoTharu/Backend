@@ -48,11 +48,11 @@ class Car:
         print("Current speed ",self.speed)
         
 
-# Kritika_car =Car("Toyota","1995",0)
+# Rumina_car =Car("Toyota","1995",0)
 
-# Kritika_car.accelerate(20)
-# Kritika_car.brake(5)
-# Kritika_car.show_speed()
+# Rumina_car.accelerate(20)
+# Rumina_car.brake(5)
+# Rumina_car.show_speed()
 
 # 2. Employee Class
 

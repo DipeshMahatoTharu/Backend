@@ -21,7 +21,7 @@ class Name:
 
 
         
-name1=Name("Kritika Pandey",90)
+name1=Name("Rumina",90)
 print(f"{name1.name} is studying in {Name.college}")
 
 print(name1.ger_marks())

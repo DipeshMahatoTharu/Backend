@@ -63,7 +63,7 @@ To become internship and junior backend job-ready, you must complete the followi
 *   [x] Day 30: SQL Table Joins
 *   [x] Day 31: SQL Subqueries & Transactions
 *   [X] **Day 32: PostgreSQL Setup, Python Drivers & Connection Management**
-*   [ ] Day 33: PostgreSQL Indexing, B-Trees & Query Optimization (EXPLAIN ANALYZE)
+*   [X] Day 33: PostgreSQL Indexing, B-Trees & Query Optimization (EXPLAIN ANALYZE)
 *   [ ] Day 34: Database Normalization (1NF–3NF), Schema Design & ER Modeling
 *   [ ] Day 35: Transactions, ACID, MVCC & Concurrency Basics
 *   [ ] Day 36: PostgreSQL Advanced Data Types: JSONB & Full-Text Search Basics
