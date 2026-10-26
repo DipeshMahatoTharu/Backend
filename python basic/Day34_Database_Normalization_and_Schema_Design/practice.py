@@ -38,7 +38,7 @@ def setup_unnormalized_table(conn: sqlite3.Connection):
     conn.commit()
 
 
-# =====================================================================
+# ===================================================================== 
 # TASK 1: Design 3NF Schema & Migrate Data
 # =====================================================================
 def migrate_to_3nf_schema(conn: sqlite3.Connection):
@@ -57,7 +57,8 @@ def migrate_to_3nf_schema(conn: sqlite3.Connection):
     cursor.execute("PRAGMA foreign_keys = ON;")
     
     # 1. Customers Table
-    cursor.execute("""
+    cursor.execute("""  sada
+                   
         CREATE TABLE IF NOT EXISTS customers (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
