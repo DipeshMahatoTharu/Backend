@@ -63,7 +63,9 @@ def migrate_to_3nf_schema(conn: sqlite3.Connection):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
-            city TEXT NOT NULL
+            city TEXT NOT NULLd ds
+
+            
         );
     """)
     
