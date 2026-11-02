@@ -38,6 +38,7 @@ class MultiTenantStoreManager:
                 company_name TEXT NOT NULL,
                 subdomain TEXT UNIQUE NOT NULL,
                 is_active INTEGER DEFAULT 1
+                
             );
         """)
         
