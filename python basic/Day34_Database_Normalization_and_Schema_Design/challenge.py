@@ -132,6 +132,7 @@ if __name__ == "__main__":
     manager.set_inventory(w1, prod_id, 35)
     manager.set_inventory(w2, prod_id, 15)
     
+    
     total = manager.get_total_product_stock(tenant_id, "JKT-001")
     print(f"Total stock for JKT-001 across all warehouses: {total} units (Expected 50)")
     assert total == 50
