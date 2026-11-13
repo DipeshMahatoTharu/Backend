@@ -20,6 +20,7 @@
   - Must be in 1NF.
   - No **Partial Dependencies**: Every non-key column must depend on the *entire* primary key, not just part of a composite primary key.
 - **Third Normal Form (3NF)**:
+
   - Must be in 2NF.
   - No **Transitive Dependencies**: Non-key attributes must NOT depend on other non-key attributes ($A \to B \to C$).
   - *Example*: In an `orders` table with `(order_id, customer_id, customer_email, customer_address)`, `customer_email` depends on `customer_id`, not `order_id`! It must be moved to a `customers` table.
