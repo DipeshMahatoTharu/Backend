@@ -46,7 +46,7 @@ def migrate_to_3nf_schema(conn: sqlite3.Connection):
     INSTRUCTIONS:
     Split legacy_sales_dump into 3 clean, normalized tables:
     1. `customers`: id, name, email (UNIQUE), city
-    2. `products`: id, name, category, price
+    2. `products`: id, name, category, price    
     3. `orders`: id, customer_id (FK), order_date
     4. `order_items`: id, order_id (FK), product_id (FK), quantity, unit_price
     """
@@ -57,7 +57,7 @@ def migrate_to_3nf_schema(conn: sqlite3.Connection):
     cursor.execute("PRAGMA foreign_keys = ON;")
     
     # 1. Customers Table
-    cursor.execute("""  sada
+    cursor.execute("""
                    
         CREATE TABLE IF NOT EXISTS customers (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -122,6 +122,16 @@ def populate_normalized_data(conn: sqlite3.Connection):
         SELECT DISTINCT product_name, product_category, product_price
         FROM legacy_sales_dump;
     """)
+    cursor.execute("""
+                   INSERT INTO orders(customer_id,order_date)
+                   SELECT 
+                        c.id,
+                        old.sale_date
+                   
+                   
+                   
+                   
+                   """)
     conn.commit()
     print("[+] Customers and Products successfully migrated with 0 duplicates.")
 
