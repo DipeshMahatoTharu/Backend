@@ -127,7 +127,16 @@ def populate_normalized_data(conn: sqlite3.Connection):
                    SELECT 
                         c.id,
                         old.sale_date
+                    FROM legacy_sales_dump AS old 
+                    JOIN customers AS c 
+                    ON old.customer_email=c.email
+                    
                    
+                   
+                   """)
+    cursor.execute("""
+    
+                   INSERT INTO()
                    
                    
                    
