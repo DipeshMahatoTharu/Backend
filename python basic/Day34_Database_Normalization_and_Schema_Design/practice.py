@@ -135,8 +135,28 @@ def populate_normalized_data(conn: sqlite3.Connection):
                    
                    """)
     cursor.execute("""
-    
-                   INSERT INTO()
+                   INSERT INTO order_items(
+                        order_id,
+                        product_id,
+                        quantity,
+                        unit_price
+                   )
+                   SELECT   
+                   o.id,
+                   p.id,
+                   old.quantity_sold,
+                   old.product_price
+                   
+                   FROM legacy_sales_dump AS old
+                   JOIN customers as c 
+                   ON old.customer_email =c.email
+                   
+                   JOIN orders AS o
+                   ON c.id = o.customer_id
+                   AND old.sale_date =o.order_date
+                   
+                   JOIN products as p 
+                   ON old.product_name = p.name
                    
                    
                    
