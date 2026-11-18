@@ -35,6 +35,7 @@
             );
         """)
         
+        
         cursor.execute("INSERT INTO users VALUES (1, 'Alice');")
         cursor.execute("INSERT INTO payments VALUES (101, 1, 500.0), (102, 1, 1200.0);")
         conn.commit()
